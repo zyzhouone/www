@@ -693,7 +693,7 @@ namespace BLL
 
                 String strJson = Encoding.UTF8.GetString(pageData) ?? "";
                 ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
-                if (rb.status == "0")
+                if (rb.status == 0)
                 {
                     return "";
                 }

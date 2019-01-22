@@ -161,47 +161,72 @@
 
 @section PageSpecificJavascriptIncludes{
     <script type="text/javascript">
-        var stInt;
-        var repl = false;
-        var reld = false;
+    var stInt;
+    var repl = false;
+    var reld = false;
 
-        $(function () {
-            $("#mdInfo").modal({ show: false });
-            $("#myModal").modal({ show: false });
-            $("#coupnModal").modal({ show: false });
-        });
+    $(function () {
+        $("#mdInfo").modal({ show: false });
+        $("#myModal").modal({ show: false });
+        $("#coupnModal").modal({ show: false });
+    });
 
-        function cancel() {
-            var bc = $("#btnc").text();
+    function cancel() {
+        var bc = $("#btnc").text();
 
-            if (bc.indexOf("剩余") >= 0)
-                return;
+        if (bc.indexOf("剩余") >= 0)
+            return;
 
-            $('#mdInfo').modal('hide');
-            $("#vbtn").val("立即付款完成报名");
-            try {
-                window.clearInterval(stInt);
-            } catch (e) {
+        $('#mdInfo').modal('hide');
+        $("#vbtn").val("立即付款完成报名");
+        try {
+            window.clearInterval(stInt);
+        } catch (e) {
 
-            }
         }
+    }
 
-        function pay2() {
+    function pay2() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/enter/CheckReserve",
+            data: "{ \"tid\": \"@ViewBag.tid\"}",
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 1) {
+                    $("#imgVcode").attr("src", data.data);
+                    $("#txtCode").val("");
+                    $("#mdpay").modal('show');
+                } else {
+                    alert(data.desc);
+                }
+            }
+        })
 
-            $("#mdpay").modal('show');
-            var newWindow = window.open();
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/enter/CheckReserve",
-                data: "{ \"tid\": \"@ViewBag.tid\"}",
+    }
+    function paycontinue() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/enter/CreatePrepay",
+            data: "{ \"tid\": \"@ViewBag.tid\",\"vCode\": \"" + $("#txtCode").val() + "\"}",
                 dataType: "json",
                 success: function (data) {
-                    alert(data.status);
+                    if (data.status == 2) {
+                        $('#mdpay').modal('hide');
+                        pay();
+                    } else {
+                        alert(data.desc);
+                    }
                 }
             })
+            
+        }
 
+        function cancel2()
+        {
+            $('#mdpay').modal('hide');
         }
 
 
@@ -214,113 +239,113 @@
                 contentType: "application/json",
                 url: "/enter/checkpay",
                 data: "{ \"tid\": \"@ViewBag.tid\"}",
-                dataType: "json",
-                success: function (data) {
-                    if (data.Code != 0 && data.Message != "正在支付，请等待") {
-                        $("#divmsg").text(data.Message);
-                        $("#btnw").css('display', 'none');
-                        $("#btnc").text("关闭");
-                        $("#btnc").attr("disabled", true);
+            dataType: "json",
+            success: function (data) {
+                if (data.Code != 0 && data.Message != "正在支付，请等待") {
+                    $("#divmsg").text(data.Message);
+                    $("#btnw").css('display', 'none');
+                    $("#btnc").text("关闭");
+                    $("#btnc").attr("disabled", true);
 
-                        if (data.Message == "队列已满,请等待之后再重试.") {
-                            var i = 10;
-                            stInt = window.setInterval(function () {
-                                $("#btnc").text("剩余(" + i + ")秒");
-                                i--;
-                                if (i < 0) {
-                                    window.clearInterval(stInt);
-                                    $("#btnc").val("关闭");
-                                    $("#btnc").attr("disabled", false);
-                                }
-                            }, 1000);
-                        }
-
-                        newWindow.close();
-                    }
-                    else {
-                        $("#btnc").attr("disabled", true);
-                        var i = 300;
+                    if (data.Message == "队列已满,请等待之后再重试.") {
+                        var i = 10;
                         stInt = window.setInterval(function () {
-                            $("#vbtn").val("剩余(" + i + ")秒");
+                            $("#btnc").text("剩余(" + i + ")秒");
                             i--;
                             if (i < 0) {
                                 window.clearInterval(stInt);
-                                $("#vbtn").val("立即付款完成报名");
+                                $("#btnc").val("关闭");
+                                $("#btnc").attr("disabled", false);
                             }
                         }, 1000);
-
-                        newWindow.location.href = '@Url.Action("create", "pay", new { id = ViewBag.tid })';
                     }
+
+                    newWindow.close();
                 }
-            });
-        }
-
-        function confirmRp(id) {
-
-            $("#m_i").val(id);
-            $('#myModal').modal('show');
-        }
-
-        function replayer() {
-            if (repl)
-                return;
-
-            repl = true;
-
-            var o = $("#mobile_p").val();
-            var isMobile = /^(?:13\d|18\d|17\d|14\d|15\d)\d{5}(\d{3}|\*{3})$/;
-            if (!isMobile.test(o)) {
-                jNotify('请检查手机号码是否正确', { VerticalPosition: "center" });
-                return;
+                else {
+                    $("#btnc").attr("disabled", true);
+                    var i = 300;
+                    stInt = window.setInterval(function () {
+                        $("#vbtn").val("剩余(" + i + ")秒");
+                        i--;
+                        if (i < 0) {
+                            window.clearInterval(stInt);
+                            $("#vbtn").val("立即付款完成报名");
+                        }
+                    }, 1000);
+                    
+                    newWindow.location.href = '@Url.Action("create", "pay", new { id = ViewBag.tid })';
+                }
             }
+        });
+    }
 
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/enter/replayer?mid=" + $("#m_i").val() + "&mobile=" + o,
-                data: {},
-                dataType: "json",
-                success: function (data) {
-                    if (data.Code != 0) {
-                        repl = false;
-                        jError(data.Message);
-                    }
-                    else {
-                        repl = false;
-                        window.location.reload();
-                    }
-                }
-            });
+    function confirmRp(id) {
+
+        $("#m_i").val(id);
+        $('#myModal').modal('show');
+    }
+
+    function replayer() {
+        if (repl)
+            return;
+
+        repl = true;
+
+        var o = $("#mobile_p").val();
+        var isMobile = /^(?:13\d|18\d|17\d|14\d|15\d)\d{5}(\d{3}|\*{3})$/;
+        if (!isMobile.test(o)) {
+            jNotify('请检查手机号码是否正确', { VerticalPosition: "center" });
+            return;
         }
 
-        function releader(id) {
-
-            if (reld)
-                return;
-
-            reld = true;
-
-            if (!confirm("确认要设为队长?"))
-                return;
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/enter/releader?mid=" + id,
-                data: {},
-                dataType: "json",
-                success: function (data) {
-                    if (data.Code != 0) {
-                        reld = false;
-                        jError(data.Message);
-                    }
-                    else {
-                        reld = false;
-                        window.location.reload();
-                    }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/enter/replayer?mid=" + $("#m_i").val() + "&mobile=" + o,
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                if (data.Code != 0) {
+                    repl = false;
+                    jError(data.Message);
                 }
-            });
-        }
+                else {
+                    repl = false;
+                    window.location.reload();
+                }
+            }
+        });
+    }
+
+    function releader(id) {
+
+        if (reld)
+            return;
+
+        reld = true;
+
+        if (!confirm("确认要设为队长?"))
+            return;
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/enter/releader?mid=" + id,
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                if (data.Code != 0) {
+                    reld = false;
+                    jError(data.Message);
+                }
+                else {
+                    reld = false;
+                    window.location.reload();
+                }
+            }
+        });
+    }
 </script>
 }
 
@@ -511,12 +536,17 @@
             <div class="modal-body" id="binfo" style="height:150px; width:240px;">
 
                 <div id="divcode" style=" margin-top:20px; margin-left:20px; color:Red; font-size:16px;">
-
+                    <img id="imgVcode" style="width:100px;height:50px;" />
+                    <p>
+                        <span>请输入验证码:</span>
+                        <br />
+                        <input type="text" id="txtCode" />
+                    </p>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-info" data-dismiss="modal" onclick="javascript:window.location.reload();" id="btnw">支付完成</a>
-                <a href="#" class="btn btn-primary" onclick="cancel()" id="btnc">取消支付</a>
+                <a href="#" class="btn btn-info" data-dismiss="modal" onclick="paycontinue()" id="btnw">继续支付</a>
+                <a href="#" class="btn btn-primary" onclick="cancel2()" id="btnc">取消支付</a>
             </div>
         </div>
     </div>

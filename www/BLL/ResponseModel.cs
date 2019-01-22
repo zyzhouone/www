@@ -7,7 +7,7 @@ namespace BLL
 {
    public class ResponseModel
     {
-       public string status { get; set; }
+       public int status { get; set; }
        public string desc { get; set; }
        public object data { get; set; }
     }

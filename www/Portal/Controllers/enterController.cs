@@ -446,6 +446,8 @@ namespace Portal.Controllers
             return RepReurnOK(bll.GetMatchuserByTeamId(tid));
         }
 
+       
+
         /// <summary>
         /// zzy 2019-01-22
         /// 检查是否预约
@@ -458,7 +460,7 @@ namespace Portal.Controllers
             var team = bll.GetTeamById(tid);
 
             WebClient MyWebClient = new WebClient();
-            string strUrl = string.Format("https://demomini.fooddecode.com/order/checkReserve?teamid={0}&userid={1}&matchid={2}", team.teamid, team.Userid, team.match_id);
+            string strUrl = string.Format("https://demomini.fooddecode.com/order/checkReserve?teamId={0}&userId={1}&matchId={2}", team.teamid, team.Userid, team.match_id);
 
             MyWebClient.Credentials = CredentialCache.DefaultCredentials;
             byte[] pageData = MyWebClient.DownloadData(strUrl);
@@ -466,30 +468,21 @@ namespace Portal.Controllers
 
             String strJson = Encoding.UTF8.GetString(pageData) ?? "";
             ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
-            return RepReurnOK(rb);
+            if(rb.status==1)
+            {
+                //获取验证码
+                strUrl = string.Format("https://demomini.fooddecode.com/order/getVCode?sessionKey={0}", team.Userid);
+
+                pageData = MyWebClient.DownloadData(strUrl);
+
+
+                strJson = Encoding.UTF8.GetString(pageData) ?? "";
+                rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
+            }
+
+            return Json(rb, JsonRequestBehavior.AllowGet);
         }
-        /// <summary>
-        /// zzy 2019-01-22
-        /// 获取验证码
-        /// </summary>
-        /// <param name="tid"></param>
-        /// <returns></returns>
-        public JsonResult GetVCode(string tid)
-        {
-            TeamRegBll bll = new TeamRegBll();
-            var team = bll.GetTeamById(tid);
-
-            WebClient MyWebClient = new WebClient();
-            string strUrl = string.Format("https://demomini.fooddecode.com/order/getVCode?sessionKey={0}", team.Userid);
-
-            MyWebClient.Credentials = CredentialCache.DefaultCredentials;
-            byte[] pageData = MyWebClient.DownloadData(strUrl);
-
-
-            String strJson = Encoding.UTF8.GetString(pageData) ?? "";
-            ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
-            return RepReurnOK(rb);
-        }
+       
         /// <summary>
         /// zzy 2019-01-22
         /// 抢购订单
@@ -510,30 +503,18 @@ namespace Portal.Controllers
 
             String strJson = Encoding.UTF8.GetString(pageData) ?? "";
             ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
-            return RepReurnOK(rb);
+            if (rb.status == 1)
+            {
+                //查询是否可以支付
+                strUrl = string.Format("https://demomini.fooddecode.com/order/queryPrepay?sessionKey={0}&orderNo={1}", team.Userid, rb.data);
+
+                pageData = MyWebClient.DownloadData(strUrl);
+                strJson = Encoding.UTF8.GetString(pageData) ?? "";
+                rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
+            }
+            return Json(rb, JsonRequestBehavior.AllowGet);
         }
-        /// <summary>
-        /// zzy 2019-01-22
-        /// 查询是否可以支付
-        /// </summary>
-        /// <param name="tid"></param>
-        /// <returns></returns>
-        public JsonResult QueryPrepay(string tid, string orderNo)
-        {
-            TeamRegBll bll = new TeamRegBll();
-            var team = bll.GetTeamById(tid);
-
-            WebClient MyWebClient = new WebClient();
-            string strUrl = string.Format("https://demomini.fooddecode.com/order/queryPrepay?sessionKey={0}&orderNo={1}", team.Userid, orderNo);
-
-            MyWebClient.Credentials = CredentialCache.DefaultCredentials;
-            byte[] pageData = MyWebClient.DownloadData(strUrl);
-
-
-            String strJson = Encoding.UTF8.GetString(pageData) ?? "";
-            ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
-            return RepReurnOK(rb);
-        }
+       
 
         public ActionResult Step5(string tid)
         {

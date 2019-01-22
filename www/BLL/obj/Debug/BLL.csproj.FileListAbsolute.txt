@@ -18,3 +18,8 @@ E:\pang\DX-www\www\Web\bin\BLL.pdb
 E:\pang\DX-www\www\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 E:\pang\DX-www\www\BLL\obj\Debug\BLL.dll
 E:\pang\DX-www\www\BLL\obj\Debug\BLL.pdb
+E:\pang\GitPang\www\www\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+E:\pang\GitPang\www\www\BLL\obj\Debug\BLL.dll
+E:\pang\GitPang\www\www\Web\bin\BLL.dll
+E:\pang\GitPang\www\www\Web\bin\BLL.pdb
+E:\pang\GitPang\www\www\BLL\obj\Debug\BLL.pdb
