@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "更改密码";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        var stInt;
+
+        $(function () {
+            $("#vbtn").click(function () {
+                var password = $("#password").val().replace(/(^\s*)|(\s*$)/g, "");
+
+                if (password == null || password == "") {
+                    jNotify('请输入旧密码', { VerticalPosition: "center" });
+                    return;
+                }
+
+                var npassword = $("#npassword").val().replace(/(^\s*)|(\s*$)/g, "");
+                var bnpassword = $("#bnpassword").val().replace(/(^\s*)|(\s*$)/g, "");
+
+                if (npassword == null || npassword == "") {
+                    jNotify('请输入新密码', { VerticalPosition: "center" });
+                    return;
+                }
+
+                if (npassword != bnpassword) {
+                    jNotify('2次密码输入不一致', { VerticalPosition: "center" });
+                    return;
+                }
+
+                var reg = /^[A-Za-z0-9]{6,16}$/;
+                if (!reg.test(npassword)) {
+                    jNotify('密码长度为6~16个字符，由数字及字母组成', { VerticalPosition: "center" });
+                    return;
+                }
+
+                form1.submit();
+            });
+        });
+    </script>
+}
+
+<div class="mainArea clear">
+
+    <div class="leftMenu">
+
+        <div  class="bor noLine">
+            <div class="tradeTitle">
+                <span class="trade1">信息详情</span>
+            </div>
+            <ul>
+                 <li class=""><a href="@Url.Action("my")" class="">我的信息</a></li>
+                    <li class=""><a href="@Url.Action("mymatch")" class="">我的赛事</a></li>
+                    <li class=""><a href="@Url.Action("myinfo")" class="">我的消息</a></li>
+                    <li class="cur"><a href="#" class="">更改密码</a></li>
+            </ul>
+        </div>
+        <div class="bor">
+            <ul>
+                <li class="">
+                    <a href="#" id="myexit">退出登录</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="rightArea">
+        <div id="ipalert"></div>
+        <script type="text/javascript">
+            // 页面加载完后执行
+            if (window.onload != null) {
+                // 追加方法
+                eval("theOldFun=" + window.onload.toString());
+                window.onload = function () {
+                    theOldFun(); // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            } else {
+                window.onload = function () {
+                    // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            }
+        </script>
+
+        <div class="buysellTitle" style="margin-bottom:0px;">
+            <div class="selecttab1">
+                <ul class="selecttab-box1">
+                    <li class="cur" >
+                        <a class="otherBoxTitle" href="/trade/entrust.do?symbol=0">更改密码</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="entrustTen lasttenOrder clear">
+            <div class="Tenbody">
+                <table width="1024">
+                    <tr class="space">
+                        <td align="left" style="padding: 20px">
+                            <div class="form-group">
+                            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form1" }))
+                            {
+                                <div style="margin-bottom: 20px">
+                                    <input class="blankInformation" type="password" placeholder="请输入旧密码" id="password" name="password"/>
+                                </div>
+                                <div style="margin-bottom: 20px">
+                                    <input class="blankInformation" type="password" placeholder="请输入新的密码" id="npassword" name="npassword"/>
+                                </div>
+                                <div>
+                                    <input class="blankInformation" type="password" placeholder="请输入再次输入密码" id="bnpassword" name="bnpassword"/>
+                                </div>
+                                <div class="tenBodyTitle clear" style="margin: 20px 100px;">
+                                    <a class="cur" id="vbtn">确认信息</a><a onclick="javascript:window.location.reload();" class="cur">取消</a>
+                                </div>
+                            }
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        var flag=@(ViewBag.flag) ;
+
+        if(flag==1)
+            jSuccess('修改成功', { VerticalPosition: 'center' });
+        else if(flag==-1)
+            jError('保存失败', { VerticalPosition: 'center' });
+    </script>

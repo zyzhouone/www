@@ -1,0 +1,817 @@
+﻿@using Utls;
+@using Model;
+@{
+    ViewBag.Title = "邀请队员";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model tblusers
+
+@section PageSpecificStyleSheetIncludes{
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: "微软雅黑";
+        }
+
+            body ul {
+                list-style-type: none;
+            }
+
+        /*middle-bar*/
+        .banner {
+            height: 100px;
+            background-color: #229fe6;
+            text-align: center;
+        }
+
+        .nav {
+            height: 48px;
+            background-color: #229FE6;
+            text-align: center;
+        }
+
+            .nav ul {
+                list-style-type: none;
+                text-align: center;
+                width: 700px;
+                margin: 0 auto;
+            }
+
+                .nav ul li {
+                    float: left;
+                    font-size: 1.2em;
+                    line-height: 48px;
+                    color: #ffffff;
+                    margin: 0 15px;
+                }
+
+                    .nav ul li a {
+                        padding: 0 15px;
+                        color: #ffffff;
+                        text-decoration: none;
+                    }
+
+                    .nav ul li:hover {
+                        background-color: #079c3e;
+                    }
+
+                .nav ul .active {
+                    background-color: #337ab7;
+                }
+
+        /*notice*/
+        .article h3 {
+            font-size: 31px;
+            margin: 0 0 1em 0;
+            font-weight: 700;
+            padding-bottom: .5em;
+            text-align: center;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+
+        /*foot*/
+        .footer {
+            padding: 1em 0;
+            background: #CBCBCB;
+        }
+
+        .footer-bottom {
+            padding-top: 2em;
+        }
+
+        .copyright {
+            text-align: center;
+        }
+
+            .copyright p {
+                display: block;
+                color: #FFFFFF;
+                font-size: 14px;
+                margin: .5em 0 0 0;
+            }
+
+                .copyright p a {
+                    color: #FFF;
+                }
+
+        .rule {
+            width: 900px;
+            border-radius: 15px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px 0;
+        }
+
+        .tittle {
+            width: 900px;
+            height: 90px;
+            line-height: 90px;
+            font-family: "微软雅黑";
+            font-size: 25px;
+            font-weight: normal;
+            background-color: #337ab7;
+            color: #ffffff;
+            padding-left: 20px;
+        }
+
+        .action {
+            margin: 20px 30px;
+            line-height: 25px;
+        }
+
+            .action span {
+                float: left;
+                width: 25px;
+                height: 25px;
+                background: url("img/icon-rule-gre.png");
+                background-size: cover;
+                margin-right: 10px;
+            }
+
+            .action .part1 {
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .action hr {
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+
+            .action .part2 {
+                padding: 0px 80px 15px 50px;
+                font-weight: 100;
+                color: #666;
+                margin-bottom: 35px;
+                font-size: 10px;
+            }
+    </style>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/bootstrap-modal.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/laydate/laydate.js")"></script>
+}
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+
+        function chkh() {
+            var t = $("#ld_cardtype_t option:selected").val();
+
+            if (t == "1")
+                $("#ld_hz_t").attr('disabled', true);
+            else
+                $("#ld_hz_t").attr('disabled', false);
+        }
+
+        $(function () {
+
+            $("#myModal").modal({ show: false });
+            $("#mdInfo").modal({ show: false });
+            $("#adInfo").modal({ show: false });
+            $("#bbInfo").modal({ show: false });
+
+            $("#ld_cardtype_t").change(function () {
+                $("#ld_card_t").val('');
+                chkh();
+            });
+
+            chkh();
+
+            getplayer();
+
+            $("#nbtn").click(function () {
+
+                var dt = "[{}]";
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/enter/CompFM?tid=" + $("#htid").val(),
+                    data: dt,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Code != 0) {
+                            jError(data.Message, { VerticalPosition: "center" });
+                        }
+                        else {
+                            window.location.href = "/enter/Step5?tid=" + $("#htid").val();
+                        }
+                    }
+                });
+            });
+
+            $('#adInfo').on('show.bs.modal', function () {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: "/enter/getextra?teamid=" + $("#htid").val() + "&r=" + Math.random(),
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Code != 0) {
+                            jError(data.Message);
+                        }
+                        else {
+                            if (data.Data)
+                            {
+                                $("#info11").val(data.Data.info1);
+                                $("#info22").val(data.Data.info2);
+                                $("#iframe1").attr("src", "/enter/loadimg?file=" + encodeURI(data.Data.info3));
+                            }
+                        }
+                    }
+                });
+            });
+
+            $('#bbInfo').on('show.bs.modal', function () {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: "/enter/getextra?teamid=" + $("#htid").val() + "&r=" + Math.random(),
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Code != 0) {
+                            jError(data.Message);
+                        }
+                        else {
+                            if (data.Data) {
+                                $("#info1").val(data.Data.info1);
+                                $("#info2").val(data.Data.info2);
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        function getplayer() {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: "/enter/getplayer?tid=" + $("#htid").val() + "&r=" + Math.random(),
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        var cit = $("#tbplayer");
+                        if (cit.size() > 0) {
+                            cit.find("tr:not(:first)").remove();
+                        }
+
+                        //$("#tbplayer  tr:not(:first)").html("");
+                        //$("#tbplayer  tr:not(:first)").empty("");
+                        var rcnt = 0;
+
+                        $.each(data.Data, function () {
+                            var st = "<td style='color:Blue'>已邀请</td>";
+                            if (this.Status == "3")
+                                st = "未邀请";
+                            else if (this.Status == "2")
+                                st = "<td style='color:Blue'>已邀请</td>";
+                            else if (this.Status == "1") {
+                                st = "<td style='color:Green'>已接受</td>";
+                                rcnt = rcnt + 1;
+                            }
+                            else if (this.Status == "9")
+                                st = "<td style='color:Red'>已拒绝</td>";
+
+                            $('#tbplayer tr:last').after(" <tr class='pcy' ><td style='display:none;' name='uuid'>" + this.Matchuserid + "</td><td>" + (this.Nickname ? this.Nickname : '') + "</td><td>" + (this.Sexy == 1 ? '男' : '女') + "</td><td>" + "*******" + "</td><td>" + this.Mobile + "</td><td>" + (this.Age ? this.Age : 0) + "</td>" + st + "<td><a onclick='cancelplay(\"" + this.Matchuserid + "\")' href='#'>@(ViewBag.leader == "1" ? "删除" : "")</a></td></tr>");
+                        });
+
+                        var cnt = $("#htcnt").val();
+
+                        if (data.Data.length >= cnt) {
+                            $("#btnm").css({ "display": "none" });
+                        }
+                        else {
+                            $("#btnm").css({ "display": "inline" });
+                        }
+
+                        var sts = $("#htsts").val();
+                        var tp = $("#htp").val();
+
+                        if (sts != "8") {
+                            $("#nbtn").css('display', 'none');
+                        }
+                        else {
+                            if (rcnt < cnt) {
+                                $("#nbtn").attr('disabled', true);
+                            }
+                            else {
+                                $("#nbtn").attr('disabled', false);
+                            }
+                        }
+
+                        if ($("#nbtn").prop('disabled'))
+                            $("#nbtn").text("立即预报名(有队员未接受)");
+                        else
+                            $("#nbtn").text("立即预报名");
+                    }
+                }
+            });
+        }
+
+        function addplayer() {
+
+            var o = $("#mobile_p").val();
+            var isMobile = /^(?:13\d|18\d|17\d|14\d|15\d)\d{5}(\d{3}|\*{3})$/;
+            if (!isMobile.test(o)) {
+                jNotify('请检查手机号码是否正确', { VerticalPosition: "center" });
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/addplayer?tid=" + $("#htid").val() + "&m=" + o,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        getplayer();
+                        $("#myModal").modal('hide');
+                        $("#mobile_p").val('');
+                    }
+                }
+            });
+        }
+
+        function cancelplay(id)
+        {
+            if (!confirm("确定要删除吗?"))
+                return;
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/delplayer?uid=" + id,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        getplayer();
+                    }
+                }
+            });
+        }
+
+        function editplay(id) {
+            var dt = "";
+            var error = false;
+
+            $("#binfo").each(function () {
+
+                var tmp = "";
+                var leader = 1;
+                $(this).find('input,select').each(function () {
+                    var id = this.id;
+                    var value = $(this).val();
+
+                    //姓名
+                    if (id.indexOf("_name_t") > 0) {
+                        var isName = /^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+)$/;
+            //姓名
+            if(!isName.test(value)){
+                jNotify('姓名仅限中文或英文，并不能为空', { VerticalPosition: "center" });
+                error = true;
+                            return false;
+            }
+                    }
+                    //
+                    else if (id.indexOf("_cardtype_t") > 0) {
+                        if (value == '1') {
+                            var vl = $("#ld_card_t").val();
+                            //var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                            var pattern = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+                            if (!pattern.test(vl)) {
+                                jNotify('请检查身份证号码是否正确', { VerticalPosition: "center" });
+                                $("#ld_card_t").focus();
+                                error = true;
+                                return false;
+                            }
+                        }
+                        else {
+                            //检查输入生日
+
+                        }
+                    }
+                    else if (id.indexOf("_mobile_t") > 0) {
+
+                        var isMobile = /^(?:13\d|18\d|17\d|15\d)\d{5}(\d{3}|\*{3})$/;
+                        if (!isMobile.test(value)) {
+                            jNotify('请检查手机号码是否正确', { VerticalPosition: "center" });
+                            this.focus();
+                            error = true;
+                            return false;
+                        }
+                    }
+                    else if (id.indexOf("_hz_t") > 0) {
+
+                        if (value=='') {
+                            jNotify('请输入出生日期', { VerticalPosition: "center" });
+                            error = true;
+                            return false;
+                        }
+                    }
+                    tmp = tmp + "\"" + this.name + "\":\"" + value + "\",";
+                });
+
+                dt = dt + "{" + tmp + "\"Leader\":" + leader + ",\"userid\":\"" + $("#htmid").val() + "\",\"Teamid\":\""+$("#htid").val()+"\"}";
+            });
+
+            if (error)
+                return;
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/editplayer",
+                data: dt,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function OnInput(event) {
+            bdate(event.target.value);
+        }
+        // Internet Explorer
+        function OnPropChanged(event) {
+            if (event.propertyName.toLowerCase() == "value") {
+                bdate(event.srcElement.value);
+            }
+        }
+
+        function bdate(val) {
+            if (val.length >= 14) {
+                try {
+                    var year = parseInt(val.substring(6, 10), 10);
+                    var month = parseInt(val.substring(11, 12), 10);
+                    var day = parseInt(val.substring(13, 14), 10);
+
+                    $("#ld_hz_t").val(val.substring(6, 10) + "-" + val.substring(10, 12) + "-" + val.substring(12, 14));
+                } catch (e) {
+
+                }
+            }
+        }
+
+        function addinfo(type) {
+
+            var i1 = "";
+            var i2 = "";
+            var i3 = "";
+
+            if (type == "2") {
+                //姓名
+                var name = $("#info11").val();
+                var isName = /^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+)$/;
+                //姓名
+                if (!isName.test(name)) {
+                    jNotify('姓名仅限中文或英文，并不能为空', { VerticalPosition: "center" });
+                    return false;
+                }
+                i1 = name;
+
+                var strcard = $("#info22").val().replace(/(^\s*)|(\s*$)/g, "");
+
+                if (strcard=="") {
+                    jNotify('请输入证件号码', { VerticalPosition: "center" });
+                    return false;
+                }
+                i2 = strcard;
+
+                if(pici3=="")
+                {
+                    jNotify('请上传图片', { VerticalPosition: "center" });
+                    return false;
+                }
+
+                i3 = pici3;
+            }
+            else if (type == "1") {
+                //姓名
+                var name = $("#info1").val();
+                var isName = /^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+)$/;
+                //姓名
+                if (!isName.test(name)) {
+                    jNotify('姓名仅限中文或英文，并不能为空', { VerticalPosition: "center" });
+                    return false;
+                }
+                i1 = name;
+
+                var strcard = $("#info2").val().replace(/(^\s*)|(\s*$)/g, "");
+                if (strcard == "")
+                {
+                    jNotify('请输入正确的身份证号/护照号', { VerticalPosition: "center" });
+                    return false;
+                }
+
+                if (parseInt(strcard.substring(0, 1)) > 0) {
+                    //var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                    var pattern = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+                    if (!pattern.test(strcard)) {
+                        jNotify('请输入正确的身份证号', { VerticalPosition: "center" });
+                        return false;
+                    }
+                }
+                i2 = strcard;
+            }
+            else {
+                alert("错误");
+                return false;
+            }
+
+            var dt = "{\"extype\":" + type + ",\"teamid\":\"" + $("#htid").val() + "\",\"info1\":\"" + i1 + "\",\"info2\":\"" + i2 + "\",\"info3\":\"" + i3 + "\"}";
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/addextra",
+                data: dt,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        var pici3 = "";
+
+        function setpic(p)
+        {
+            pici3 = p;
+        }
+
+    </script>
+}
+<input id="htid" type="hidden" value="@ViewBag.tid" />
+<input id="htcnt" type="hidden" value="@ViewBag.cnt" />
+<input id="htsts" type="hidden" value="@ViewBag.matchstatus" />
+<input id="htmid" type="hidden" value="@Model.userid" />
+<input id="htp" type="hidden" value="@ViewBag.tp" />
+
+<div class="container">
+    <div class="rule">
+        <div class="tittle">赛事预报名</div>
+        <div class="action">
+            <span></span><div class="part1">
+                队名：@ViewBag.tname
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                路线：@ViewBag.lname
+            </div>
+            <hr>
+            <div class="part2">
+                <div class="alert alert-info" role="alert">
+                    <span class="sr-only">Info:</span>
+                    您正在通过F码报名参加[@ViewBag.matchname],比赛日期为:@ViewBag.date2，请准时参加。
+                </div>
+
+                <div class="bs-example" data-example-id="simple-table">
+
+                    <table class="table">
+                        <caption>队长信息</caption>
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>身份证/护照号</th>
+                                <th>手机号</th>
+                                <th>年龄</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Model.Name</td>
+                                <td>@(Model.sexy == "2" ? "女" : "男")</td>
+                                <td>********</td>
+                                <td>@Model.Mobile</td>
+                                <td>@(Model.birthday.HasValue ? ((DateTime.Now.Year - Model.birthday.Value.Year + 1).ToString()) : "0")</td>
+                                <td>
+                                    <div style="display:@(ViewBag.leader == "1" ? "inline" : "none");width=80px;align:center;">
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#mdInfo">修改信息</button>
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#myModal" id="btnm">邀请队员</button>
+                                        @if (ViewBag.lsts.ToString() == "1")
+                                        {
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#adInfo">附加信息</button>
+                                        }
+                                        else if (ViewBag.lsts.ToString() == "2")
+                                        {
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" href="#bbInfo">附加信息</button>
+                                        }
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table" id="tbplayer">
+                        <caption>队员信息</caption>
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>身份证/护照号</th>
+                                <th>手机号</th>
+                                <th>年龄</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div style="display:@(ViewBag.leader == "1" ? "inline" : "none");width=700px;align:center;">
+                        <button type="button" class="btn btn-primary" id="nbtn">立即报名</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 id="myModalLabel">
+                    你需要邀请 @ViewBag.cnt 名队员
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入手机号码" id="mobile_p" name="Mobile" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-info" data-dismiss="modal">关闭</a>
+                <a href="#" class="btn btn-primary" onclick="addplayer()">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mdInfo" tabindex="-1" role="dialog" aria-labelledby="mdLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    ×
+                </button>
+
+                <h4 id="mdLabel">
+                    修改信息
+                </h4>
+            </div>
+            <div class="modal-body" id="binfo">
+                <div class="form-group">
+                    <input type="text" class="form-control name" placeholder="请输入姓名" id="ld_name_t" name="Nickname" value="@Model.Name" />
+                </div>
+                <div class="form-group">
+                    <select class="form-control sex" id="ld_sex_t" name="Sexy">
+                        @if (Model.sexy != null && Model.sexy == "2")
+                        {
+                            <option value="1">男</option>
+                            <option value="2" selected="selected">女</option>
+                        }
+                        else
+                        {
+                            <option value="1" selected="selected">男</option>
+                            <option value="2">女</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control idcard" id="ld_cardtype_t" name="Cardtype">
+                        @if (Model.cardtype != null && Model.cardtype == "2")
+                        {
+                            <option value="1">身份证</option>
+                            <option value="2" selected="selected">护照</option>
+                        }
+                        else
+                        {
+                            <option value="1" selected="selected">身份证</option>
+                            <option value="2">护照</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入证件号码" id="ld_card_t" name="Cardno" value="@Model.cardno" oninput="OnInput(event)" onpropertychange="OnPropChanged(event)" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="手机号码" id="ld_mobile_t" name="Mobile" value="@Model.Mobile" disabled="disabled" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请填写生日" id="ld_hz_t" onclick="laydate()" name="Pnov" value="@(Model.birthday.HasValue ? Model.birthday.Value.ToString("yyyy-MM-dd") : "")" autocomplete="off" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-info" data-dismiss="modal">关闭</a>
+                <a href="#" class="btn btn-primary" onclick="editplay()">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="adInfo" tabindex="-1" role="dialog" aria-labelledby="mdLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    ×
+                </button>
+
+                <h4 id="mdLabel">
+                    附加信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control name" placeholder="请输入姓名" id="info11" name="info11" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入证件号码" id="info22" name="info22" value="" />
+                </div>
+                <div class="form-group">
+                    @*<img id='scll' src="tupian.jpg" />*@
+                </div>
+                <div class="form-group">
+                    <iframe src="/enter/uploadimg" id="iframe1" style="width:100%;height:90px;" frameborder="0"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-info" data-dismiss="modal">关闭</a>
+                <a href="#" class="btn btn-primary" onclick="addinfo('2')">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bbInfo" tabindex="-1" role="dialog" aria-labelledby="mdLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    ×
+                </button>
+
+                <h4 id="mdLabel">
+                    附加信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control name" placeholder="请输入宝宝姓名" id="info1" name="info1" value="" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入宝宝身份证号" id="info2" name="info2" value="" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-info" data-dismiss="modal">关闭</a>
+                <a href="#" class="btn btn-primary" onclick="addinfo('1')">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

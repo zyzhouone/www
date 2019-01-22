@@ -1,0 +1,284 @@
+﻿@using Model;
+
+@model List<tblmatch>
+
+@{
+    ViewBag.Title = "城市定向赛";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+    body{margin: 0;padding: 0;background-color: #f4f4f4;font-family: "微软雅黑"}
+    body ul{list-style-type: none}
+
+    /*middle-bar*/
+    .banner{height: 100px;background-color: #229fe6;text-align: center}
+
+    .nav{height: 48px;background-color: #229FE6;text-align: center;}
+    .nav ul{list-style-type: none;
+        text-align: center;
+        width: 700px;
+        margin: 0 auto;}
+    .nav ul li{float: left;font-size: 1.2em;line-height: 48px;color: #ffffff;margin: 0 15px}
+    .nav ul li a{padding: 0 15px;color: #ffffff;text-decoration: none}
+    .nav ul li:hover{background-color: #48b4ff}
+    .nav ul .active{background-color: #48b4ff}
+
+
+
+    /*about*/
+    .about-grids {  margin-bottom: 1em;  }
+    .about-left h3 { font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-left p {  font-size: 14px;  margin: 0.5em 0;  color: #B3B3B3;  line-height: 1.8em;  }
+    .about-middle h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-right h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-right-info p {  font-size: 14px;  margin: 0.5em 0;  color: #B3B3B3;  line-height: 1.8em;  }
+
+    /*foot*/
+    .footer {  padding: 1em 0;  background: #CBCBCB;  }
+    .footer-bottom {  padding-top: 2em;  }
+    .copyright {  text-align: center;  }
+    .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+    .copyright p a {  color: #FFF;  }
+
+    .rule{width: 900px;border-radius: 15px;margin:50px auto;background-color: #ffffff;padding: 30px 0}
+    .tittle{width: 900px;height:90px;line-height: 90px;font-family: "微软雅黑";font-size: 25px;font-weight: normal;background-color: #48b4ff;color: #ffffff;padding-left: 20px}
+    .action{margin: 20px 30px;line-height: 25px}
+    .action span{float: left;width:25px;height: 25px;background: url("img/icon-rule-orang.png");background-size: cover;margin-right: 10px}
+    .action .part1{font-size: 15px;font-weight: 600}
+    .action hr{margin-top: 15px;margin-bottom: 10px}
+    .action .part2{padding:0px 80px 15px 50px;font-weight: 100;color: #666;margin-bottom: 35px;font-size: 10px}
+
+    .table blockquote{margin: 0;padding: 0 10px;font-size: 10px}
+    /*.table tbody td{padding: 10px 0;}*/
+
+    /*foot*/
+    /*.footer {  padding: 1em 0;  background: #CBCBCB;  }
+    .footer-bottom {  padding-top: 2em;  }
+    .copyright {  text-align: center;  }
+    .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+    .copyright p a {  color: #FFF;  }*/
+
+    /*比赛时间列表*/
+    
+    .tittle{height:90px;line-height: 90px;font-family: "微软雅黑";
+            font-size: 25px;font-weight: normal;background-color: #48b4ff;color: #ffffff;padding-left: 20px
+    }
+    h6{color: #fff;font-weight: bold;}
+    h6 .yu{ background-color:green;  }
+    h6 .day{background-color:red;}
+    </style>
+}
+
+@section PageSpecificJavascriptIncludes{
+
+  }
+
+<div class="header nav">
+     <ul>
+        <li><a href="@Url.Action("Index", "dx")">首页</a></li>
+        <li class="active"><a href="bulletin">赛事列表</a></li>
+        <li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        { 
+            <li><a href="@Url.Action("center", "member")">我的信息</a></li>
+        }
+    </ul>
+</div>
+
+<!--bulletin-->
+<!-- <div class="blog">
+    <div class="container">
+        <div class="timetable">
+            <ul>
+                <li style="border-radius: 15px">
+                    <div class="text" style="padding: 50px 0 0 0">
+                        <div class="tittle">赛事列表</div>
+                    </div>
+                </li>
+                
+
+              
+                <li>
+                    <img src="/UploadFiles/taian.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="http://www.chengshidingxiang.com/dx/detail/776aa0e6-2d41-4ee1-881c-7fcfb9e20553">中国坐标·泰安城市定向户外挑战赛</a></h4>
+                        <h6><span class="yu">&nbsp;预报名时间：2016-09-01 &nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-09-15&nbsp;</span></h6>
+                       
+                           <p>中国坐标•泰安城市定向户外挑战赛虽是一项竞技类的比赛，但它又有别于传统的竞技项目，相比于城市马拉...</p>                             
+                    </div>
+
+                    <div class="enroll">
+                    
+                        
+                            <span>即将开始</span>
+                        
+                    </div>
+                </li>  
+
+                <li>
+                    <img src="/UploadFiles/xuhui.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="http://www.chengshidingxiang.com/dx/detail/d3335b57-3835-46f9-85f4-4b2bcfb25e22">中国坐标·上海徐汇城市定向户外挑战赛</a></h4>
+                        <h6><span class="yu">&nbsp;预报名时间：2016-08-24 &nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-09-24&nbsp;</span></h6>
+                       
+                           <p>中国坐标·上海徐汇城市定向户外挑战赛将于2016年9月24日举行。本次赛事共有600支队伍、3000...</p>                             
+                    </div>
+
+                    <div class="enroll">               
+                       <a href="http://www.chengshidingxiang.com/dx/detail/d3335b57-3835-46f9-85f4-4b2bcfb25e22">我要报名</a>                   
+                    </div>
+                </li>  
+
+
+                <li>
+                    <img src="/UploadFiles/shanghai.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="http://www.chengshidingxiang.com/dx/detail/6a61b95b-2d5d-4373-abaf-bf4e4c438900">2016上海城市定向赛</a></h4>
+                        <h6><span class="yu">&nbsp;预报名时间：2016-03-02 &nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-04-23&nbsp;</span></h6>
+                       
+                           <p>2016上海坐标·城市定向户外挑战赛于4月23日在上海举行。本次赛事除主赛场上海体育场外，还有静安、...</p>                             
+                    </div>
+
+                    <div class="enroll">                                          
+                            <span>已结束</span>                   
+                    </div>
+                </li>  
+            </ul>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="about">
+    <div class="container">
+        <div class="rule">
+            <div class="tittle">中国坐标•泰安城市定向户外挑战赛</div>
+            <div class="action">
+                <span></span><div class="part1">赛事名称：中国坐标•泰安城市定向户外挑战赛<a href="@Url.Action("Protocol", "enter", new { matchid = "776aa0e6-2d41-4ee1-881c-7fcfb9e20553" })" class="btn btn-danger" style="margin-left:280px;">我要预报名</a></div>
+                <hr>
+                <div class="part2">
+                    预报名：2016年9月3日 10:00<br>
+                    正式报名：2016年9月6日 10:00<br>
+                    培训：2016年10月12日 19:00<br>
+                    比赛：2016年10月15日
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">赛事组织机构</div>
+                <hr>
+                <div class="part2">
+                    <div class="bs-example" data-example-id="simple-table">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th><blockquote>主办单位：</blockquote></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    中国坐标•城市定向户外挑战赛组委会、泰安市体育局、中共泰安市委市直机关工作委员会、泰安市总工会、中国共产主义青年团泰安市委员会、泰安市妇女联合会、泰山景区管委会                      
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bs-example" data-example-id="simple-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><blockquote>承办单位：</blockquote></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        上海市登山户外运动协会、泰安市体育总会、泰安市文异界文化创意工作室、丽泰泰山创业梦工场投资有限公司
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bs-example" data-example-id="simple-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><blockquote>协办单位：</blockquote></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        泰安市企业与企业家联合会、泰安市投融资商会、鲁商传媒集团有限公司广告运营分公司、印象泰山国际会展有限公司
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bs-example" data-example-id="simple-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><blockquote>全程运营：</blockquote></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        泰安市蜗牛体育文化有限公司
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bs-example" data-example-id="simple-table">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th><blockquote>竞赛规则：</blockquote></th>
+                            </tr>
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("notice_taian", "dx")">点击查看</a>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">赛事规模：计划队伍数300</div>
+                <hr>
+                <div class="part2">
+                    参赛人数：计划参赛人数1500<br>
+                    线路数：计划线路数4条<br>
+                    起终点：出发点:泰安市政广场
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">赛事介绍</div>
+                <hr>
+                <div class="part2">
+                    中国坐标•泰安城市定向户外挑战赛虽是一项竞技类的比赛，但它又有别于传统的竞技项目，相比于城市马拉松，登山节，定向户外挑战赛对参与者的体能要求较低，参赛者可以利用公共交通结合徒步的方式完成比赛。门槛的降低、趣味性的增强，大大提升了定向户外赛的生命力。孩子可以和家长组队参赛、外籍人士可以和本地好友携手赴约、单身男女更可以抱团参加，定向户外挑战赛就如同为每一个“独一无二的你”打造的专属赛事，每一个独立的参赛者都能在这项赛事里找寻到属于自己的快乐和收获，在竞技比赛之余体会团队协作、体味城市之美。
+                </div>
+            </div>
+           
+           
+        </div>
+    </div>
+</div>

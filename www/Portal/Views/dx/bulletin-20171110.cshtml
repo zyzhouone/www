@@ -1,0 +1,280 @@
+﻿@using Model;
+
+@*@model List<tblmatch>*@
+
+@{
+    ViewBag.Title = "城市定向赛";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+    body{margin: 0;padding: 0;background-color: #f4f4f4;font-family: "微软雅黑"}
+    body ul{list-style-type: none}
+
+    /*middle-bar*/
+    .banner{height: 100px;background-color: #229fe6;text-align: center}
+
+    .nav{height: 48px;background-color: #229FE6;text-align: center;}
+        .nav ul {
+            list-style-type: none;
+            text-align: center;
+            width: 700px;
+            margin: 0 auto;
+        }
+    .nav ul li{float: left;font-size: 1.2em;line-height: 48px;color: #ffffff;margin: 0 15px}
+    .nav ul li a{padding: 0 15px;color: #ffffff;text-decoration: none}
+    .nav ul li:hover{background-color: #48b4ff}
+    .nav ul .active{background-color: #48b4ff}
+
+    .blog-left-right {  margin-top: 1em;  }
+    .blog-left {  margin: 0em 0 2em 0;  padding-right: 1em;  }
+    .Categories {  margin: 0;  }
+    .Categories h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .Categories ul {  margin: 0;  padding: 0;  }
+    .Categories ul li {  display: block;  background: url(img/arrow.png) no-repeat 0px 2px;  margin-bottom: 1.5em;  }
+    .Categories ul li a {  font-size: 14px;  margin: 0;  color: #B3B3B3;  padding-left: 2em;  }
+
+
+    /*bulletin*/
+    .blog {  padding: 4em 0;  }
+    .blog-text h3 {  font-size: 31px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  text-align: center;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .blog-left {  margin: 0em 0 2em 0;  padding-right: 1em;  }
+    .blog-left-left {  padding: 0 !important;  }
+    .blog-left-left p {  margin: 0 0 1em;  font-size: 15px;  font-weight: 500;  color: #555555;  }
+    .blog-left-left a img {  width: 100%;  }
+
+    /*foot*/
+    .footer {  padding: 1em 0;  background: #CBCBCB;  }
+    .footer-bottom {  padding-top: 2em;  }
+    .copyright {  text-align: center;  }
+    .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+    .copyright p a {  color: #FFF;  }
+
+    /*比赛时间列表*/
+    .timetable{width: 960px;margin: auto;font-family: "微软雅黑"}
+    .timetable ul{padding: 0;list-style-type: none}
+    .timetable ul li{height: 140px;background-color: #ffffff;margin-bottom: 20px}
+    .timetable ul li .text{padding:10px 20px;width: 400px;float: left;}
+    .timetable ul li img{float: left;margin-left: 20px;padding: 10px 0 }
+    .timetable .enroll{width: 140px;height: 60px;float: left;line-height: 80px;padding: 20px 40px}
+    .timetable .enroll1{width: 140px;height: 30px;float: left;padding: 20px 40px}
+
+
+
+
+    .tittle{width: 960px;height:90px;line-height: 90px;font-family: "微软雅黑";
+            font-size: 25px;font-weight: normal;background-color: #48b4ff;color: #ffffff;padding-left: 20px
+    }
+    h6{color: #fff;font-weight: bold;}
+    h6 .yu{ background-color:green;  }
+    h6 .day{background-color:red;}
+    </style>
+}
+
+@section PageSpecificJavascriptIncludes{
+
+  }
+
+<div class="header nav">
+     <ul>
+        <li><a href="@Url.Action("Index", "dx")">首页</a></li>
+        <li class="active"><a href="#">赛事列表</a></li>
+        <li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        { 
+            <li><a href="@Url.Action("center", "member")">我的信息</a></li>
+        }
+    </ul>
+</div>
+
+<!--bulletin-->
+<div class="blog">
+    <div class="container">
+        <div class="timetable">
+            <ul>
+                <li style="border-radius: 15px">
+                    <div class="text" style="padding: 50px 0 0 0">
+                        <div class="tittle">赛事列表</div>
+                    </div>
+                </li>
+                <li>
+                    <img src="/Content/img/2017czb.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b67", "dx")">2017中国坐标·常州城市定向挑战赛</a></h4>
+
+                        <h6><span class="yu">&nbsp;预报名时间：2017年11月11日&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2017-12-3&nbsp;</span></h6>
+
+                        <p>作为江苏地区的首站将于12月3日，在江苏省具有悠久历史的江南古城常州市举办。上千名选手将按五条不同特色主题线路设置，体验城市的创新、潮流、历史和关怀......</p>
+                    </div>
+                    <div class="enroll">
+
+                        @*<a href="@Url.Action("Protocol", "enter", new { matchid = "fe023de5-ed95-4d50-ac16-466ab2c1ae3f" })">立即报名 <img alt="" src="/Content/img/arrow_go.png" /></a>*@
+                        <a href="#">即将开始 <img alt="" src="/Content/img/arrow_go.png" /></a>
+                    </div>
+                </li>
+                @*<li>
+                    <img src="/Content/img/2017xh.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b66", "dx")">2017中国坐标·上海徐汇城市定向挑战赛</a></h4>
+
+                        <h6><span class="yu">&nbsp;预报名时间：2017年10月9日&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2017-11-4&nbsp;</span></h6>
+
+                        <p>2017中国坐标·上海徐汇城市定向户外挑战赛隶属中国坐标系列赛事......</p>
+                    </div>
+                    <div class="enroll">
+
+                        <a href="@Url.Action("Protocol", "enter", new { matchid = "fe023de5-ed95-4d50-ac16-466ab2c1ae3f" })">立即报名 <img alt="" src="/Content/img/arrow_go.png" /></a>
+                    </div>
+                </li>*@
+                <li>
+                    <img src="/Content/img/fugang.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b65", "dx")">第二届“梦想坐标•国际城市定向挑战赛”- 福冈站</a></h4>
+
+                        <h6><span class="yu">&nbsp;预报名时间：2017年5月10日&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2017-08-19&nbsp;</span></h6>
+
+                        <p>2017年，继第一届“梦想坐标•国际城市定向挑战赛”在日本冲绳成功举办后，主办方将新的梦想坐标锁定在了日本的福冈市......</p>
+                    </div>
+                    <div class="enroll">
+
+                        @*<a href="@Url.Action("Protocol", "enter", new { matchid = "602e3479-4a30-42b9-b4b0-fa6461e2ccac" })">报名结束 <img alt="" src="/Content/img/arrow_go.png" /></a>*@
+                        @*<a href="#">即将开始 <img alt="" src="/Content/img/arrow_go.png" /></a>*@
+                        <span>比赛结束</span>
+                    </div>
+                </li>
+                <li>
+                    <img src="/UploadFiles/shanghai2017.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b64", "dx")">2017中国坐标·松江分会场</a></h4>
+
+                        <h6><span class="yu">&nbsp;预报名时间：2017年3月29日&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2017-05-20&nbsp;</span></h6>
+
+                        <p>春夏时节，畅游辰山植物园、爬上佘山呼吸新鲜空气、探寻松江的人文之美；最后一次机会来了，松江分会场线路报名......</p>
+                    </div>
+                    <div class="enroll">
+                      
+                        <span>比赛结束</span>
+                    </div>
+                </li>
+                <li>
+                    <img src="/UploadFiles/ta0897.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b63", "dx")">2017中国坐标·泰安城市定向户外挑战赛</a></h4>
+
+                        <h6><span class="yu">&nbsp;预报名时间：2017年3月7日&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2017-05-20&nbsp;</span></h6>
+
+                        <p>这是一个关于爱的故事，兄弟、闺蜜、爱人、家人，在城市的街角，邂逅于......</p>
+                    </div>
+                    <div class="enroll">
+
+                        <span>比赛结束</span>
+                    </div>
+                </li>
+                
+                <li>
+                    <img src="/UploadFiles/shanghai2017.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b62", "dx")">2017中国坐标·上海城市定向户外挑战赛</a></h4>
+
+                        <h6><span class="yu">&nbsp;预报名时间：2017年2月18日&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2017-05-20&nbsp;</span></h6>
+
+                        <p>中国坐标•城市定向户外挑战赛是一项由中国登山协会、中国定向运动协会共同主办，国家体育总局...</p>
+                    </div>
+                    <div class="enroll">
+
+                        <span>比赛结束</span>
+                    </div>
+                </li>
+
+                <li>
+                    <img src="/UploadFiles/beijing.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b61", "dx")">2016中国坐标·北京城市定向户外挑战赛</a></h4>
+
+                        <h6><span class="yu">&nbsp;报名时间：9月21日（或额满为止）&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-10-30&nbsp;</span></h6>
+
+                        <p>中国坐标•城市定向户外挑战赛是一项由中国登山协会、中国定向运动协会共同主办，国家体育总局...</p>
+                    </div>
+                    <div class="enroll">
+                        <span>比赛结束</span>
+                    </div>
+                </li>
+
+
+                <li>
+                    <img src="/UploadFiles/chongshen.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b60", "dx")">2016梦想坐标·环球城市定向户外挑战赛 冲绳站</a></h4>
+
+                        <h6><span class="yu">&nbsp;即日起报名，额满为止&nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-12-6&nbsp;</span></h6>
+
+                        <p>2016年，依托上海市登山户外运动协会在赛事举办方面...</p>
+                    </div>
+
+                    <div class="enroll">
+
+                        比赛结束 
+
+                    </div>
+                </li>  
+              
+                <li>
+                    <img src="/UploadFiles/taian.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b57", "dx")">中国坐标·泰安城市定向户外挑战赛</a></h4>
+                        <h6><span class="yu">&nbsp;预报名时间：2016-09-03 &nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-10-15&nbsp;</span></h6>
+                       
+                           <p>中国坐标•泰安城市定向户外挑战赛虽是一项竞技类的比赛，但它又有别于传统的竞技项目，相比于城市马拉...</p>                             
+                    </div>
+
+                    <div class="enroll">
+                      
+
+                     比赛结束
+                        
+                    </div>
+                </li>  
+
+                <li>
+                    <img src="/UploadFiles/xuhui.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4><a href="@Url.Action("d3335b58", "dx")">中国坐标·上海徐汇城市定向户外挑战赛</a></h4>
+                        <h6><span class="yu">&nbsp;预报名时间：2016-08-25 &nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-09-24&nbsp;</span></h6>
+                       
+                           <p>中国坐标·上海徐汇城市定向户外挑战赛将于2016年9月24日举行。本次赛事共有600支队伍、3000...</p>                             
+                    </div>
+
+                    <div class="enroll">               
+                        <span>比赛结束</span> 
+                        
+                 
+                    </div>
+                </li>  
+
+
+                @*<li>
+                    <img src="/UploadFiles/shanghai.jpg" width="360" height="120">
+                    <div class="text">
+                        <h4>
+                       <a href="@Url.Action("d3335b59", "dx")"> 2016上海坐标·城市定向挑战赛</a> 
+
+                        </h4>
+                        <h6><span class="yu">&nbsp;预报名时间：2016-02-25 &nbsp;</span> &nbsp;&nbsp;<span class="day">&nbsp;比赛日：2016-04-23&nbsp;</span></h6>
+                       
+                           <p>2016上海坐标·城市定向户外挑战赛于4月23日在上海举行。本次赛事除主赛场上海体育场外，还有静安、...</p>                             
+                    </div>
+
+                    <div class="enroll">                                          
+                            <span>已结束</span>                   
+                    </div>
+                </li>*@                 
+            </ul>
+        </div>
+    </div>
+</div>

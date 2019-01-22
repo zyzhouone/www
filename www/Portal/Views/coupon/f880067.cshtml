@@ -1,0 +1,339 @@
+﻿@using Model;
+
+@{
+    ViewBag.Title = "邀请码";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model tblmatchentity
+
+@section PageSpecificStyleSheetIncludes{
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: "微软雅黑";
+        }
+
+            body ul {
+                list-style-type: none;
+            }
+
+        /*middle-bar*/
+        .banner {
+            height: 100px;
+            background-color: #229fe6;
+            text-align: center;
+        }
+
+        .nav {
+            height: 48px;
+            background-color: #229FE6;
+            text-align: center;
+        }
+
+            .nav ul {
+                list-style-type: none;
+                text-align: center;
+                width: 700px;
+                margin: 0 auto;
+            }
+
+                .nav ul li {
+                    float: left;
+                    font-size: 1.2em;
+                    line-height: 48px;
+                    color: #ffffff;
+                    margin: 0 15px;
+                }
+
+                    .nav ul li a {
+                        padding: 0 15px;
+                        color: #ffffff;
+                        text-decoration: none;
+                    }
+
+                    .nav ul li:hover {
+                        background-color: #337ab7;
+                    }
+
+                .nav ul .active {
+                    background-color: #337ab7;
+                }
+
+        /*notice*/
+        .article h3 {
+            font-size: 31px;
+            margin: 0 0 1em 0;
+            font-weight: 700;
+            padding-bottom: .5em;
+            text-align: center;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+
+        /*foot*/
+        .foot {
+            height: 150px;
+            background-color: #CBCBCB;
+            text-align: center;
+            padding: 20px 0;
+            color: #ffffff;
+        }
+
+            .foot p {
+                font-size: 14px;
+            }
+
+        .copyright {
+            text-align: center;
+        }
+
+            .copyright p {
+                display: block;
+                color: #FFFFFF;
+                font-size: 14px;
+                margin: .5em 0 0 0;
+            }
+
+                .copyright p a {
+                    color: #FFF;
+                }
+
+        .rule {
+            width: 900px;
+            border-radius: 15px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px 0;
+        }
+
+        .tittle {
+            width: 900px;
+            height: 90px;
+            line-height: 90px;
+            font-family: "微软雅黑";
+            font-size: 25px;
+            font-weight: normal;
+            background-color: #337ab7;
+            color: #ffffff;
+            padding-left: 20px;
+        }
+
+        .action {
+            margin: 20px 30px;
+            line-height: 25px;
+        }
+
+            .action span {
+                float: left;
+                width: 25px;
+                height: 25px;
+                background: url("img/icon-rule-gre.png");
+                background-size: cover;
+                margin-right: 10px;
+            }
+
+            .action .part1 {
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .action hr {
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+
+            .action .part2 {
+                padding: 0px 80px 15px 50px;
+                font-weight: 100;
+                color: #666;
+                margin-bottom: 35px;
+                font-size: 10px;
+            }
+    </style>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/bootstrap-modal.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/laydate/laydate.js")"></script>
+}
+
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">        
+
+        $(function () {
+            $("#bbInfo").modal({ show: false });
+        });
+
+        function coupn() {
+
+            var cpn = $("#txtcoupn").val();
+            if (cpn == '') {
+                jNotify('请输入邀请码', { VerticalPosition: "center" });
+                return;
+            }
+
+            var com = $("#txtcom").val();
+            if (com == '') {
+                jNotify('请输入预留公司信息', { VerticalPosition: "center" });
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: encodeURI("/coupon/ckcoupon?couponno=" + cpn + "&company=" + com),
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+
+                        if (data.Data.tag == "909") {
+                            $("#divtmp").css("display", "inline");
+                            $("#divmsg").css("display", "inline");
+                            $("#tmname").text(data.Data.teamname);
+                        }
+                        else if (!data.Data.teamname || data.Data.teamname == "null" || data.Data.teamname == "") {
+                            $("#divtm").css("display", "inline");
+                        }
+                        else {
+                            $("#divtmp").css("display", "inline");
+                            $("#tmname").text(data.Data.teamname);
+                        }
+
+                        $("#mtname").text(data.Data.matchname);
+                        $("#tname").text(data.Data.linetype);
+                        $("#lines").text(data.Data.linename);
+                        if (data.Data.ftype == "0")
+                            $("#ftype").text("待支付");
+                        else {
+                            $("#ftype").text("已支付");
+                            $("#ftype").css("color", "green");
+                        }
+
+                        $('#bbInfo').modal('show');
+                    }
+                }
+            });
+        }
+
+        function coupnqr() {
+
+            var cpn = $("#txtcoupn").val();
+            if (cpn == '') {
+                jNotify('请输入邀请码', { VerticalPosition: "center" });
+                return;
+            }
+
+            var com = $("#txtcom").val();
+            if (com == '') {
+                jNotify('请输入预留公司信息', { VerticalPosition: "center" });
+                return;
+            }
+            var tmm = $("#txtdwmc").val();
+            if ($("#divtm").css("display") == "inline") {
+                if (tmm == "") {
+                    jNotify('请输入队伍名称', { VerticalPosition: "center" });
+                    return;
+                }
+                else if (tmm.length < 6) {
+                    jNotify('队伍名称需要6-8个字符', { VerticalPosition: "center" });
+                    return;
+                }
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url:encodeURI("/coupon/couponok?tmname=" + tmm + "&couponno=" + cpn + "&company=" + com),
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.href = "/enter/StepFM?tid=" + data.Message;
+                    }
+                }
+            });
+        }
+    </script>
+}
+
+
+<div class="article">
+    <div class="container">
+        <div class="rule">
+
+            <div class="tittle"> 邀请码
+            
+            </div>
+
+            <div class="action">
+                <div class="part2" style="margin-bottom:5px;">
+                  <input type="text" class="form-control" placeholder="请输入你的邀请码" id="txtcoupn" name="txtcoupn" />
+                </div>
+                <div class="part2">
+                    <input type="text" class="form-control" placeholder="请输入预留公司信息" id="txtcom" name="txtcom" />
+                </div>
+               &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="javascript:history.back(-1)" class="btn btn-info">返回</a>
+                <a href="#" class="btn btn-primary" onclick="coupn()">确定</a>
+            </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    $("#fpc").addClass("active");
+</script>
+
+<div class="modal fade" id="bbInfo" tabindex="-1" role="dialog" aria-labelledby="mdLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    ×
+                </button>
+
+                <h4 id="mdLabel">
+                    F码确认信息
+                </h4>
+            </div>
+            <div class="modal-body" style="font-size:14px;">
+                <div class="form-group">
+                    <span>比赛名称：</span>&nbsp;<span id="mtname"></span>
+                </div>
+                <div class="form-group">
+                    <span>路线类型：</span>&nbsp;<span id="tname"></span>
+                </div>
+                <div class="form-group">
+                    <span>设定路线：</span>&nbsp;<span id="lines"></span>
+                </div>
+                <div class="form-group">
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态：</span>&nbsp;<span id="ftype" style="color:red;font-weight:bolder;"></span>
+                </div>
+                <div class="form-group" id="divtmp" style="display:none;">
+                    <span>队伍名称：</span>&nbsp;<span id="tmname"></span>
+                </div>
+                <div class="form-group" id="divtm" style="display:none;">
+                    <span>队伍名称：</span>&nbsp;
+                    <input id="txtdwmc" name="txtdwmc" type="text" class="m-wrap large" value="" placeholder="请输入队伍名称" style="width:330px;" maxlength="8"/>
+                </div>
+                <div class="form-group" id="divmsg" style="display:none;">
+                    <br />
+                    <br />
+                    <span style=" color:red;font-size:13px;">
+                    *&nbsp;由于你已经存在路线信息和邀请路线冲突，点击[下一步]将取消原来组队信息</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-info" data-dismiss="modal">取消</a>
+                <a href="#" class="btn btn-primary" onclick="coupnqr()">下一步</a>
+            </div>
+        </div>
+    </div>
+</div>

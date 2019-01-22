@@ -1,0 +1,884 @@
+﻿@using Model;
+
+@model tblusers
+
+@{
+    ViewBag.Title = "我的信息";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: "微软雅黑";
+        }
+
+            body ul {
+                list-style-type: none;
+            }
+
+        /*middle-bar*/
+        .banner {
+            height: 100px;
+            background-color: #229fe6;
+            text-align: center;
+        }
+
+        .nav {
+            height: 48px;
+            background-color: #229FE6;
+            text-align: center;
+        }
+
+            .nav ul {
+                list-style-type: none;
+                text-align: center;
+                width: 700px;
+                margin: 0 auto;
+            }
+
+                .nav ul li {
+                    float: left;
+                    font-size: 1.2em;
+                    line-height: 48px;
+                    color: #ffffff;
+                    margin: 0 15px;
+                }
+
+                    .nav ul li a {
+                        padding: 0 15px;
+                        color: #ffffff;
+                        text-decoration: none;
+                    }
+
+                    .nav ul li:hover {
+                        background-color: #48b4ff;
+                    }
+
+                .nav ul .active {
+                    background-color: #48b4ff;
+                }
+
+        /*notice*/
+        .article h3 {
+            font-size: 31px;
+            margin: 0 0 1em 0;
+            font-weight: 700;
+            padding-bottom: .5em;
+            text-align: center;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+
+        /*foot*/
+        .footer {
+            padding: 1em 0;
+            background: #CBCBCB;
+        }
+
+        .footer-bottom {
+            padding-top: 2em;
+        }
+
+        .copyright {
+            text-align: center;
+        }
+
+            .copyright p {
+                display: block;
+                color: #FFFFFF;
+                font-size: 14px;
+                margin: .5em 0 0 0;
+            }
+
+                .copyright p a {
+                    color: #FFF;
+                }
+
+        .rule {
+            width: 900px;
+            border-radius: 15px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px 0;
+        }
+
+        .tittle {
+            width: 900px;
+            height: 90px;
+            line-height: 90px;
+            font-family: "微软雅黑";
+            font-size: 25px;
+            font-weight: normal;
+            background-color: #337ab7;
+            color: #ffffff;
+            padding-left: 20px;
+        }
+
+        .action {
+            margin: 20px 30px;
+            line-height: 25px;
+        }
+
+            .action span {
+                float: left;
+                width: 25px;
+                height: 25px;
+                background: url("img/icon-rule-gre.png");
+                background-size: cover;
+                margin-right: 10px;
+            }
+
+            .action .part1 {
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .action hr {
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+
+            .action .part2 {
+                padding: 0px 80px 15px 50px;
+                font-weight: 100;
+                color: #666;
+                margin-bottom: 35px;
+                font-size: 10px;
+            }
+    </style>
+
+    <link href="@Url.Content("/Content/jNotify/jquery/jNotify.jquery.css")" rel="stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/Content/jNotify/jquery/jNotify.jquery.min.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Content/js/bootstrap-modal.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/laydate/laydate.js")"></script>
+}
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        function chkh() {
+            var t = $("#ld_cardtype option:selected").val();
+            
+            if (t == "1")
+                $("#ld_hz").attr('disabled', true);
+            else
+                $("#ld_hz").attr('disabled', false);
+        }
+
+        var tid;
+        function showchange(id)
+        {
+            tid = id;
+            $("#txtteam").val('');
+            $('#teamModel').modal('show');
+        }
+
+        $(function () {
+
+            $("#mdInfo").modal({ show: false });
+            $("#mdInfo2").modal({ show: false });
+            $("#teamModel").modal({ show: false });
+
+            $("#myexit").click(function () {
+                if (confirm("确定要退出吗?"))
+                    window.location.href = "/member/login?r=c";
+            });
+
+            $("#ld_cardtype").change(function () {
+                $("#ld_card").val('');
+                chkh();
+            });
+
+            chkh();
+        });
+
+        function editplay() {
+
+            var dt = "";
+            var value = $("#ld_name").val();
+            var isName = /^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+)$/;
+            //姓名
+            //if (value == '') {
+            if (!isName.test(value)) {
+                jNotify('姓名仅限中文或英文，并不能为空', { VerticalPosition: "center" });
+                return;
+            }
+            //
+
+            var ctype = $("#ld_cardtype").val();
+            if (ctype == '1') {
+                var vl = $("#ld_card").val();
+                //var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                var pattern = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+                if (!pattern.test(vl)) {
+                    jNotify('请检查身份证号码是否正确', { VerticalPosition: "center" });
+                    return;
+                }
+            }
+
+            var mobile = $("#ld_mobile").val();
+            var isMobile = /^(?:13\d|14\d|18\d|17\d|15\d)\d{5}(\d{3}|\*{3})$/;
+            if (!isMobile.test(mobile)) {
+                jNotify('请检查手机号码是否正确', { VerticalPosition: "center" });
+                return;
+            }
+
+            var hz = $("#ld_hz").val();
+            if (hz == "") {
+                jNotify('请输入出生日期', { VerticalPosition: "center" });
+                return;
+            }
+
+            dt = "{\"userid\":\"" + $("#hidid").val() + "\",\"Name\":\"" + $("#ld_name").val() + "\",\"Mobile\":\"" + $("#ld_mobile").val() + "\",\"sexy\":\"" + $("#ld_sex option:selected").val() + "\",\"cardtype\":\"" + $("#ld_cardtype").val() + "\",\"cardno\":\"" + $("#ld_card").val() + "\",\"birthday\":\"" + $("#ld_hz").val() + "\"}";
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/edituser",
+                data: dt,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function changeteam() {
+
+            var dt = "";
+            var str = $("#txtteam").val();
+            var mb = str.replace(/(^\s*)|(\s*$)/g, "");
+
+            if (mb == null || mb == "") {
+                jNotify('请输入队伍名', { VerticalPosition: "center" });
+                return;
+            }
+            
+            var l = str.length;
+            var blen = 0;
+            for (i = 0; i < l; i++) {
+                if ((str.charCodeAt(i) & 0xff00) != 0) {
+                    blen++;
+                }
+                blen++;
+            }
+
+            if (blen > 12) {
+                jNotify('名字不得大于6个中文或12个英文', { VerticalPosition: "center" });
+                return;
+            }
+
+            dt = "{\"teamid\":\"" + tid + "\",\"Teamname\":\"" + mb + "\"}";
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/changeteam",
+                data: dt,
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function updpwd() {
+            var pwd = $("#txtPwd").val();
+            var npwd = $("#txtNPwd").val();
+            var nnpwd = $("#txtNNPwd").val();
+
+            if (pwd == "") {
+                jNotify('请输入旧密码', { VerticalPosition: "center" });
+                return;
+            }
+
+            if (nnpwd != npwd) {
+                jNotify('两次输入的密码不一致', { VerticalPosition: "center" });
+                return;
+            }
+
+            var reg = /^[A-Za-z0-9]{6,16}$/;
+            if (!reg.test(npwd)) {
+                jNotify('密码长度为6~16个字符，由数字及字母组成', { VerticalPosition: "center" });
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/updpwd?id=" + $("#hidid").val() + "&pwd=" + pwd + "&npwd=" + npwd,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        $("#mdInfo2").modal('hide');
+                        $("#txtPwd").val('');
+                        $("#txtNPwd").val('');
+                        $("#txtNNPwd").val('');
+                        alert("恭喜你，密码已经修改成功!");
+                    }
+                }
+            });
+        }
+
+        function accpect(id, infoid) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/Accept",
+                data: "{ \"id\": \"" + id + "\", \"uid\": \"" + infoid + "\" }",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function reject(id, infoid) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/Reject",
+                data: "{ \"id\": \"" + id + "\", \"uid\": \"" + infoid + "\" }",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function OnInput(event) {
+            bdate(event.target.value);
+        }
+        // Internet Explorer
+        function OnPropChanged(event) {
+            if (event.propertyName.toLowerCase() == "value") {
+                bdate(event.srcElement.value);
+            }
+        }
+
+        function bdate(val) {
+            if (val.length >= 14) {
+                try {
+                    var year = parseInt(val.substring(6, 10), 10);
+                    var month = parseInt(val.substring(11, 12), 10);
+                    var day = parseInt(val.substring(13, 14), 10);
+
+                    $("#ld_hz").val(val.substring(6, 10) + "-" + val.substring(10, 12) + "-" + val.substring(12, 14));
+                } catch (e) {
+
+                }
+            }
+        }
+
+        function del(val) {
+            if (!confirm("确定要取消队伍吗?"))
+                return;
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/delteam",
+                data: "{ \"tid\": \"" + val + "\"}",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+
+        function accpectrp(infoid) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/AcceptRp",
+                data: "{ \"id\": \"" + infoid + "\" }",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function rejectrp(infoid) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/RejectRp",
+                data: "{ \"id\": \"" + infoid + "\" }",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message);
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+    </script>
+}
+
+<input id="hidid" type="hidden" value="@Model.userid" />
+
+<div class="header nav">
+    <ul>
+        <li><a href="@Url.Action("Index", "dx")">首页</a></li>
+        <li><a href="@Url.Action("bulletin", "dx")">赛事列表</a></li>
+        @*<li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>*@
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li class="active"><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        {
+            <li class="active"><a href="#">我的信息</a></li>
+            <li><a href="@Url.Action("f880067","coupon")">F码通道</a></li>
+        }
+    </ul>
+</div>
+<!--notice-->
+<div class="article">
+    <div class="container">
+        <div class="rule">
+            <div class="tittle">我的信息(@(Model.Mobile)用户)</div>
+            <div class="action">
+                <span></span><div class="part1">我的注册信息 </div>
+                <hr />
+                <div class="part2">
+                    @if (Model.Isupt == "0")
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            <span class="sr-only">Error:</span>
+                            您还没有完善您的基本信息，报名比赛需完善基本信息，<a data-toggle="modal" href="#mdInfo" id="btnt">点击这里</a>马上完善信息。<a href="#" id="myexit"> 退出登陆</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="bs-example" data-example-id="striped-table">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row" width="180px">手机号:</th>
+                                        <td>@Model.Mobile</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">姓名:</th>
+                                        <td>@Model.Name</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">证件类型:</th>
+                                        <td>@(Model.cardtype == "1" ? "身份证" : "护照")</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">证件号码:</th>
+                                        <td>@Model.cardno</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">生日:</th>
+                                        <td>@(Model.birthday.HasValue ? Model.birthday.Value.ToString("yyyy-MM-dd") : "")</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" colspan="3">
+                                            <a data-toggle="modal" href="#mdInfo" id="btnu"> 更新我的信息 </a>|<a data-toggle="modal" href="#mdInfo2" id="btnu2"> 修改密码 </a>|<a href="#" id="myexit"> 退出登陆</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    <div class="modal fade" id="mdInfo" tabindex="-1" role="dialog" aria-labelledby="mdLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal">
+                                        ×
+                                    </button>
+                                    <h4 id="mdLabel">
+                                        修改信息
+                                    </h4>
+                                </div>
+                                <div class="modal-body" id="binfo">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control name" placeholder="请输入姓名" id="ld_name" value="@Model.Name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control sex" id="ld_sex" name="Sexy">
+                                            @if (Model.sexy != null && Model.sexy == "2")
+                                            {
+                                                <option value="1">男</option>
+                                                <option value="2" selected="selected">女</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1" selected="selected">男</option>
+                                                <option value="2">女</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <select class="form-control idcard" id="ld_cardtype" name="Cardtype">
+                                            @if (Model.cardtype != null && Model.cardtype == "2")
+                                            {
+                                                <option value="1">身份证</option>
+                                                <option value="2" selected="selected">护照</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1" selected="selected">身份证</option>
+                                                <option value="2">护照</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="请输入证件号码" id="ld_card" name="Cardno" value="@Model.cardno" oninput="OnInput(event)" onpropertychange="OnPropChanged(event)" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="手机号码" id="ld_mobile" name="Mobile" value="@Model.Mobile" disabled="disabled" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="请填写生日" id="ld_hz" onclick="laydate()" name="Pnov" value="@(Model.birthday.HasValue ? Model.birthday.Value.ToString("yyyy-MM-dd") : "")" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-info" data-dismiss="modal">关闭</a>
+                                    <a href="#" class="btn btn-primary" onclick="editplay()">确定</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="mdInfo2" tabindex="-1" role="dialog" aria-labelledby="mdLabel2" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal">
+                                        ×
+                                    </button>
+                                    <h4 id="mdLabel2">
+                                        修改密码
+                                    </h4>
+                                </div>
+                                <div class="modal-body" id="binfo2">
+                                    <div class="form-group">
+                                        <input type="password" class="form-control name" placeholder="请输入旧密码" id="txtPwd" name="Password" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="请输入新密码" id="txtNPwd" name="NewPassword" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="请再一次输入新密码" id="txtNNPwd" name="NNewPassword" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-info" data-dismiss="modal">关闭</a>
+                                    <a href="#" class="btn btn-primary" onclick="updpwd()">确定</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <span></span><div class="part1">我的比赛信息</div>
+                    <hr />
+                    <div class="part2">
+                        @if (ViewBag.mtlst == null || ((List<tblmatchentity>)ViewBag.mtlst).Count < 1)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                <span class="sr-only">Error:</span>
+                                您还没有比赛信息，<a href="@Url.Action("bulletin", "dx")">点击这里</a>立即报名。
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="bs-example" data-example-id="simple-table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>编号</th>
+                                            <th>赛事名称</th>
+                                            <th>比赛时间</th>
+                                            <th>队伍名称</th>
+                                            <th style="width:70px;">状态</th>
+                                            <th style="width:70px;">操作</th>
+                                            <th style="width:90px;">修改</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                            var lst = (List<tblmatchentity>)ViewBag.mtlst;
+                            var i = 0;
+
+                            foreach (var item in lst)
+                            {
+                                i++;
+
+                                <tr>
+                                    <th scope="row">@i</th>
+                                    <td>@item.Match_name</td>
+                                    <td>@item.Date4.Value.ToString("yyyy-MM-dd")</td>
+                                    <td>@item.Teamname</td>
+                                    @switch (item.mstatus)
+                                    {
+                                        case "0":
+
+                                            <td><a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">报名成功</a></td>
+                                            <td></td>
+                                            <td></td>
+                                            break;
+                                        case "1":
+                                        <td><a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">预报名完成</a></td>
+                                        <td>
+                                            @if (item.Leader == 1)
+                                            {
+                                                <a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">支付</a>
+                                            }
+                                        </td>                                    
+                                        <td>
+                                            @if (item.Leader == 1 && (item.Status == "1" || item.Status == "2"))
+                                            {
+                                                <a href="@Url.Action("Step3", "enter", new { tid = item.Teamid ,tp="1"})">更改路线</a>
+                                                @*<a href="#" onclick="showchange('@item.Teamid')">|&nbsp;队名</a>*@
+                                            }
+                                        </td>
+                                    
+                                            break;
+                                       case "2":
+                                        <td>
+
+                                            @if (item.Status == "8")
+                                            {
+                                                <a href="@Url.Action("StepFM", "enter", new { tid = item.Teamid })">邀请报名中</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#">邀请结束</a>
+                                            }
+                                        </td>
+                                        <td>
+                                           @if (item.Status == "8")
+                                           { 
+                                               <a onclick="del('@item.Teamid')" href="#">取消队伍</a>
+                                           }
+                                        </td>                                    
+                                        <td>
+                                        </td>
+                                            break;
+                                        case "6":
+                                        <td>
+
+                                            @if (item.Status == "1" || item.Status == "2" || item.Status == "3")
+                                            {
+                                                <a href="@Url.Action("Step4", "enter", new { tid = item.Teamid })">预报名中</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">预报名中</a>
+
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (item.Leader == 1)
+                                            {
+                                                <a onclick="del('@item.Teamid')" href="#">取消队伍</a>
+                                            }
+                                        </td>                                    
+                                        <td>
+                                            @*@if (item.Leader == 1)
+                                            {
+                                               <a href="@Url.Action("Step3", "enter", new { tid = item.Teamid ,tp="1"})">更改路线</a>
+                                                <a href="#" onclick="showchange('@item.Teamid')">|&nbsp;队名</a>
+                                            }*@
+                                        </td>
+                                            break;
+                                        default:
+                                        <td>-</td>
+                                        <td></td>                                    
+                                        <td></td>
+                                            break;
+                                    }
+
+                                </tr>
+                            }
+
+                            @*<tr>
+                                    <td align="right" colspan="5">
+                                        <a href="@Url.Action("bulletin", "dx")"> 查看赛事报名</a>
+                                    </td>
+                                </tr>*@
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="action">
+                    <span></span><div class="part1">我的消息</div>
+                    <hr />
+                    <div class="part2">
+                        @if (ViewBag.infolst == null || ((List<tblinfomation>)ViewBag.infolst).Count < 1)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                <span class="sr-only">Error:</span>
+                                您还没有消息。
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="bs-example" data-example-id="simple-table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width=60>编号</th>
+                                            <th width=100>消息时间</th>
+                                            <th>消息内容</th>
+                                            <th width=80>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                            var lst = (List<tblinfomation>)ViewBag.infolst;
+                            var i = 0;
+
+                            foreach (var item in lst)
+                            {
+                                i++;
+                                <tr>
+                                    <th scope="row">@i</th>
+                                    <td>@item.createtime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                    <td>@item.Context</td>
+
+                                    @if (item.Type == "3")
+                                    {
+                                        if (item.Field2 == "0")
+                                        {
+                                            <td><a href="javascript:accpect('@item.Field1','@item.Infoid');">同意</a>&nbsp;<a href="javascript:reject('@item.Field1','@item.Infoid');">拒绝</a></td>
+                                        }
+                                        else if (item.Field2 == "1")
+                                        {
+                                            <td style="color:Blue;">已同意</td>
+                                        }
+                                        else if (item.Field2 == "2")
+                                        {
+                                            <td style="color:Red;">已拒绝</td>
+                                        }
+                                        else
+                                        {
+                                            <td colspan="1">-</td>
+                                        }
+                                    }
+                                    else if (item.Type == "4")
+                                    {
+                                        if (item.Field2 == "0")
+                                        {
+                                            <td><a href="javascript:accpectrp('@item.Infoid');">同意</a>&nbsp;<a href="javascript:rejectrp('@item.Infoid');">拒绝</a></td>
+                                        }
+                                        else if (item.Field2 == "1")
+                                        {
+                                            <td style="color:Blue;">已同意</td>
+                                        }
+                                        else if (item.Field2 == "2")
+                                        {
+                                            <td style="color:Red;">已拒绝</td>
+                                        }
+                                        else
+                                        {
+                                            <td colspan="1">-</td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td colspan="1">-</td>
+                                    }
+
+                                </tr>
+                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="teamModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 id="myModalLabel">
+                    修改队伍名称
+                </h4>
+            </div>
+            <div class="modal-body" style="height:100px;">
+
+                <input id="m_i" type="hidden" />
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入队伍名称" id="txtteam" name="txtteam" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-info" data-dismiss="modal">关闭</a>
+                <a href="#" class="btn btn-primary" onclick="changeteam()">确定</a>
+            </div>
+        </div>
+    </div>
+</div>

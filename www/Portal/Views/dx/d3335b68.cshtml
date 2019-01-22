@@ -1,0 +1,367 @@
+﻿@using Model;
+
+@model List<tblmatch>
+
+@{
+    ViewBag.Title = "城市定向赛";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: "微软雅黑";
+        }
+
+            body ul {
+                list-style-type: none;
+            }
+
+        /*middle-bar*/
+        .banner {
+            height: 100px;
+            background-color: #229fe6;
+            text-align: center;
+        }
+
+        .nav {
+            height: 48px;
+            background-color: #229FE6;
+            text-align: center;
+        }
+
+            .nav ul {
+                list-style-type: none;
+                text-align: center;
+                width: 700px;
+                margin: 0 auto;
+            }
+
+                .nav ul li {
+                    float: left;
+                    font-size: 1.2em;
+                    line-height: 48px;
+                    color: #ffffff;
+                    margin: 0 15px;
+                }
+
+                    .nav ul li a {
+                        padding: 0 15px;
+                        color: #ffffff;
+                        text-decoration: none;
+                    }
+
+                    .nav ul li:hover {
+                        background-color: #48b4ff;
+                    }
+
+                .nav ul .active {
+                    background-color: #48b4ff;
+                }
+
+
+
+        /*about*/
+        .about-grids {
+            margin-bottom: 1em;
+        }
+
+        .about-left h3 {
+            font-size: 23px;
+            margin: 0 0 1em 0;
+            font-weight: 700;
+            padding-bottom: .5em;
+            border-bottom: 1px solid #868686;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+        .about-left p {
+            font-size: 14px;
+            margin: 0.5em 0;
+            color: #B3B3B3;
+            line-height: 1.8em;
+        }
+
+        .about-middle h3 {
+            font-size: 23px;
+            margin: 0 0 1em 0;
+            font-weight: 700;
+            padding-bottom: .5em;
+            border-bottom: 1px solid #868686;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+        .about-right h3 {
+            font-size: 23px;
+            margin: 0 0 1em 0;
+            font-weight: 700;
+            padding-bottom: .5em;
+            border-bottom: 1px solid #868686;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+        .about-right-info p {
+            font-size: 14px;
+            margin: 0.5em 0;
+            color: #B3B3B3;
+            line-height: 1.8em;
+        }
+
+        /*foot*/
+        .footer {
+            padding: 1em 0;
+            background: #CBCBCB;
+        }
+
+        .footer-bottom {
+            padding-top: 2em;
+        }
+
+        .copyright {
+            text-align: center;
+        }
+
+            .copyright p {
+                display: block;
+                color: #FFFFFF;
+                font-size: 14px;
+                margin: .5em 0 0 0;
+            }
+
+                .copyright p a {
+                    color: #FFF;
+                }
+
+        .rule {
+            width: 900px;
+            border-radius: 15px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px 0;
+        }
+
+        .tittle {
+            width: 900px;
+            height: 90px;
+            line-height: 90px;
+            font-family: "微软雅黑";
+            font-size: 25px;
+            font-weight: normal;
+            background-color: #48b4ff;
+            color: #ffffff;
+            padding-left: 20px;
+        }
+
+        .action {
+            margin: 20px 30px;
+            line-height: 25px;
+        }
+
+            .action span {
+                float: left;
+                width: 25px;
+                height: 25px;
+                background: url("img/icon-rule-orang.png");
+                background-size: cover;
+                margin-right: 10px;
+            }
+
+            .action .part1 {
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .action hr {
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+
+            .action .part2 {
+                padding: 0px 80px 15px 50px;
+                font-weight: 100;
+                color: #666;
+                margin-bottom: 35px;
+                font-size: 10px;
+            }
+
+        .table blockquote {
+            margin: 0;
+            padding: 0 10px;
+            font-size: 10px;
+        }
+        /*.table tbody td{padding: 10px 0;}*/
+
+        /*foot*/
+        /*.footer {  padding: 1em 0;  background: #CBCBCB;  }
+        .footer-bottom {  padding-top: 2em;  }
+        .copyright {  text-align: center;  }
+        .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+        .copyright p a {  color: #FFF;  }*/
+
+        /*比赛时间列表*/
+
+        .tittle {
+            height: 90px;
+            line-height: 90px;
+            font-family: "微软雅黑";
+            font-size: 25px;
+            font-weight: normal;
+            background-color: #48b4ff;
+            color: #ffffff;
+            padding-left: 20px;
+        }
+
+        h6 {
+            color: #fff;
+            font-weight: bold;
+        }
+
+            h6 .yu {
+                background-color: green;
+            }
+
+            h6 .day {
+                background-color: red;
+            }
+    </style>
+}
+
+@section PageSpecificJavascriptIncludes{
+
+}
+
+<div class="header nav">
+    <ul>
+        <li><a href="@Url.Action("Index", "dx")">首页</a></li>
+        <li class="active"><a href="bulletin">赛事列表</a></li>
+        @*<li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>*@
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        {
+            <li><a href="@Url.Action("center", "member")">我的信息</a></li>
+            <li><a href="@Url.Action("f880067","coupon")">F码通道</a></li>
+        }
+    </ul>
+</div>
+
+<!--bulletin-->
+
+
+<div class="about">
+    <div class="container">
+        <div class="rule">
+            <div class="tittle">第三届“梦想坐标•国际城市定向挑战赛”- 盛世公主邮轮站</div>
+            <div class="action">
+                <span></span><div class="part1">
+                    赛事名称：第三届“梦想坐标•国际城市定向挑战赛”- 盛世公主邮轮站<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DREAM COORDINATES CITY ORIENTEERING CHALLENGE
+
+                    <a href="@Url.Action("Protocol", "enter", new { matchid = "b243cb4d-ac74-43d8-82b7-a8bd046468e8" })" class="btn btn-danger" style="margin-left:240px;">立即报名</a>
+                </div>
+                <hr>
+                <div class="part2">
+                    主办单位： 上海中旅国际旅行社有限公司<br>
+                    承办单位： 上海市登山户外运动协会<br>
+                    协办单位： 公主邮轮<br>
+                    支持单位： 上海锦江旅游控股有限公司<br>
+                    支持媒体： 腾讯大申&nbsp;上海跑步者&nbsp;东方头条&nbsp;聚力体育&nbsp;乐视体育&nbsp;新民晚报&nbsp;解放日报&nbsp;文汇报&nbsp;东方网&nbsp;东方体育日报
+                </div>
+            </div>
+
+            <div class="action">
+                <span></span><div class="part1">赛事简介</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        继 “梦想坐标•国际城市定向挑战赛”在日本冲绳、福冈成功举办二届后，主办方将第三届梦想坐标锁定在了国际豪华邮轮上。选手们将于12月22日搭乘2017年最新的“盛世公主号”邮轮，体验一次真正的海上定向赛之旅。恰逢圣诞狂欢节，这座海上的“移动城堡”盛装启航，它将会给我们怎样的惊喜呢，一起来探索吧！
+                    </table>
+                </div>
+            </div>
+
+            <div class="action">
+                <span></span><div class="part1">赛事情况</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        1、计划参赛人数：150人
+                        <br>
+                        2、线路数：1条
+                        <br>
+                        3、起终点：盛世公主号邮轮
+                        <br>
+                        4、正式比赛日：2017年12月25日（邮轮航次12月22日-12月26日）
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">参赛办法</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        1、	自行组队报名，2人、3人、4人均可组成一队；
+                        <br>
+                        2、	成人、儿童均可报名参赛，儿童需有18周岁以上成人陪同；
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">报名办法</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        1、报名日期：即日起报名，额满为止。
+                        <br>
+                        2、报名办法：<br>
+                        （1）预报名一：关注微信号“坐标zuobiao2014”下载APP，选择赛事预报名，会有客服联系您；<br>
+                        （2）预报名二：登录“中国坐标•城市定向户外挑战赛”官网http://www.chengshidingxiang.com预报名；<br>
+                        （3）致电我公司热线400-885-5161；<br>
+                        （4）现场报名：上海中旅国际指定网点：普陀门店：62995096
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">参赛费用</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        （1）定向赛免费；<br>
+                        （2）每人收取邮轮团费；    
+                     </table>
+                </div>
+            </div>
+
+            <div class="action">
+                <span></span><div class="part1">报名办理手续所需材料</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        （1）有效护照原件（护照有效期至2018年06月27日以后）；<br>
+                        （2）参赛报名表（签名）；<br>
+                        （3）参赛须知（签名）；<br>
+                        （4）身份证正反面复印件一份；<br>
+                        （5）对于特殊省份，组委会有权要求客人提供补充材料；
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">备注</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        其他未尽事宜以组委会解释为准。
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
