@@ -18,3 +18,8 @@ E:\pang\DX-www\www\Web\bin\DAL.pdb
 E:\pang\DX-www\www\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 E:\pang\DX-www\www\DAL\obj\Debug\DAL.dll
 E:\pang\DX-www\www\DAL\obj\Debug\DAL.pdb
+E:\pang\GitPang\www\www\Web\bin\DAL.dll
+E:\pang\GitPang\www\www\Web\bin\DAL.pdb
+E:\pang\GitPang\www\www\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+E:\pang\GitPang\www\www\DAL\obj\Debug\DAL.dll
+E:\pang\GitPang\www\www\DAL\obj\Debug\DAL.pdb

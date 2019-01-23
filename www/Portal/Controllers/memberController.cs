@@ -10,6 +10,8 @@ using log4net;
 using Model;
 using BLL;
 using Utls;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace Portal.Controllers
 {
@@ -162,8 +164,34 @@ namespace Portal.Controllers
 
         public ActionResult register()
         {
+            ViewBag.sessionKey = Guid.NewGuid();
             return View();
         }
+
+        /// <summary>
+        /// zzy 20190123
+        /// 校验图形验证码
+        /// </summary>
+        /// <param name="sessionKey"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public JsonResult CheckCode(string sessionKey,string code)
+        {
+            WebClient MyWebClient = new WebClient();
+            string strUrl = string.Format("https://miniapp.chengshidingxiang.com/vcode/check?sessionKey={0}&vcode={1}", sessionKey,code);
+
+            MyWebClient.Credentials = CredentialCache.DefaultCredentials;
+            byte[] pageData = MyWebClient.DownloadData(strUrl);
+
+
+            String strJson = Encoding.UTF8.GetString(pageData) ?? "";
+            ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
+           
+
+            return Json(rb, JsonRequestBehavior.AllowGet);
+        }
+     
+
 
         /// <summary>
         /// 获取验证码

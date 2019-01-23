@@ -468,10 +468,11 @@ namespace Portal.Controllers
 
             String strJson = Encoding.UTF8.GetString(pageData) ?? "";
             ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
-            if(rb.status==1)
+            if(rb.status!=1)
             {
-                //获取验证码
-                strUrl = string.Format("https://demomini.fooddecode.com/order/getVCode?sessionKey={0}", team.Userid);
+               //没预约的先预约
+                var line = bll.GetLineById(tid);
+                 strUrl = string.Format("https://miniapp.chengshidingxiang.com/signUp/addReserve?teamid={0}&userid={1}&matchid={2}&lineName={3}&price={4}&deviceType={5}", team.teamid, team.Userid, team.match_id, line.Linename, line.Price, "0");
 
                 pageData = MyWebClient.DownloadData(strUrl);
 
@@ -479,6 +480,14 @@ namespace Portal.Controllers
                 strJson = Encoding.UTF8.GetString(pageData) ?? "";
                 rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
             }
+            //获取验证码
+            strUrl = string.Format("https://demomini.fooddecode.com/order/getVCode?sessionKey={0}", team.Userid);
+
+            pageData = MyWebClient.DownloadData(strUrl);
+
+
+            strJson = Encoding.UTF8.GetString(pageData) ?? "";
+            rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
 
             return Json(rb, JsonRequestBehavior.AllowGet);
         }

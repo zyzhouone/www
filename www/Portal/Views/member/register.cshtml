@@ -36,6 +36,7 @@
 
         $(function () {
             $("#vbtn").click(function () {
+               
 
                 var dis = $("#txtMobile").attr("disabled");
                 if (dis != undefined && (dis == "disabled" || dis == true))
@@ -55,44 +56,68 @@
                     return;
                 }
 
-                $.ajax({
-                    type: "GET",
-                    contentType: "application/json",
-                    url: "/member/GetSMS?mobile=" + mb+"&r="+Math.random(),
-                    data: {},
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.Code != 0) {
+                var strCode = $("#txtCode").val();
+                if (strCode == "") {
+                    jNotify('请输入图形验证码', { VerticalPosition: "center" });
+                    return;
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/member/CheckCode",
+                        data: "{ \"sessionKey\": \"@ViewBag.sessionKey\",\"code\":\"" + strCode + "\"}",
+                        dataType: "json",
+                        success: function (data) {
+                            
+                            if (data.status == 0) {
+                                
+                                $.ajax({
+                                    type: "GET",
+                                    contentType: "application/json",
+                                    url: "/member/GetSMS?mobile=" + mb + "&r=" + Math.random(),
+                                    data: {},
+                                    dataType: "json",
+                                    success: function (data) {
+                                        if (data.Code != 0) {
 
-                            $("#txtMobile").attr("disabled", false);
-                            $("#vbtn").attr("disabled", false);
+                                            $("#txtMobile").attr("disabled", false);
+                                            $("#vbtn").attr("disabled", false);
 
-                            try { window.clearInterval(stInt); }
-                            catch (e) { }
+                                            try { window.clearInterval(stInt); }
+                                            catch (e) { }
 
-                            jError(data.Message);
+                                            jError(data.Message);
+                                        }
+                                        else {
+
+                                            //验证码倒计时
+                                            $("#txtMobile").attr("disabled", true);
+                                            $("#vbtn").attr("disabled", true);
+
+                                            var i = 60;
+                                            stInt = window.setInterval(function () {
+                                                $("#vbtn").val("剩余(" + i + ")秒");
+                                                i--;
+                                                if (i < 0) {
+                                                    window.clearInterval(stInt);
+                                                    $("#vbtn").val("获取验证码");
+
+                                                    $("#txtMobile").attr("disabled", false);
+                                                    $("#vbtn").attr("disabled", false);
+                                                }
+                                            }, 1000);
+                                        }
+                                    }
+                                });
+                            } else {
+                                alert(data.desc);
+                                return;
+                            }
                         }
-                        else {
-
-                            //验证码倒计时
-                            $("#txtMobile").attr("disabled", true);
-                            $("#vbtn").attr("disabled", true);
-
-                            var i = 60;
-                            stInt = window.setInterval(function () {
-                                $("#vbtn").val("剩余(" + i + ")秒");
-                                i--;
-                                if (i < 0) {
-                                    window.clearInterval(stInt);
-                                    $("#vbtn").val("获取验证码");
-
-                                    $("#txtMobile").attr("disabled", false);
-                                    $("#vbtn").attr("disabled", false);
-                                }
-                            }, 1000);
-                        }
-                    }
-                });
+                    })
+                }
+                
+               
             });
 
             $("#vbnext").click(function () {
@@ -150,6 +175,12 @@
                 填写手机号并验证</p>
             <div class="form-group">
                 <input class="form-control" placeholder="请输入手机号码" type="text" id="txtMobile" />
+            </div>
+            <div class="form-group">
+                <img src="https://miniapp.chengshidingxiang.com/vcode/img?sessionKey=@ViewBag.sessionKey" onclick="this.src='https://miniapp.chengshidingxiang.com/vcode/img?sessionKey=@ViewBag.sessionKey'" />
+            </div>
+            <div class="form-group">
+                <input class="form-control" placeholder="请输入图形验证码" type="text" id="txtCode" />
                 <input type="button" id="vbtn" value="获取验证码" class="btn btn-primary" />
             </div>
             <div class="form-group">
