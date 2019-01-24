@@ -12,6 +12,7 @@ using BLL;
 using Utls;
 using System.Net;
 using Newtonsoft.Json;
+using System.Configuration;
 
 namespace Portal.Controllers
 {
@@ -164,7 +165,9 @@ namespace Portal.Controllers
 
         public ActionResult register()
         {
-            ViewBag.sessionKey = Guid.NewGuid();
+            string sessionKey= Guid.NewGuid().ToString();
+            ViewBag.sessionKey = sessionKey;
+            ViewBag.codeUrl=ConfigurationManager.AppSettings.Get("api_url")+"/vcode/img?sessionKey ="+sessionKey;
             return View();
         }
 
@@ -178,7 +181,7 @@ namespace Portal.Controllers
         public JsonResult CheckCode(string sessionKey,string code)
         {
             WebClient MyWebClient = new WebClient();
-            string strUrl = string.Format("https://miniapp.chengshidingxiang.com/vcode/check?sessionKey={0}&vcode={1}", sessionKey,code);
+            string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url")+"/vcode/check?sessionKey={0}&vcode={1}", sessionKey,code);
 
             MyWebClient.Credentials = CredentialCache.DefaultCredentials;
             byte[] pageData = MyWebClient.DownloadData(strUrl);

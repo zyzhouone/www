@@ -12,6 +12,7 @@ using BLL;
 using Utls;
 using System.Net;
 using Newtonsoft.Json;
+using System.Configuration;
 
 namespace Portal.Controllers
 {
@@ -259,30 +260,50 @@ namespace Portal.Controllers
             TeamRegBll bll = new TeamRegBll();
             string res = bll.InputMb(mus, tid);
 
-            if (res == "-1")
-                return RepReurnError("操作中出现错误");
-            else if (res == "-2")
-                return RepReurnError("请至少邀请1名女性队员");
-            else if (res == "-3")
-                return RepReurnError("团队中有成员小于16岁");
-            else if (res == "-4")
-                return RepReurnError("团队中有成员大于60岁");
-            else if (res == "-5")
-                return RepReurnError("团队中有成员姓名为空");
-            else if (res == "-6")
-                return RepReurnError("团队中有成员身份证为空");
-            else if (res == "-7")
-                return RepReurnError("团队中有成员年龄为空");
-            else if (res == "-8")
-                return RepReurnError("你的队伍没有按规定人数邀请");
-            else if (res == "-9")
-                return RepReurnError("请输入附加信息");
-            else if (res == "-10")
-                return RepReurnError("请输入附加信息");
-            else if (!string.IsNullOrEmpty(res))
+             //zzy 2019-01-22 添加预约
+            var team = bll.GetTeamById(tid);
+            var line = bll.GetLineById(tid);
+            WebClient MyWebClient = new WebClient();
+            string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/signUp/addReserve?teamid={0}&userid={1}&matchid={2}&lineName={3}&price={4}&deviceType={5}", team.teamid, team.Userid, team.match_id, line.Linename, line.Price, "0");
+
+            MyWebClient.Credentials = CredentialCache.DefaultCredentials;
+            byte[] pageData = MyWebClient.DownloadData(strUrl);
+
+
+            String strJson = Encoding.UTF8.GetString(pageData) ?? "";
+            ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
+            if (rb.status != 0)//预约失败
+            {
                 return RepReurnError(res);
+            }
             else
-                return RepReurnOK();
+            {
+
+                if (res == "-1")
+                    return RepReurnError("操作中出现错误");
+                else if (res == "-2")
+                    return RepReurnError("请至少邀请1名女性队员");
+                else if (res == "-3")
+                    return RepReurnError("团队中有成员小于16岁");
+                else if (res == "-4")
+                    return RepReurnError("团队中有成员大于60岁");
+                else if (res == "-5")
+                    return RepReurnError("团队中有成员姓名为空");
+                else if (res == "-6")
+                    return RepReurnError("团队中有成员身份证为空");
+                else if (res == "-7")
+                    return RepReurnError("团队中有成员年龄为空");
+                else if (res == "-8")
+                    return RepReurnError("你的队伍没有按规定人数邀请");
+                else if (res == "-9")
+                    return RepReurnError("请输入附加信息");
+                else if (res == "-10")
+                    return RepReurnError("请输入附加信息");
+                else if (!string.IsNullOrEmpty(res))
+                    return RepReurnError(res);
+                else
+                    return RepReurnOK();
+            }
         }
 
         [HttpPost]
@@ -460,7 +481,7 @@ namespace Portal.Controllers
             var team = bll.GetTeamById(tid);
 
             WebClient MyWebClient = new WebClient();
-            string strUrl = string.Format("https://demomini.fooddecode.com/order/checkReserve?teamId={0}&userId={1}&matchId={2}", team.teamid, team.Userid, team.match_id);
+            string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/checkReserve?teamId={0}&userId={1}&matchId={2}", team.teamid, team.Userid, team.match_id);
 
             MyWebClient.Credentials = CredentialCache.DefaultCredentials;
             byte[] pageData = MyWebClient.DownloadData(strUrl);
@@ -472,7 +493,7 @@ namespace Portal.Controllers
             {
                //没预约的先预约
                 var line = bll.GetLineById(tid);
-                 strUrl = string.Format("https://miniapp.chengshidingxiang.com/signUp/addReserve?teamid={0}&userid={1}&matchid={2}&lineName={3}&price={4}&deviceType={5}", team.teamid, team.Userid, team.match_id, line.Linename, line.Price, "0");
+                strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/signUp/addReserve?teamid={0}&userid={1}&matchid={2}&lineName={3}&price={4}&deviceType={5}", team.teamid, team.Userid, team.match_id, line.Linename, line.Price, "0");
 
                 pageData = MyWebClient.DownloadData(strUrl);
 
@@ -481,7 +502,7 @@ namespace Portal.Controllers
                 rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
             }
             //获取验证码
-            strUrl = string.Format("https://demomini.fooddecode.com/order/getVCode?sessionKey={0}", team.Userid);
+            strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/getVCode?sessionKey={0}", team.Userid);
 
             pageData = MyWebClient.DownloadData(strUrl);
 
@@ -504,7 +525,7 @@ namespace Portal.Controllers
             var team = bll.GetTeamById(tid);
 
             WebClient MyWebClient = new WebClient();
-            string strUrl = string.Format("https://demomini.fooddecode.com/order/createPrepay?sessionKey={0}&userId={1}&teamId={2}&matchId={3}&vcode={4}&linesId={5}&payType={6}", team.Userid, team.Userid, team.teamid, team.match_id, vCode, team.Linesid, "ZFB");
+            string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/createPrepay?sessionKey={0}&userId={1}&teamId={2}&matchId={3}&vcode={4}&linesId={5}&payType={6}", team.Userid, team.Userid, team.teamid, team.match_id, vCode, team.Linesid, "ZFB");
 
             MyWebClient.Credentials = CredentialCache.DefaultCredentials;
             byte[] pageData = MyWebClient.DownloadData(strUrl);
@@ -515,7 +536,7 @@ namespace Portal.Controllers
             if (rb.status == 1)
             {
                 //查询是否可以支付
-                strUrl = string.Format("https://demomini.fooddecode.com/order/queryPrepay?sessionKey={0}&orderNo={1}", team.Userid, rb.data);
+                strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/queryPrepay?sessionKey={0}&orderNo={1}", team.Userid, rb.data);
 
                 pageData = MyWebClient.DownloadData(strUrl);
                 strJson = Encoding.UTF8.GetString(pageData) ?? "";

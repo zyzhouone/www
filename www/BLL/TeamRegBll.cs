@@ -683,24 +683,9 @@ namespace BLL
                 db.TInsert<tblorders>(order);
 
                 db.SaveChanges();
-                //zzy 2019-01-22 添加预约
-                WebClient MyWebClient = new WebClient();
-                string strUrl =string.Format("https://miniapp.chengshidingxiang.com/signUp/addReserve?teamid={0}&userid={1}&matchid={2}&lineName={3}&price={4}&deviceType={5}",team.teamid,team.Userid,team.match_id,line.Linename,line.Price,"0");
-
-                MyWebClient.Credentials = CredentialCache.DefaultCredentials;
-                byte[] pageData = MyWebClient.DownloadData(strUrl);
-
-
-                String strJson = Encoding.UTF8.GetString(pageData) ?? "";
-                ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
-                if (rb.status == 0)
-                {
+               
                     return "";
-                }
-                else
-                {
-                    return rb.desc;
-                }
+               
             }
         }
 

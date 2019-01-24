@@ -161,56 +161,56 @@
 
 @section PageSpecificJavascriptIncludes{
     <script type="text/javascript">
-    var stInt;
-    var repl = false;
-    var reld = false;
+        var stInt;
+        var repl = false;
+        var reld = false;
 
-    $(function () {
-        $("#mdInfo").modal({ show: false });
-        $("#myModal").modal({ show: false });
-        $("#coupnModal").modal({ show: false });
-    });
+        $(function () {
+            $("#mdInfo").modal({ show: false });
+            $("#myModal").modal({ show: false });
+            $("#coupnModal").modal({ show: false });
+        });
 
-    function cancel() {
-        var bc = $("#btnc").text();
+        function cancel() {
+            var bc = $("#btnc").text();
 
-        if (bc.indexOf("剩余") >= 0)
-            return;
+            if (bc.indexOf("剩余") >= 0)
+                return;
 
-        $('#mdInfo').modal('hide');
-        $("#vbtn").val("立即付款完成报名");
-        try {
-            window.clearInterval(stInt);
-        } catch (e) {
+            $('#mdInfo').modal('hide');
+            $("#vbtn").val("立即付款完成报名");
+            try {
+                window.clearInterval(stInt);
+            } catch (e) {
+
+            }
+        }
+
+        function pay2() {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/CheckReserve",
+                data: "{ \"tid\": \"@ViewBag.tid\"}",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 1) {
+                        $("#imgVcode").attr("src", data.data);
+                        $("#txtCode").val("");
+                        $("#mdpay").modal('show');
+                    } else {
+                        alert(data.desc);
+                    }
+                }
+            })
 
         }
-    }
-
-    function pay2() {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/enter/CheckReserve",
-            data: "{ \"tid\": \"@ViewBag.tid\"}",
-            dataType: "json",
-            success: function (data) {
-                if (data.status == 1) {
-                    $("#imgVcode").attr("src", data.data);
-                    $("#txtCode").val("");
-                    $("#mdpay").modal('show');
-                } else {
-                    alert(data.desc);
-                }
-            }
-        })
-
-    }
-    function paycontinue() {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/enter/CreatePrepay",
-            data: "{ \"tid\": \"@ViewBag.tid\",\"vCode\": \"" + $("#txtCode").val() + "\"}",
+        function paycontinue() {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/CreatePrepay",
+                data: "{ \"tid\": \"@ViewBag.tid\",\"vCode\": \"" + $("#txtCode").val() + "\"}",
                 dataType: "json",
                 success: function (data) {
                     if (data.status == 2) {
@@ -221,11 +221,10 @@
                     }
                 }
             })
-            
+
         }
 
-        function cancel2()
-        {
+        function cancel2() {
             $('#mdpay').modal('hide');
         }
 
@@ -239,114 +238,114 @@
                 contentType: "application/json",
                 url: "/enter/checkpay",
                 data: "{ \"tid\": \"@ViewBag.tid\"}",
-            dataType: "json",
-            success: function (data) {
-                if (data.Code != 0 && data.Message != "正在支付，请等待") {
-                    $("#divmsg").text(data.Message);
-                    $("#btnw").css('display', 'none');
-                    $("#btnc").text("关闭");
-                    $("#btnc").attr("disabled", true);
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0 && data.Message != "正在支付，请等待") {
+                        $("#divmsg").text(data.Message);
+                        $("#btnw").css('display', 'none');
+                        $("#btnc").text("关闭");
+                        $("#btnc").attr("disabled", true);
 
-                    if (data.Message == "队列已满,请等待之后再重试.") {
-                        var i = 10;
+                        if (data.Message == "队列已满,请等待之后再重试.") {
+                            var i = 10;
+                            stInt = window.setInterval(function () {
+                                $("#btnc").text("剩余(" + i + ")秒");
+                                i--;
+                                if (i < 0) {
+                                    window.clearInterval(stInt);
+                                    $("#btnc").val("关闭");
+                                    $("#btnc").attr("disabled", false);
+                                }
+                            }, 1000);
+                        }
+
+                        newWindow.close();
+                    }
+                    else {
+                        $("#btnc").attr("disabled", true);
+                        var i = 300;
                         stInt = window.setInterval(function () {
-                            $("#btnc").text("剩余(" + i + ")秒");
+                            $("#vbtn").val("剩余(" + i + ")秒");
                             i--;
                             if (i < 0) {
                                 window.clearInterval(stInt);
-                                $("#btnc").val("关闭");
-                                $("#btnc").attr("disabled", false);
+                                $("#vbtn").val("立即付款完成报名");
                             }
                         }, 1000);
+
+                        newWindow.location.href = '@Url.Action("create", "pay", new { id = ViewBag.tid })';
                     }
-
-                    newWindow.close();
                 }
-                else {
-                    $("#btnc").attr("disabled", true);
-                    var i = 300;
-                    stInt = window.setInterval(function () {
-                        $("#vbtn").val("剩余(" + i + ")秒");
-                        i--;
-                        if (i < 0) {
-                            window.clearInterval(stInt);
-                            $("#vbtn").val("立即付款完成报名");
-                        }
-                    }, 1000);
-                    
-                    newWindow.location.href = '@Url.Action("create", "pay", new { id = ViewBag.tid })';
-                }
-            }
-        });
-    }
-
-    function confirmRp(id) {
-
-        $("#m_i").val(id);
-        $('#myModal').modal('show');
-    }
-
-    function replayer() {
-        if (repl)
-            return;
-
-        repl = true;
-
-        var o = $("#mobile_p").val();
-        var isMobile = /^(?:13\d|18\d|17\d|14\d|15\d)\d{5}(\d{3}|\*{3})$/;
-        if (!isMobile.test(o)) {
-            jNotify('请检查手机号码是否正确', { VerticalPosition: "center" });
-            return;
+            });
         }
 
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/enter/replayer?mid=" + $("#m_i").val() + "&mobile=" + o,
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                if (data.Code != 0) {
-                    repl = false;
-                    jError(data.Message);
-                }
-                else {
-                    repl = false;
-                    window.location.reload();
-                }
+        function confirmRp(id) {
+
+            $("#m_i").val(id);
+            $('#myModal').modal('show');
+        }
+
+        function replayer() {
+            if (repl)
+                return;
+
+            repl = true;
+
+            var o = $("#mobile_p").val();
+            var isMobile = /^(?:13\d|18\d|17\d|14\d|15\d)\d{5}(\d{3}|\*{3})$/;
+            if (!isMobile.test(o)) {
+                jNotify('请检查手机号码是否正确', { VerticalPosition: "center" });
+                return;
             }
-        });
-    }
 
-    function releader(id) {
-
-        if (reld)
-            return;
-
-        reld = true;
-
-        if (!confirm("确认要设为队长?"))
-            return;
-
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/enter/releader?mid=" + id,
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                if (data.Code != 0) {
-                    reld = false;
-                    jError(data.Message);
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/replayer?mid=" + $("#m_i").val() + "&mobile=" + o,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        repl = false;
+                        jError(data.Message);
+                    }
+                    else {
+                        repl = false;
+                        window.location.reload();
+                    }
                 }
-                else {
-                    reld = false;
-                    window.location.reload();
+            });
+        }
+
+        function releader(id) {
+
+            if (reld)
+                return;
+
+            reld = true;
+
+            if (!confirm("确认要设为队长?"))
+                return;
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/releader?mid=" + id,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        reld = false;
+                        jError(data.Message);
+                    }
+                    else {
+                        reld = false;
+                        window.location.reload();
+                    }
                 }
-            }
-        });
-    }
-</script>
+            });
+        }
+    </script>
 }
 
 <div class="article">
@@ -361,6 +360,7 @@
             {
                 <div class="tittle">赛事正式报名:成功</div>
             }
+            
             <div class="action">
                 <span></span><div class="part1">我的报名信息</div>
                 <hr />
@@ -380,11 +380,11 @@
 
                             ),报名付款时间将会在 @ViewBag.rq 开始，请密切留意。
                             @{
-                        int k = (int)ViewBag.quarty;
-                        if (k >= 0 && k < 10)
-                        {
-                            <a style="font-size:14px;color:Red;">名额剩余:@k 名</a>
-                        }
+                            int k = (int)ViewBag.quarty;
+                            if (k >= 0 && k < 10)
+                            {
+                                <a style="font-size:14px;color:Red;">名额剩余:@k 名</a>
+                            }
                             }
                         </div>
                     }
@@ -399,134 +399,134 @@
                         <table class="table">
                             <caption>
                                 @ViewBag.dw
-                            @if (ViewBag.mstatus == "8" && Model.Count > 0)
-                            {
-                                @Html.Raw("&nbsp;&nbsp;[队列号:" + Model[0].Teamno_T + "]")
-                            }
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th>队长</th>
-                                @if (ViewBag.mstatus == "8")
+                                @if (ViewBag.mstatus == "8" && Model.Count > 0)
                                 {
-                                    <th>编号</th>
+                                    @Html.Raw("&nbsp;&nbsp;[队列号:" + Model[0].Teamno_T + "]")
                                 }
-                                <th>姓名</th>
-                                <th>手机号</th>
-                                <th>性别</th>
-                                <th>年龄</th>
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>队长</th>
+                                    @if (ViewBag.mstatus == "8")
+                                    {
+                                        <th>编号</th>
+                                    }
+                                    <th>姓名</th>
+                                    <th>手机号</th>
+                                    <th>性别</th>
+                                    <th>年龄</th>
 
-                                @if (ViewBag.mstatus == "9" && ViewBag.tstatus == "0" && ViewBag.leader == "1")
-                                {
-                                    <th>操作</th>
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
+                                    @if (ViewBag.mstatus == "9" && ViewBag.tstatus == "0" && ViewBag.leader == "1")
+                                    {
+                                        <th>操作</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                            @{
-                                int idx = 0;
+                                @{
+                                    int idx = 0;
 
-                                foreach (var item in Model)
-                                {
-                                    idx = idx + 1;
-                                    <tr>
-                                        <th scope="row">@(item.Leader == 1 ? "Y" : "N")</th>
-                                        @if (ViewBag.mstatus == "8")
-                                        {
-                                            <td>@(item.Teamno_T + idx)</td>
-                                        }
-
-                                        <td>@item.Nickname</td>
-                                        <td>@item.Mobile</td>
-                                        <td>@(item.Sexy == 1 ? "男" : "女")</td>
-                                        <td>@item.Age</td>
-
-                                        @if (ViewBag.mstatus == "9" && ViewBag.tstatus == "0" && ViewBag.leader == "1")
-                                        {
-                                            if (item.Leader != 1)
+                                    foreach (var item in Model)
+                                    {
+                                        idx = idx + 1;
+                                        <tr>
+                                            <th scope="row">@(item.Leader == 1 ? "Y" : "N")</th>
+                                            @if (ViewBag.mstatus == "8")
                                             {
-                                                if (item.Status == "8")
+                                                <td>@(item.Teamno_T + idx)</td>
+                                            }
+
+                                            <td>@item.Nickname</td>
+                                            <td>@item.Mobile</td>
+                                            <td>@(item.Sexy == 1 ? "男" : "女")</td>
+                                            <td>@item.Age</td>
+
+                                            @if (ViewBag.mstatus == "9" && ViewBag.tstatus == "0" && ViewBag.leader == "1")
+                                            {
+                                                if (item.Leader != 1)
                                                 {
-                                                    <td><span>等待更换</span></td>
-                                                }
-                                                else if (ViewBag.recnt < 2)
-                                                {
-                                                    <td><a href="#" onclick="confirmRp('@item.Matchuserid')">更换队员</a>&nbsp;|&nbsp;<a href="#" onclick="releader('@item.Matchuserid')">更换队长</a></td>
+                                                    if (item.Status == "8")
+                                                    {
+                                                        <td><span>等待更换</span></td>
+                                                    }
+                                                    else if (ViewBag.recnt < 2)
+                                                    {
+                                                        <td><a href="#" onclick="confirmRp('@item.Matchuserid')">更换队员</a>&nbsp;|&nbsp;<a href="#" onclick="releader('@item.Matchuserid')">更换队长</a></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td><a href="#" onclick="releader('@item.Matchuserid')">更换队长</a></td>
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    <td><a href="#" onclick="releader('@item.Matchuserid')">更换队长</a></td>
+                                                    <td>-</td>
                                                 }
                                             }
-                                            else
-                                            {
-                                                <td>-</td>
-                                            }
-                                        }
 
-                                    </tr>
-                                }}
+                                        </tr>
+                                    }}
 
-                            @if (ViewBag.mstatus == "9")
-                            {
-                                <tr>
-                                    <td colspan="6" align="center" valign="middle">
-                                        <input type="button" id="vbtn" class="btn btn-success" value="报名已经结束" />
-                                    </td>
-                                </tr>
-                            }
-                            else if (ViewBag.mstatus == "8" && ViewBag.leader == "1" && ViewBag.tstatus == "1" && ViewBag.teamtype=="1")
-                            {
-                                 <tr>
-                                                <td colspan="6" align="center" valign="middle">
-                                                    <input type="button" id="vbtn" class="btn btn-success" onclick="pay2()" value="立即付款完成报名" />
-                                                </td>
-                                            </tr>                                
-                            }
-                            else
-                            {
-                                if (ViewBag.tstatus != "0")
-                                {
-                                    if (Model != null && Model.Count > 0 && Model[0].mstatus == "3" && ViewBag.leader == "1" && ViewBag.begin == "1")
-                                    {
-                                        int d = (int)ViewBag.quarty;
-
-                                        if (d == 0)
-                                        {
-                                            <tr>
-                                                <td colspan="6" align="center" valign="middle">
-                                                    <input type="button" id="vbtn" class="btn btn-success" value="很遗憾，本次报名已满，感谢您的参与" />
-                                                </td>
-                                            </tr>
-                                        }
-                                        else
-                                        {
-                                            <tr>
-                                                <td colspan="6" align="center" valign="middle">
-                                                    <input type="button" id="vbtn" class="btn btn-success" onclick="pay2()" value="立即付款完成报名" />
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                }
-                                else
+                                @if (ViewBag.mstatus == "9")
                                 {
                                     <tr>
                                         <td colspan="6" align="center" valign="middle">
-                                            <input type="button" id="vbtn" class="btn btn-success" value="付款已完成" />
+                                            <input type="button" id="vbtn" class="btn btn-success" value="报名已经结束" />
                                         </td>
                                     </tr>
                                 }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                                else if (ViewBag.mstatus == "8" && ViewBag.leader == "1" && ViewBag.tstatus == "1" && ViewBag.teamtype == "1")
+                                {
+                                    <tr>
+                                        <td colspan="6" align="center" valign="middle">
+                                            <input type="button" id="vbtn" class="btn btn-success" onclick="pay2()" value="立即付款完成报名" />
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    if (ViewBag.tstatus != "0")
+                                    {
+                                        if (Model != null && Model.Count > 0 && Model[0].mstatus == "3" && ViewBag.leader == "1" && ViewBag.begin == "1")
+                                        {
+                                            int d = (int)ViewBag.quarty;
 
+                                            if (d == 0)
+                                            {
+                                                <tr>
+                                                    <td colspan="6" align="center" valign="middle">
+                                                        <input type="button" id="vbtn" class="btn btn-success" value="很遗憾，本次报名已满，感谢您的参与" />
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="6" align="center" valign="middle">
+                                                        <input type="button" id="vbtn" class="btn btn-success" onclick="pay2()" value="立即付款完成报名" />
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="6" align="center" valign="middle">
+                                                <input type="button" id="vbtn" class="btn btn-success" value="付款已完成" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 
@@ -535,13 +535,21 @@
         <div class="modal-content">
             <div class="modal-body" id="binfo" style="height:150px; width:240px;">
 
-                <div id="divcode" style=" margin-top:20px; margin-left:20px; color:Red; font-size:16px;">
-                    <img id="imgVcode" style="width:100px;height:50px;" />
-                    <p>
-                        <span>请输入验证码:</span>
-                        <br />
-                        <input type="text" id="txtCode" />
-                    </p>
+                <div id="divcode" style=" margin-top:20px; margin-left:20px; color:Red; font-size:16px;width:500px;">
+                    <table>
+                        <tr>
+                            <td><img id="imgVcode" style="width:100px;height:50px; " /></td>
+                            <td>
+                                <p>
+                                    <span>请输入验证码:</span>
+                                    <br />
+                                    <input type="text" id="txtCode" />
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+
                 </div>
             </div>
             <div class="modal-footer">
