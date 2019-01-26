@@ -529,6 +529,29 @@ namespace Portal.Controllers
 
             return Json(rb, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 获取验证码
+        /// </summary>
+        /// <param name="tid"></param>
+        /// <returns></returns>
+        public JsonResult getVCode(string tid)
+        {
+            TeamRegBll bll = new TeamRegBll();
+            var team = bll.GetTeamById(tid);
+
+            WebClient MyWebClient = new WebClient();
+            string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/getVCode?sessionKey={0}", team.Userid);
+
+            MyWebClient.Credentials = CredentialCache.DefaultCredentials;
+            byte[] pageData = MyWebClient.DownloadData(strUrl);
+
+
+            String strJson = Encoding.UTF8.GetString(pageData) ?? "";
+            ResponseModel rb = JsonConvert.DeserializeObject<ResponseModel>(strJson);
+
+            return Json(rb, JsonRequestBehavior.AllowGet);
+        }
        
         /// <summary>
         /// zzy 2019-01-22

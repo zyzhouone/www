@@ -206,6 +206,27 @@
             })
 
         }
+
+        function getVCode()
+        {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/enter/getVCode",
+                data: "{ \"tid\": \"@ViewBag.tid\"}",
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 1) {
+                        $("#imgVcode").attr("src", data.data);
+                        $("#txtCode").val("");
+                        $("#mdpay").modal('show');
+                    } else {
+                        alert(data.desc);
+                    }
+                }
+            })
+        }
+
         function paycontinue() {
             $.ajax({
                 type: "POST",
@@ -214,6 +235,7 @@
                 data: "{ \"tid\": \"@ViewBag.tid\",\"vCode\": \"" + $("#txtCode").val() + "\"}",
                 dataType: "json",
                 success: function (data) {
+                    
                     if (data.status == 1) {
                         $('#mdpay').modal('hide');
                         $("#btnw").hide();
@@ -564,7 +586,7 @@
                 <div id="divcode" style=" margin-top:20px; margin-left:20px; color:Red; font-size:16px;width:500px;">
                     <table>
                         <tr>
-                            <td><img id="imgVcode" style="width:100px;height:50px; " /></td>
+                            <td><img id="imgVcode" style="width:100px;height:50px; " onclick="getVCode()" /></td>
                             <td>
                                 <p>
                                     <span>请输入验证码:</span>
@@ -579,8 +601,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-info" data-dismiss="modal" onclick="paycontinue()" id="btnw">继续支付</a>
-                <a href="#" class="btn btn-primary" onclick="cancel2()" id="btnc">取消支付</a>
+                <a href="#" class="btn btn-info" data-dismiss="modal" onclick="paycontinue()" >继续支付</a>
+                <a href="#" class="btn btn-primary" onclick="cancel2()">取消支付</a>
             </div>
         </div>
     </div>
