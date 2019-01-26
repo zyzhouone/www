@@ -1,0 +1,648 @@
+﻿@{
+    ViewBag.Title = "城市定向赛";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑";
+        }
+
+            body ul {
+                list-style-type: none;
+            }
+
+        /*bar*/
+        .banner {
+            height: 100px;
+            background-color: #229fe6;
+            text-align: center;
+        }
+
+        .nav {
+            height: 48px;
+            background-color: #229FE6;
+            text-align: center;
+        }
+
+            .nav ul {
+                list-style-type: none;
+                text-align: center;
+                width: 700px;
+                margin: 0 auto;
+            }
+
+                .nav ul li {
+                    float: left;
+                    font-size: 1.2em;
+                    line-height: 48px;
+                    color: #ffffff;
+                    margin: 0 15px;
+                }
+
+                    .nav ul li a {
+                        padding: 0 15px;
+                        color: #ffffff;
+                        text-decoration: none;
+                    }
+
+                    .nav ul li:hover {
+                        background-color: #b23232;
+                    }
+
+                .nav ul .active {
+                    background-color: #b23232;
+                }
+
+
+        /*图片轮播*/
+        .flexslider {
+            margin: 0 auto 20px;
+            position: relative;
+            width: 100%;
+            height: 620px;
+            overflow: hidden;
+            zoom: 1;
+        }
+
+            .flexslider .slides li {
+                width: 100%;
+                height: 100%;
+            }
+
+        .flex-direction-nav a {
+            width: 70px;
+            height: 70px;
+            line-height: 99em;
+            overflow: hidden;
+            margin: -35px 0 0;
+            display: block;
+            background: url(Content/img/ad_ctr.png) no-repeat;
+            position: absolute;
+            top: 50%;
+            z-index: 10;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+            -webkit-transition: all .3s ease;
+            border-radius: 35px;
+        }
+
+        .flex-direction-nav .flex-next {
+            background-position: 0 -70px;
+            right: 0;
+        }
+
+        .flex-direction-nav .flex-prev {
+            left: 0;
+        }
+
+        .flexslider:hover .flex-next {
+            opacity: 0.8;
+            filter: alpha(opacity=25);
+        }
+
+        .flexslider:hover .flex-prev {
+            opacity: 0.8;
+            filter: alpha(opacity=25);
+        }
+
+            .flexslider:hover .flex-next:hover,
+            .flexslider:hover .flex-prev:hover {
+                opacity: 1;
+                filter: alpha(opacity=50);
+            }
+
+        .flex-control-nav {
+            width: 100%;
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+        }
+
+            .flex-control-nav li {
+                margin: 0 2px;
+                display: inline-block;
+                zoom: 1;
+                *display: inline;
+            }
+
+        .flex-control-paging li a {
+            background: url(Content/img/dot.png) no-repeat 0 -16px;
+            display: block;
+            height: 16px;
+            overflow: hidden;
+            text-indent: -99em;
+            width: 16px;
+            cursor: pointer;
+        }
+
+            .flex-control-paging li a.flex-active,
+            .flex-control-paging li.active a {
+                background-position: 0 0;
+            }
+
+        .flexslider .slides a img {
+            width: 100%;
+            height: 620px;
+            display: block;
+        }
+
+        /*how*/
+        .how .container .how-grids .how-left h3 {
+            font-size: 36px;
+            margin: 0 0 1em 0;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+        .icon-play span {
+            background: url(Content/img/icons.png) no-repeat -140px 0px;
+            width: 50px;
+            height: 57px;
+            top: 30%;
+            left: 48%;
+            margin: 0 auto;
+            display: block;
+            position: absolute;
+        }
+
+        .how-left img {
+            width: 100%;
+            position: relative;
+        }
+
+        .how .container .how-grids .how-left h4 {
+            margin: 1em 0;
+            font-size: 16px;
+            color: #868686;
+            line-height: 1.8em;
+        }
+
+        .how .container .how-grids .how-right h3 {
+            font-size: 36px;
+            margin: 0 0 1em 0;
+            color: #1CD5B5;
+            font-family: 'PoiretOne-Regular';
+        }
+
+        .how .container .how-grids .how-right .tournament .how-right-left {
+            width: 26%;
+            float: left;
+        }
+
+        .how-right-left img {
+            width: 100%;
+        }
+
+        .how .container .how-grids .how-right .how-right-right {
+            float: left;
+            margin-left: 2em;
+            width: 66%;
+        }
+
+            .how .container .how-grids .how-right .how-right-right h4 {
+                font-size: 20px;
+                margin: 0;
+                color: #8B8B8B;
+                text-transform: uppercase;
+            }
+
+            .how .container .how-grids .how-right .how-right-right p {
+                margin: 1em 0 0 0;
+                color: #B3B3B3;
+                font-size: 14px;
+                line-height: 1.8em;
+            }
+
+        .t-middle {
+            margin: 2em 0;
+        }
+
+        .how-left {
+            position: relative !important;
+        }
+
+            .how-left h3 {
+                font-size: 36px;
+                margin: 0 0 1em 0;
+                color: #1CD5B5;
+                font-family: 'PoiretOne-Regular';
+            }
+
+            .how-left img {
+                width: 100%;
+                position: relative;
+            }
+
+            .how-left a span {
+                background: url(Content/img/icons.png) no-repeat -140px 0px;
+                width: 50px;
+                height: 57px;
+                top: 30%;
+                left: 48%;
+                margin: 0 auto;
+                display: block;
+                position: absolute;
+            }
+
+            .how-left h4 {
+                margin: 1em 0;
+                font-size: 16px;
+                color: #868686;
+                line-height: 1.8em;
+            }
+
+            .how-left p {
+                color: #B3B3B3;
+                font-size: 14px;
+                margin: 0;
+                line-height: 1.8em;
+            }
+
+
+        /*pup-up-box*/
+
+
+        /*new*/
+        .news {
+            background: #CBCBCB;
+            padding: 3em 0;
+        }
+
+            .news .container .news-info h3 {
+                font-size: 38px;
+                margin: 0;
+                text-align: center;
+                color: #FFF;
+                font-family: 'PoiretOne-Regular';
+            }
+
+            .news .news-grids {
+                margin: 3em 0 0 0;
+            }
+
+                .news .news-grids .news-grid-left-img {
+                    background: url(Content/img/m1.jpg) no-repeat 0px 0px;
+                    background-size: cover;
+                    border: solid 2px #FFF;
+                    padding: 2em 0;
+                }
+
+        .news-grid-left p {
+            color: #FFF;
+            font-size: 72px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .news-grid-left-info h5 {
+            font-size: 20px;
+            margin: 1em 0 .5em 0;
+            color: #FFF;
+        }
+
+        .news-grid-left-info p {
+            font-size: 14px;
+            line-height: 1.8em;
+            margin: 0;
+            color: #FFF;
+        }
+
+        .news-grid-middle {
+            background: url(Content/img/m2.jpg) no-repeat 0px 0px;
+            background-size: cover;
+            border: solid 2px #FFF;
+            padding: 2em 0;
+        }
+
+        .news-grid-right {
+            background: url(Content/img/m3.jpg) no-repeat 0px 0px;
+            background-size: cover;
+            border: solid 2px #FFF;
+            padding: 2em 0;
+        }
+
+
+        /*totop*/
+        #toTop {
+            display: none;
+            text-decoration: none;
+            position: fixed;
+            bottom: 14px;
+            right: 2%;
+            overflow: hidden;
+            z-index: 999;
+            width: 32px;
+            height: 32px;
+            border: none;
+            text-indent: 100%;
+            background: url("Content/img/arrow1.png") no-repeat 0px 0px;
+        }
+
+        #toTopHover {
+            width: 32px;
+            height: 32px;
+            display: block;
+            overflow: hidden;
+            float: right;
+            opacity: 0;
+            -moz-opacity: 0;
+            filter: alpha(opacity=0);
+        }
+
+        /*foot*/
+        .footer {
+            padding: 1em 0;
+            background: #CBCBCB;
+        }
+
+        .footer-bottom {
+            padding-top: 2em;
+        }
+
+        .copyright {
+            text-align: center;
+        }
+
+            .copyright p {
+                display: block;
+                color: #FFFFFF;
+                font-size: 14px;
+                margin: .5em 0 0 0;
+            }
+
+                .copyright p a {
+                    color: #FFF;
+                }
+    </style>
+}
+
+@section PageSpecificJavascriptIncludes{
+
+}
+
+<div class="header nav">
+    <ul>
+        <li class="active"><a href="#">首页</a></li>
+        <li><a href="@Url.Action("bulletin", "dx")">赛事列表</a></li>
+        <li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        {
+            <li><a href="@Url.Action("center", "member")">我的信息</a></li>
+        }
+    </ul>
+</div>
+
+<!--图片轮播-->
+<div id="banner_tabs" class="flexslider">
+    <ul class="slides">
+       
+      
+     @*<li>
+            <a title="" href="/dx/d3335b68">
+                <img alt="" style="background: url(Content/img/k1.jpg) no-repeat top; background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>*@
+        <li>
+            <a title="" href="/dx/d3335b69">
+                <img alt="" style="background: url(Content/img/nc02.jpg) no-repeat top; background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>
+        <li>
+            <a title="" href="/dx/d3335b65">
+                <img alt="" style="background: url(Content/img/df07.jpg) no-repeat top; background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>
+        <li>
+            <a title="" href="/dx/d3335b62">
+                <img alt="" style="background: url(Content/img/df2017.jpg) no-repeat top;background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>
+        <li>
+            <a title="" href="/dx/d3335b63">
+                <img alt="" style="background: url(Content/img/ta0897.jpg) no-repeat top; background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>
+       <li>
+        <a title="" href="/dx/d3335b61">
+            <img alt="" style="background: url(Content/img/16930.jpg) no-repeat top;background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+        </a>
+    </li>
+    @* <li>
+        <a title="" href="/dx/d3335b60">
+            <img alt="" style="background: url(Content/img/16929.jpg) no-repeat top;background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+        </a>
+    </li>
+
+    <li>
+            <a title="" href="/dx/d3335b59">
+                <img alt="" style="background: url(Content/img/df02.jpg) no-repeat bottom;background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>
+        <li>
+            <a title="" href="/dx/d3335b57">
+                <img alt="" style="background: url(Content/img/df05.jpg) no-repeat top;background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>
+        <li>
+            <a title="" href="/dx/d3335b58">
+                <img alt="" style="background: url(Content/img/df04.jpg) no-repeat center;background-size: cover" src="@Url.Content("~/Content/img/alpha.png")" />
+            </a>
+        </li>*@
+    </ul>
+    <ul class="flex-direction-nav">
+        <li><a class="flex-prev" href="javascript:;">Previous</a></li>
+        <li><a class="flex-next" href="javascript:;">Next</a></li>
+    </ul>
+    <ol id="bannerCtrl" class="flex-control-nav flex-control-paging">
+        <li><a>1</a></li>
+        <li><a>2</a></li>
+        <li><a>3</a></li>
+        <li><a>4</a></li>
+        <li><a>5</a></li>
+    </ol>
+
+
+    <script src="@Url.Content("~/Content/js/slider.js")" type="text/jscript"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var bannerSlider = new Slider($('#banner_tabs'), {
+                time: 5000,
+                delay: 400,
+                event: 'hover',
+                auto: true,
+                mode: 'fade',
+                controller: $('#bannerCtrl'),
+                activeControllerCls: 'active'
+            });
+            $('#banner_tabs .flex-prev').click(function () {
+                bannerSlider.prev()
+            });
+            $('#banner_tabs .flex-next').click(function () {
+                bannerSlider.next()
+            });
+        })
+    </script>
+</div>
+
+<!--how-->
+<!--div class="how">
+    <div class="container">
+        <div class="how-grids">
+            <div class="how-left col-md-7">
+                <h3>城市定向赛玩法儿指南</h3>
+                <img src="@Url.Content("~/Content/img/gameplayer.jpg")" alt=""/>
+                <a class="play-icon popup-with-zoom-anim" href="#small-dialog">
+                    <span> </span>
+                </a>
+                <div id="small-dialog" class="mfp-hide">
+
+                    <iframe frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" src="http://player.youku.com/embed/XNzE0Mzg0OTg0"></iframe>
+                </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.popup-with-zoom-anim').magnificPopup({
+                            type: 'inline',
+                            fixedContentPos: false,
+                            fixedBgPos: true,
+                            overflowY: 'auto',
+                            closeBtnInside: true,
+                            preloader: false,
+                            midClick: true,
+                            removalDelay: 300,
+                            mainClass: 'my-mfp-zoom-in'
+                        });
+                    });
+                </script>
+                <h4>城市定向赛是一项即有趣又可以调动团队协作能力的休闲运动，符合现代人的生活作息和娱乐喜好。</h4>
+            </div>
+            <div class="how-right col-md-5">
+                <h3>赛事公告</h3>
+                <div class="tournament">
+                    <div class="how-right-left"><img src="@Url.Content("~/Content/img/ss01.jpg")"/></div>
+                    <div class="how-right-right">
+                            <h4><a href="info.html">2016上海坐标城市定向挑战赛报名公告(一)</a></h4>
+                            <p>比赛开辟了40余条主题鲜明的比赛线路，预计参赛人数将达到2万人左右，规模空前庞大。</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="tournament t-middle">
+                    <div class="how-right-left">
+                        <img src="@Url.Content("~/Content/img/ss02.jpg")" alt=""/>
+                    </div>
+                    <div class="how-right-right">
+                        <h4><a href="info.html">2016上海坐标城市定向挑战赛报名公告(二)</a></h4>
+                        <p>鉴于目前预报名的人数众多，主办方将原定预报名时段2月25日至29日调整为2月25日至27日下午18时。
+                        </p>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="tournament t-middle">
+                    <div class="how-right-left">
+                        <img src="@Url.Content("~/Content/img/ss03.jpg")" alt=""/>
+                    </div>
+                    <div class="how-right-right">
+                        <h4><a href="info.html">2016上海坐标城市定向挑战赛报名公告(三)</a></h4>
+                        <p>本次赛事预报名系统将于2月27日18时关闭，随后将于2月28日10时至2月29日10时开放预报名登录系统。
+                        </p>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="tournament">
+                    <div class="how-right-left">
+                        <img src="@Url.Content("~/Content/img/ss01.jpg")" alt=""/>
+                    </div>
+                    <div class="how-right-right">
+                        <h4><a href="info.html">2016上海坐标城市定向挑战赛报名公告(四)</a></h4>
+                        <p>本届赛事参赛的极限人数将严格限定在4000支队（共2万人）以内，不会因报名人数增加而再度扩容。
+                        </p>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="tournament t-middle">
+                    <div class="how-right-left">
+                        <img src="@Url.Content("~/Content/img/ss02.jpg")" alt=""/>
+                    </div>
+                    <div class="how-right-right">
+                        <h4><a href="info.html">2016上海坐标城市定向挑战赛报名公告(五)</a></h4>
+                        <p>本届赛事预报名已结束，预名队伍已超过18000支。
+                        </p>
+
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="tournament t-middle">
+                    <div class="how-right-left">
+                        <img src="@Url.Content("~/Content/img/ss03.jpg")" alt=""/>
+                    </div>
+                    <div class="how-right-right">
+                        <h4><a href="info.html">2016上海坐标城市定向挑战赛报名公告(六)</a></h4>
+                        <p>今年本届赛事正式报名时间为3月2日10时。
+                        </p>
+
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div-->
+<!--new-->
+<!----div class="news">
+    <div class="container">
+        <div class="news-info">
+            <h3>2016年上海城市定向赛时间表</h3>
+        </div>
+        <div class="news-grids">
+            <div class="col-md-4 news-grid">
+                <div class="news-grid-left news-grid-left-img">
+                    <p>2 / 25</p>
+                </div>
+                <div class="news-grid-left-info">
+                    <h5>2016城市定向赛预报名开始</h5>
+                    <p>拉上你的好友们一起在城市里奔跑吧！不要再犹豫~~</p>
+                </div>
+            </div>
+            <div class="col-md-4 news-grid">
+                <div class="news-grid-left news-grid-middle">
+                    <p>3 / 1</p>
+                </div>
+                <div class="news-grid-left-info">
+                    <h5>正式确认报名并缴纳费用</h5>
+                    <p>缴纳报名费指南  线路确认指南</p>
+                </div>
+            </div>
+            <div class="col-md-4 news-grid">
+                <div class="news-grid-left news-grid-right">
+                    <p>4 / 23</p>
+                </div>
+                <div class="news-grid-left-info">
+                    <h5>开始，GOGOGO！</h5>
+                    <p>奔跑的人生开始了</p>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div-->
+<!--totop-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $().UItoTop({ easingType: 'easeOutQuart' });
+    });
+</script>
+<a href="#" id="toTop" style="display: block;">
+    <span id="toTopHover" style="opacity: 0;"></span>
+    <span id="toTopHover" style="opacity: 1;"> </span>
+</a>

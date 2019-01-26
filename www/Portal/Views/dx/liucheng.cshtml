@@ -1,0 +1,269 @@
+﻿@using Model;
+
+@model List<tblmatch>
+
+@{
+    ViewBag.Title = "城市定向赛";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+    body{margin: 0;padding: 0;background-color: #f4f4f4;font-family: "微软雅黑"}
+    body ul{list-style-type: none}
+
+    /*middle-bar*/
+    .banner{height: 100px;background-color: #229fe6;text-align: center}
+
+    .nav{height: 48px;background-color: #229FE6;text-align: center;}
+    .nav ul{list-style-type: none;
+        text-align: center;
+        width: 700px;
+        margin: 0 auto;}
+    .nav ul li{float: left;font-size: 1.2em;line-height: 48px;color: #ffffff;margin: 0 15px}
+    .nav ul li a{padding: 0 15px;color: #ffffff;text-decoration: none}
+    .nav ul li:hover{background-color: #48b4ff}
+    .nav ul .active{background-color: #48b4ff}
+
+
+    /*.blog-left-right {  margin-top: 1em;  }
+    .blog-left {  margin: 0em 0 2em 0;  padding-right: 1em;  }
+    .Categories {  margin: 0;  }
+    .Categories h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .Categories ul {  margin: 0;  padding: 0;  }
+    .Categories ul li {  display: block;  background: url(img/arrow.png) no-repeat 0px 2px;  margin-bottom: 1.5em;  }
+    .Categories ul li a {  font-size: 14px;  margin: 0;  color: #B3B3B3;  padding-left: 2em;  }
+
+
+    .blog {  padding: 4em 0;  }
+    .blog-text h3 {  font-size: 31px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  text-align: center;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .blog-left {  margin: 0em 0 2em 0;  padding-right: 1em;  }
+    .blog-left-left {  padding: 0 !important;  }
+    .blog-left-left p {  margin: 0 0 1em;  font-size: 15px;  font-weight: 500;  color: #555555;  }
+    .blog-left-left a img {  width: 100%;  }*/
+
+    //*about*/
+    .about-grids {  margin-bottom: 1em;  }
+    .about-left h3 { font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-left p {  font-size: 14px;  margin: 0.5em 0;  color: #B3B3B3;  line-height: 1.8em;  }
+    .about-middle h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-right h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-right-info p {  font-size: 14px;  margin: 0.5em 0;  color: #B3B3B3;  line-height: 1.8em;  }
+
+    /*foot*/
+    .footer {  padding: 1em 0;  background: #CBCBCB;  }
+    .footer-bottom {  padding-top: 2em;  }
+    .copyright {  text-align: center;  }
+    .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+    .copyright p a {  color: #FFF;  }
+
+    .rule{width: 900px;border-radius: 15px;margin:50px auto;background-color: #ffffff;padding: 30px 0}
+    .tittle{width: 900px;height:90px;line-height: 90px;font-family: "微软雅黑";font-size: 25px;font-weight: normal;background-color: #48b4ff;color: #ffffff;padding-left: 20px}
+    .action{margin: 20px 30px;line-height: 25px}
+    .action span{float: left;width:25px;height: 25px;background: url("img/icon-rule-orang.png");background-size: cover;margin-right: 10px}
+    .action .part1{font-size: 15px;font-weight: 600}
+    .action hr{margin-top: 15px;margin-bottom: 10px}
+    .action .part2{padding:0px 80px 15px 50px;font-weight: 100;color: #666;margin-bottom: 35px;font-size: 10px}
+    .action .part2 .t1{font-size: 22px; color: #fff; background-color: #FCB42B; font-weight: bold; width: 120px; padding: 5px 8px;  }
+    .action .part2 .t2{font-size: 20px; color: #021EAA;font-weight: bold; margin: 15px 0 15px 0; }
+
+    .table blockquote{margin: 0;padding: 0 10px;font-size: 10px}
+    /*.table tbody td{padding: 10px 0;}*/
+
+    /*foot*/
+    /*.footer {  padding: 1em 0;  background: #CBCBCB;  }
+    .footer-bottom {  padding-top: 2em;  }
+    .copyright {  text-align: center;  }
+    .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+    .copyright p a {  color: #FFF;  }*/
+
+    /*比赛时间列表*/
+    
+    .tittle{height:90px;line-height: 90px;font-family: "微软雅黑";
+            font-size: 25px;font-weight: normal;background-color: #48b4ff;color: #ffffff;padding-left: 20px
+    }
+    h6{color: #fff;font-weight: bold;}
+    h6 .yu{ background-color:green;  }
+    h6 .day{background-color:red;}
+    </style>
+}
+
+@section PageSpecificJavascriptIncludes{
+
+  }
+
+<div class="header nav">
+     <ul>
+        <li><a href="@Url.Action("Index", "dx")">首页</a></li>
+        <li><a href="@Url.Action("bulletin", "dx")">赛事列表</a></li>
+        @*<li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>*@
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        { 
+            <li><a href="@Url.Action("center", "member")">我的信息</a></li>
+            <li><a href="@Url.Action("f880067","coupon")">F码通道</a></li>
+        }
+    </ul>
+</div>
+
+
+
+
+
+<div class="about">
+    <div class="container">
+        <div class="rule">
+            <div class="tittle">网站预报名流程</div>
+            <div class="action">
+                <span></span><div class="part1">网站预报名流程【多图详解】↓↓</div>
+                <hr>
+                <div class="part2">
+                   <center><img src="/Content/img/lc/1.jpg"></center>
+                </div>
+
+                <div class="part2">
+                    <center><div class="t1">注册账号</div></center>
+                    <center><div class="t2">1、登录官网</div></center>
+                    <center><img src="/Content/img/lc/2.jpg" ></center>
+
+                </div>
+
+
+
+                <div class="part2">
+                    <center><div class="t2">2、点击【登陆注册】</div></center>
+                    <center><img src="/Content/img/lc/3.png" ></center>
+
+                </div>
+
+
+                <div class="part2">
+                    <center><div class="t2">3、输入手机号注册账号</div></center>
+                    <center><img src="/Content/img/lc/4.png" ></center>
+                     <div class="t2">※已参加过“2016上海坐标•城市定向挑战赛”的参赛者可以用旧账号登录，如提示密码错误，可使用“忘记密码”功能重置。
+</div>
+                </div>
+
+
+
+                <div class="part2">
+                    <center><div class="t2">4、设定账号密码</div></center>
+                    <center><img src="/Content/img/lc/5.png" ></center>
+
+                </div>
+
+                <div class="part2">
+                    <center><div class="t2">5、注册成功</div></center>
+                    <center><img src="/Content/img/lc/6.png" ></center>
+
+                </div>
+
+
+                <div class="part2">
+                    <center><div class="t1" style="width: 160px;">完善个人信息</div></center>
+                    <center><div class="t2">1、登陆账号点击【我的信息】进入用户中心</div></center>
+                    <center><img src="/Content/img/lc/7.jpg" ></center>
+
+                </div>
+
+
+                <div class="part2">
+                    <center><div class="t2">2、点击完善个人信息</div></center>
+                    <center><img src="/Content/img/lc/8.jpg" ></center>
+                     <div class="t2">※该信息将作为参加比赛的报名信息，请务必正确填写，保障真实有效。</div>
+                </div>
+
+
+
+                <div class="part2">
+                    <center><div class="t1" style="width: 200px; background-color: #E2561B;">设定队名（队长）</div></center>
+                    <center><div class="t2">1、点击【赛事列表】，选择想要报名的赛事</div></center>
+                    <center><img src="/Content/img/lc/9.jpg" ></center>
+
+                </div>
+
+
+                <div class="part2">
+                    <center><div class="t2">2、阅读【参赛须知】并确认</div></center>
+                    <center><img src="/Content/img/lc/10.jpg" ></center>
+                </div>
+
+                <div class="part2">
+                    <center><div class="t2">3、设定【队伍名称】并验证是否重复（六个中文字符以内）</div></center>
+                    <center><img src="/Content/img/lc/11.jpg" ></center>
+                </div>
+
+                <div class="part2">
+                    <center><div class="t2">4、根据比赛要求，选择可选【参赛线路】</div></center>
+                    <center><img src="/Content/img/lc/12.jpg" ></center>
+                </div>
+
+
+                <div class="part2">
+                    <center><div class="t1" style="width: 200px; background-color: #E2561B;">邀请组队（队长）</div></center>
+                    <center><div class="t2">5、进入预报名邀请组队页面</div></center>
+                    <center><img src="/Content/img/lc/13.jpg" ></center>
+
+                </div>
+
+
+                <div class="part2">
+                    <center><div class="t2">6、根据手机号，邀请4名队员组队参赛</div></center>
+                    <center><img src="/Content/img/lc/14.jpg" ></center>
+                </div>
+
+                <div class="part2">
+                    <center><div class="t2">7、邀请完成后，等待所有队员确认组队</div></center>
+                    <center><img src="/Content/img/lc/15.jpg" ></center>
+                </div>
+
+
+                <div class="part2">
+                    <center><div class="t1" style="width: 200px; background-color: #374AAE;">接受邀请（队员）</div></center>
+                    <center><div class="t2">1、登录网站，点击【我的信息】查看【我的消息】</div></center>
+                    <center><img src="/Content/img/lc/16.jpg" ></center>
+
+                </div>
+
+                  <div class="part2">
+                    <center><div class="t2">2、确认队长和队伍名称后，点击【同意】接受组队邀请</div></center>
+                    <center><img src="/Content/img/lc/17.jpg" ></center>
+                </div>
+
+
+                  <div class="part2">
+                    <center><div class="t1" style="width: 200px; ">完成组队（队长）</div></center>
+                    <center><div class="t2">登录网站，【我的消息】内会显示队员接受组队情况</div></center>
+                    <center><img src="/Content/img/lc/18.jpg" ></center>
+
+                </div>
+                <div class="part2">
+                    <center><div class="t1" style="width: 220px; ">提交报名表（队长）</div></center>
+                    <div class="t2">点击【预报名中】，显示组队页面，待所有队员状态显示【已接受】后，可点击【立即预报名】提交报名表</div>
+                    <center><img src="/Content/img/lc/19.jpg" ></center>
+
+                </div>
+
+
+
+                <div class="part2">
+                    <center><div class="t1" style="width: 150px;background-color: #0C8918; ">完成预报名</div></center><br>
+                    <center><img src="/Content/img/lc/20.jpg" ></center>
+
+                </div>
+
+              
+
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

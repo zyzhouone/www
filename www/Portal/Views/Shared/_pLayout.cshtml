@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" content="" />
+    <title>中国坐标 | @ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description" content="中国坐标,城市定向赛" />
+    <meta content="" name="author" />
+    <meta name="keywords" content="城市定向,上海" />
+    
+    <link href="@Url.Content("/Content/bootstrap-3.3.5-dist/css/bootstrap.css")" rel="stylesheet" type="text/css" media="all"/>
+    <link href="@Url.Content("/Content/css/popuo-box.css")" rel="stylesheet" type="text/css" media="all"/>
+    <link href="@Url.Content("/Content/css/button.css")" rel="stylesheet" type="text/css" media="all"/>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/move-top.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/easing.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/responsiveslides.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/modernizr.custom.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.magnific-popup.js")"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    @RenderSection("PageSpecificStyleSheetIncludes", required: false)
+</head>
+<body>
+    <!--head-->
+    <div class="header banner">
+        <img  alt='' src="@Url.Content("~/Content/images/banner.png")" style="height: 100px;"/>
+    </div>
+
+    @RenderBody()
+
+    @RenderSection("PageSpecificJavascriptIncludes", required: false)
+
+    <div class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-bottom">
+                    <div class="copyright">
+                        <p></p>
+                        <p>Copyrights © 2017 上海市登山户外运动协会</p>
+                        <p>地址：上海市徐汇区天钥桥路666号上海体育场4号扶梯西侧</p>
+                        <p>电话：021-64697960</p>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div style="display:none;"><script src="http://s95.cnzz.com/stat.php?id=1260208909&web_id=1260208909" language="JavaScript"></script></div>
+</body>
+</html>

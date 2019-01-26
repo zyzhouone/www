@@ -1,0 +1,154 @@
+﻿@using Model;
+
+@{
+    ViewBag.Title = "我的消息";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+@model List<tblinfomation>
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+        function accpect(id, infoid) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/Accept",
+                data: "{ \"id\": \"" + id + "\", \"uid\": \"" + infoid + "\" }",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+                        jError(data.Message,{ VerticalPosition: "center" });
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+
+        function reject(id, infoid) {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/member/Reject",
+                data: "{ \"id\": \"" + id + "\", \"uid\": \"" + infoid + "\" }",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Code != 0) {
+
+                        jError(data.Message, { VerticalPosition: "center" });
+                    }
+                    else {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+    </script>
+}
+
+<div class="mainArea clear">
+
+    <div class="leftMenu">
+
+        <div  class="bor noLine">
+            <div class="tradeTitle">
+                <span class="trade1">信息详情</span>
+            </div>
+            <ul>
+                 <li class=""><a href="@Url.Action("my")" class="">我的信息</a></li>
+                    <li class=""><a href="@Url.Action("mymatch")" class="">我的赛事</a></li>
+                    <li class="cur"><a href="#" class="">我的消息</a></li>
+                    <li class=""><a href="@Url.Action("myfix")" class="">更改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="bor">
+            <ul>
+                <li class="">
+                    <a href="#" id="myexit">退出登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="rightArea">
+        <div id="ipalert"></div>
+        <script type="text/javascript">
+            // 页面加载完后执行
+            if (window.onload != null) {
+                // 追加方法
+                eval("theOldFun=" + window.onload.toString());
+                window.onload = function () {
+                    theOldFun(); // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            } else {
+                window.onload = function () {
+                    // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            }
+        </script>
+
+        <div class="buysellTitle" style="margin-bottom:0px;">
+            <div class="selecttab1">
+                <ul class="selecttab-box1">
+                    <li class="cur" >
+                        <a class="otherBoxTitle" href="#">我的消息</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="entrustTen lasttenOrder clear">
+                <table>
+                    <tr>
+                        <th width="150">时间</th>
+                        <th width="70">消息</th>
+                        <th width="680">内容</th>
+                        <th width="90">操作</th>
+                        <th width="60">详情</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                         <tr class="" >
+                        <td colspan="1">@item.createtime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td colspan="1" style="color:Orange;">系统消息</td>
+                        <td colspan="1" style="text-align:left;">@item.Context</td>
+
+                        @if (item.Type == "3")
+                        {
+                            if (item.Field2 == "0")
+                            {
+                                <td colspan="1"><a href="javascript:accpect('@item.Field1','@item.Infoid');">接受</a>&nbsp;|&nbsp;<a href="javascript:reject('@item.Field1','@item.Infoid');">拒绝</a></td>
+                            }
+                            else if (item.Field2 == "1")
+                            {
+                                <td colspan="1" style="color:Blue;">已接受</td>
+                            }
+                            else if (item.Field2 == "2")
+                            {
+                                <td colspan="1" style="color:Red;">已拒绝</td>
+                            }
+                            else
+                            {
+                            <td colspan="1">-</td>
+                            }
+                        }
+                        else
+                        { 
+                            <td colspan="1">-</td>
+                        }
+                        <td colspan="1"><a href="@Url.Action("information")?id=@item.Infoid">详情</a></td>
+                    </tr>
+                    }
+
+                   
+                </table>
+            </div>
+
+        </div>
+    </div>

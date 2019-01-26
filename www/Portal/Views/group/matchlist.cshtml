@@ -1,0 +1,94 @@
+﻿@using Model;
+
+@model List<tblmatchentity>
+
+@{
+    ViewBag.Title = "我的赛事";
+    Layout = "~/Views/Shared/_mygroupLayout.cshtml";
+}
+
+
+<div class="mainArea clear">
+
+    <div class="leftMenu">
+    
+           <div  class="bor noLine">
+            <div class="tradeTitle">
+                <span class="trade1">信息详情</span>
+            </div>
+            <ul>
+                <li class=""><a href="@Url.Action("my","group")" class="" >我的信息</a></li>
+                <li class=""><a href="@Url.Action("import","group")" class="">报名导入</a></li>
+                <li class="cur"><a href="#" class="">我的赛事</a></li>
+                <li class=""><a href="@Url.Action("myinfo","group")" class="">我的消息</a></li>
+                <li class=""><a href="@Url.Action("myfix","group")" class="">更改密码</a></li>
+            </ul>
+        </div>
+
+        <div class="bor">
+            <ul>
+                <li class="">
+                    <a href="#" id="myexit">退出登录</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="rightArea">
+        <div id="ipalert"></div>
+        <script type="text/javascript">
+            // 页面加载完后执行
+            if (window.onload != null) {
+                // 追加方法
+                eval("theOldFun=" + window.onload.toString());
+                window.onload = function () {
+                    theOldFun(); // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            } else {
+                window.onload = function () {
+                    // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            }
+        </script>
+
+        <div class="buysellTitle" style="margin-bottom:0px;">
+            <div class="selecttab1">
+                <ul class="selecttab-box1">
+                    <li class="cur" >
+                        <a class="otherBoxTitle" href="/trade/entrust.do?symbol=0">我的赛事</a>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="entrustTen lasttenOrder clear">
+            <div class="Tenbody">
+                <table>
+                    <tr>
+                        <th width="260">比赛时间</th>
+                        <th width="260">比赛内容</th>
+                        <th width="260">赛事状态</th>
+                        <th width="260">队伍名称</th>
+                        <th width="260">详情</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                            <tr class="">
+                                <td>@item.Date4.Value.ToString("yyyy-MM-dd")</td>
+                                <td>@item.Match_name</td>
+                                <td>@(item.mstatus=="1"?"已结束":"报名中")</td>
+                                <td>@item.Teamname</td>
+                                <td><a href="#">详情</a></td>
+                            </tr>                        
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

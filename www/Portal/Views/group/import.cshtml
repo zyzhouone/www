@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "上传文件";
+    Layout = "~/Views/Shared/_mygroupLayout.cshtml";
+}
+
+@section PageSpecificJavascriptIncludes{
+    <script type="text/javascript">
+
+        $(function () {
+            $("#vbtn").click(function () {
+                var strname = $("#match").val().replace(/(^\s*)|(\s*$)/g, "");
+                var mbname = strname.replace(/(^\s*)|(\s*$)/g, "");
+
+                if (strname == null || strname == "") {
+                    jNotify('请选择比赛', { VerticalPosition: "center" });
+                    return;
+                }
+
+                var file = $("#file").val();
+                if (file == null || file == "") {
+                    jNotify('请选择上传文件', { VerticalPosition: "center" });
+                    return;
+                }
+
+                var ldot = file.lastIndexOf(".");
+                var type = file.substring(ldot + 1).toLowerCase();
+                if (type != "xls" && type != "xlsx") {
+                    jNotify('请上传xls或xlsx文件', { VerticalPosition: "center" });
+                    return;
+                }
+                form1.submit();
+            });
+        });
+    </script>
+}
+
+<div class="mainArea clear">
+
+    <div class="leftMenu">
+
+        <div  class="bor noLine">
+            <div class="tradeTitle">
+                <span class="trade1">信息详情</span>
+            </div>
+            <ul>
+                <li class=""><a href="@Url.Action("my","group")" class="" >我的信息</a></li>
+                <li class="cur"><a href="#" class="">报名导入</a></li>
+                <li class=""><a href="@Url.Action("matchlist", "group")" class="">我的赛事</a></li>
+                <li class=""><a href="@Url.Action("myinfo","group")" class="">我的消息</a></li>
+                <li class=""><a href="@Url.Action("myfix","group")" class="">更改密码</a></li>
+            </ul>
+        </div>
+
+
+
+        <div class="bor">
+            <ul>
+                <li class="">
+                    <a href="#" id="myexit">退出登录</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="rightArea">
+        <div id="ipalert"></div>
+        <script type="text/javascript">
+            // 页面加载完后执行
+            if (window.onload != null) {
+                // 追加方法
+                eval("theOldFun=" + window.onload.toString());
+                window.onload = function () {
+                    theOldFun(); // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            } else {
+                window.onload = function () {
+                    // 新用户引导条
+                    jQuery("#ipalert").load("/user/showIpAlert.do", function () {
+                    });
+                }
+            }
+        </script>
+
+        <div class="buysellTitle" style="margin-bottom:0px;">
+            <div class="selecttab1">
+                <ul class="selecttab-box1">
+                    <li class="cur" >
+                        <a class="otherBoxTitle" href="#">报名导入</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="entrustTen lasttenOrder clear">
+            <div class="Tenbody">
+                <table>
+                    <tr>
+                        <th width="1024"> </th>
+                    </tr>
+                    <tr class="space">
+                        <td align="left" style="padding: 20px">
+                            <div class="form-group">
+                                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form1", enctype = "multipart/form-data" }))
+                                {
+                                    <label style="width: 60px;float: left;line-height: 27px;margin: 0 20px">选择比赛</label>
+                                    <select class="form-control" style="border: 1px solid #e6e6e6;font-size: 14px;color: #555;box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);" id="match" name="match">
+                                        @Html.Raw(ViewBag.match)
+                                    </select>
+                                    
+                                    <div style="margin: 20px 0">
+                                        <label style="width: 60px;float: left;line-height: 27px;margin: 0 20px">上传文件</label>
+                                        <input class="blankInformation" type="file" id="file" name="file"/>
+                                    </div>
+                                     <div class="tenBodyTitle clear" style="margin: 20px 300px;">
+                                         <a href="@Url.Action("DownFile", "group")" target="_blank" class="">模板下载</a><a class="cur" id="vbtn">下一步</a>
+                                    </div>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+    @if (ViewBag.flag == "-1")
+    {
+        @Html.Raw("jError('请选择上传文件', { VerticalPosition: 'center' });")
+    }
+    </script>

@@ -1,0 +1,127 @@
+﻿@using Model;
+
+@model List<tblmatch>
+
+@{
+    ViewBag.Title = "城市定向赛";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+    body{margin: 0;padding: 0;background-color: #f4f4f4;font-family: "微软雅黑"}
+    body ul{list-style-type: none}
+
+    /*middle-bar*/
+    .banner{height: 100px;background-color: #229fe6;text-align: center}
+
+    .nav{height: 48px;background-color: #229FE6;text-align: center;}
+    .nav ul{list-style-type: none;
+        text-align: center;
+        width: 700px;
+        margin: 0 auto;}
+    .nav ul li{float: left;font-size: 1.2em;line-height: 48px;color: #ffffff;margin: 0 15px}
+    .nav ul li a{padding: 0 15px;color: #ffffff;text-decoration: none}
+    .nav ul li:hover{background-color: #48b4ff}
+    .nav ul .active{background-color: #48b4ff}
+
+
+
+    /*about*/
+    .about-grids {  margin-bottom: 1em;  }
+    .about-left h3 { font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-left p {  font-size: 14px;  margin: 0.5em 0;  color: #B3B3B3;  line-height: 1.8em;  }
+    .about-middle h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-right h3 {  font-size: 23px;  margin: 0 0 1em 0;  font-weight: 700;  padding-bottom: .5em;  border-bottom: 1px solid #868686;  color: #1CD5B5;  font-family: 'PoiretOne-Regular';  }
+    .about-right-info p {  font-size: 14px;  margin: 0.5em 0;  color: #B3B3B3;  line-height: 1.8em;  }
+
+    /*foot*/
+    .footer {  padding: 1em 0;  background: #CBCBCB;  }
+    .footer-bottom {  padding-top: 2em;  }
+    .copyright {  text-align: center;  }
+    .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+    .copyright p a {  color: #FFF;  }
+
+    .rule{width: 900px;border-radius: 15px;margin:50px auto;background-color: #ffffff;padding: 30px 0}
+    .tittle{width: 900px;height:90px;line-height: 90px;font-family: "微软雅黑";font-size: 25px;font-weight: normal;background-color: #48b4ff;color: #ffffff;padding-left: 20px}
+    .action{margin: 20px 30px;line-height: 25px}
+    .action span{float: left;width:25px;height: 25px;background: url("img/icon-rule-orang.png");background-size: cover;margin-right: 10px}
+    .action .part1{font-size: 15px;font-weight: 600}
+    .action hr{margin-top: 15px;margin-bottom: 10px}
+    .action .part2{padding:0px 80px 15px 50px;font-weight: 100;color: #666;margin-bottom: 35px;font-size: 10px}
+
+    .table blockquote{margin: 0;padding: 0 10px;font-size: 10px}
+    /*.table tbody td{padding: 10px 0;}*/
+
+    /*foot*/
+    /*.footer {  padding: 1em 0;  background: #CBCBCB;  }
+    .footer-bottom {  padding-top: 2em;  }
+    .copyright {  text-align: center;  }
+    .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+    .copyright p a {  color: #FFF;  }*/
+
+    /*比赛时间列表*/
+    
+    .tittle{height:90px;line-height: 90px;font-family: "微软雅黑";
+            font-size: 25px;font-weight: normal;background-color: #48b4ff;color: #ffffff;padding-left: 20px
+    }
+    h6{color: #fff;font-weight: bold;}
+    h6 .yu{ background-color:green;  }
+    h6 .day{background-color:red;}
+    </style>
+}
+
+@section PageSpecificJavascriptIncludes{
+
+  }
+
+<div class="header nav">
+     <ul>
+        <li><a href="@Url.Action("Index", "dx")">首页</a></li>
+        <li class="active"><a href="bulletin">赛事列表</a></li>
+        <li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        { 
+            <li><a href="@Url.Action("center", "member")">我的信息</a></li>
+        }
+    </ul>
+</div>
+
+
+
+
+
+<div class="about">
+    <div class="container">
+        <div class="rule">
+            <div class="tittle">中国坐标·上海徐汇城市定向户外挑战赛</div>
+            <div class="action">
+                <span></span><div class="part1">赛事名称：中国坐标·上海徐汇城市定向户外挑战赛</div>
+                <hr>
+                <div class="part2">
+                    预报名：2016年8月25日～8月28日<br>
+                    正式报名：8月29日10点起，额满即止<br>
+                    比赛时间：9月24日
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">赛事规模</div>
+                <hr>
+                <div class="part2">
+                    参赛人数：计划参赛人数3000人0<br>
+                    线路数：计划线路数6条<br>
+                </div>
+            </div>
+          
+           <div class="action">
+                <span></span><div class="part1">竞赛规则 <a href="@Url.Action("jsgz", "dx")">点击查看</a></div>
+                
+            </div>
+        </div>
+    </div>
+</div>

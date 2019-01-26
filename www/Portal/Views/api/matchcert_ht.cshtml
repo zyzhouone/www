@@ -1,0 +1,148 @@
+﻿@using Model;
+
+@{
+    Layout = null;
+}
+
+@model List<tblmatchentity>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>中国坐标 | 城市定向赛</title>
+
+    <!--bootstrap css-->
+    <link href="@Url.Content("/Content/wap/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+    <!--custom css-->
+    <link href="@Url.Content("/Content/wap/css/style.css")" rel="stylesheet" type="text/css" media="screen" />
+    <!--font awesome icons css -->
+    <link href="@Url.Content("/Content/wap/css/font-awesome.min.css")" rel="stylesheet" />
+    <!--animated css-->
+    <link href="@Url.Content("/Content/wap/css/animate.css")" rel="stylesheet" type="text/css" />
+    <!--flex slider css-->
+    <link href="@Url.Content("/Content/wap/css/flexslider.css")" rel="stylesheet" type="text/css" />
+
+    <style>
+        /*背景色*/
+        body {
+            font-family: "微软雅黑";
+        }
+
+        .part01 {
+            margin-top: 15px;
+        }
+
+        .part02 {
+            margin-top: 30px;
+        }
+
+        hr {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="background-image: url(../Content/wap/img/0630bg.png); background-attachment: fixed;background-repeat: no-repeat;background-position-y: 100px; background-size:100% 65%;">
+
+        @if(Model.Count<1)
+        {
+            <div class="row part02">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-8">
+                    哦噢!你还没有完成比赛。
+                    <hr style="margin-top: 0">
+                </div>
+                <div class="col-xs-2">
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row part01">
+                <div class="col-xs-12">
+                    <img src="@Url.Content("/Content/wap/img/ht_title.png")" style="width:100%;">
+                </div>
+            </div>
+            <div class="row part02">
+                <div class="col-xs-3">
+                </div>
+                <div class="col-xs-6">
+                    <img src="@Url.Content("/Content/wap/img/lo03.png")" style="width: 100%;margin: 0 auto">
+                </div>
+                <div class="col-xs-3">
+                </div>
+            </div>
+            <div class="row part02">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-8">
+                    队名：@Model[0].Teamname
+                    <hr style="margin-top: 0">
+                </div>
+                <div class="col-xs-2">
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-8">
+                    队号：@Model[0].Teamno_T
+                    <hr style="margin-top: 0">
+                </div>
+                <div class="col-xs-2">
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-8">
+
+                    姓名：
+                    @foreach (var ent in Model)
+                    { 
+                        <span>@ent.Nickname &nbsp;</span>
+                    }
+                    <hr style="margin-top: 0">
+                </div>
+                <div class="col-xs-2">
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-8">
+                    比赛线路：@Model[0].Lineno
+                    <hr style="margin-top: 0">
+                </div>
+                <div class="col-xs-2">
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-9">
+                    <p style="font-size: 15px;font-weight: bold;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;于 @Model[0].Date4.Value.ToString("yyyy年 MM月 dd日") 顺利完成<br>
+                        @Model[0].Match_name 。
+                    </p>
+                </div>
+                <div class="col-xs-1">
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-9">
+                    <img src="@Url.Content("/Content/wap/img/lo04.png")" style="height: 100px;float: right">
+                </div>
+                <div class="col-xs-1">
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.min.js")"></script>
+</head>
+<body>
+    <div>
+        <img src="@ViewBag.src" style="width:80px;height:60px" id="img1" /><a href="/enter/uploadimg">[删除]</a>
+    </div>
+    <script type="text/javascript">
+    var d = document.getElementById("img1");
+    window.parent.setpic('@ViewBag.src');
+    </script>
+</body>
+</html>
