@@ -238,9 +238,6 @@
                     
                     if (data.status == 1) {
                         $('#mdpay').modal('hide');
-                        $("#btnw").hide();
-                        $("#divmsg").text("正在排队支付");
-                        $("#mdInfo").modal('show');
                         interval = setInterval(function () {
                             queryPrepay(data.data);
                         }, 2000);

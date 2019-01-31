@@ -39,5 +39,27 @@ namespace Model
         [Column("`info3`")]
         public string info3
         { get; set; }
+
+        [Column("`info4`")]
+        public string info4
+        { get; set; }
+        [Column("`info5`")]
+        public string info5
+        { get; set; }
+        [Column("`info6`")]
+        public string info6
+        { get; set; }
+
+        [Column("`cardtype`")]
+        public string cardtype
+        { get; set; }
+
+        [Column("`birthday`")]
+        public string birthday
+        { get; set; }
+
+        [Column("`sexy`")]
+        public string sexy
+        { get; set; }
     }
 }

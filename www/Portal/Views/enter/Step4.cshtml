@@ -218,6 +218,9 @@
                             {
                                 $("#info11").val(data.Data.info1);
                                 $("#info22").val(data.Data.info2);
+                                $("#ld_cardtype").val(data.Data.cardtype);
+                                $("#ld_sex").val(data.Data.sexy);
+                                $("#ld_hz").val(data.Data.birthday);
                                 $("#iframe1").attr("src", "/enter/loadimg?file=" + encodeURI(data.Data.info3));
                             }
                         }
@@ -485,6 +488,9 @@
             var i1 = "";
             var i2 = "";
             var i3 = "";
+            var i4 = "";
+            var i5 = "";
+            var i6 = "";
 
             if (type == "2") {
                 //姓名
@@ -512,6 +518,13 @@
                 }
 
                 i3 = pici3;
+
+
+
+                i4=$("#ld_cardtype").val();
+                i5=$("#ld_sex").val();
+                i6=$("#ld_hz").val();
+
             }
             else if (type == "1") {
                 //姓名
@@ -546,7 +559,7 @@
                 return false;
             }
 
-            var dt = "{\"extype\":" + type + ",\"teamid\":\"" + $("#htid").val() + "\",\"info1\":\"" + i1 + "\",\"info2\":\"" + i2 + "\",\"info3\":\"" + i3 + "\"}";
+            var dt = "{\"extype\":" + type + ",\"teamid\":\"" + $("#htid").val() + "\",\"info1\":\"" + i1 + "\",\"info2\":\"" + i2 + "\",\"info3\":\"" + i3 + "\",\"info4\":\"" + i4 + "\",\"info5\":\"" + i5 + "\",\"info6\":\"" + i6 + "\"}";
 
             $.ajax({
                 type: "POST",
@@ -765,7 +778,28 @@
                                     <input type="text" class="form-control name" placeholder="请输入姓名" id="info11" name="info11" value="" />
                                 </div>
                                 <div class="form-group">
+                                    <select class="form-control idcard" id="ld_cardtype" name="Cardtype">
+
+                                        <option value="1">身份证</option>
+                                        <option value="2">护照</option>
+                                        <option value="3">台胞证</option>
+                                        <option value="4">港澳通行证</option>
+                                        <option value="5">其他</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
                                     <input type="text" class="form-control" placeholder="请输入证件号码" id="info22" name="info22" value="" />
+                                </div>
+
+                                <div class="form-group">
+                                    <select class="form-control sex" id="ld_sex" name="Sexy">
+                                        <option value="1">男</option>
+                                        <option value="2">女</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="请填写生日" id="ld_hz" onclick="laydate()" name="Pnov" autocomplete="off" />
                                 </div>
                                 <div class="form-group">
                                    @*<img id='scll' src="tupian.jpg" />*@

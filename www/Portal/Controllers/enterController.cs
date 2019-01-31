@@ -354,12 +354,12 @@ namespace Portal.Controllers
         {
             TeamRegBll bll = new TeamRegBll();
 
-            int res = bll.AddExtra(extra.extype, extra.teamid, extra.info1, extra.info2, extra.info3);
+            int res = bll.AddExtra(extra.extype, extra.teamid, extra.info1, extra.info2, extra.info3, extra.info4, extra.info5, extra.info6);
 
             if (res > 0)
                 return RepReurnOK();
             else if(res==-80)
-                return RepReurnError("宝宝年龄需要在7-16周岁之间");
+                return RepReurnError("宝宝年龄需要在6-13周岁之间");
             else
                 return RepReurnError("操作中出现错误");
         }
@@ -565,7 +565,7 @@ namespace Portal.Controllers
             var team = bll.GetTeamById(tid);
 
             WebClient MyWebClient = new WebClient();
-            string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/createPrepay?sessionKey={0}&userId={1}&teamId={2}&matchId={3}&vcode={4}&linesId={5}&payType={6}", team.Userid, team.Userid, team.teamid, team.match_id, vCode, team.Linesid, "ZFB");
+            string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/createPrepay?sessionKey={0}&userId={1}&teamId={2}&matchId={3}&vcode={4}&linesId={5}&payType={6}", team.Userid, team.Userid, team.teamid, team.match_id, vCode, team.Linesid, "ALIWEB");
 
             MyWebClient.Credentials = CredentialCache.DefaultCredentials;
             byte[] pageData = MyWebClient.DownloadData(strUrl);
@@ -584,6 +584,7 @@ namespace Portal.Controllers
 
             WebClient MyWebClient = new WebClient();
             //查询是否可以支付
+           // string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/queryPrepay?sessionKey={0}&orderNo={1}", team.Userid, orderNo);
             string strUrl = string.Format(ConfigurationManager.AppSettings.Get("api_url") + "/order/queryPrepay?sessionKey={0}&orderNo={1}", team.Userid, orderNo);
 
             MyWebClient.Credentials = CredentialCache.DefaultCredentials;

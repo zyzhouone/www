@@ -513,7 +513,26 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">证件类型:</th>
-                                        <td>@(Model.cardtype == "1" ? "身份证" : "护照")</td>
+                                        <td>@if (Model.cardtype == "1")
+                                            {
+                                                <span>身份证</span>
+                                            }
+                                            else if (Model.cardtype == "2")
+                                            {
+                                                <span>护照</span>
+                                            }
+                                            else if (Model.cardtype == "3")
+                                            {
+                                                <span>台胞证</span>
+                                            }
+                                            else if (Model.cardtype == "4")
+                                            {
+                                                <span>港澳通行证</span>
+                                            }
+                                            else if (Model.cardtype == "5")
+                                            {
+                                                <span>其他</span>
+                                            }</td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -567,15 +586,20 @@
                                     </div>
                                     <div class="form-group">
                                         <select class="form-control idcard" id="ld_cardtype" name="Cardtype">
-                                            @if (Model.cardtype != null && Model.cardtype == "2")
+                                            @if (Model.cardtype != null)
                                             {
-                                                <option value="1">身份证</option>
-                                                <option value="2" selected="selected">护照</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="1" selected="selected">身份证</option>
-                                                <option value="2">护照</option>
+                                                string[] cardtype = { "身份证", "护照", "台胞证", "港澳通行证", "其他" };
+                                                for (int i = 1; i <= 5; i++)
+                                                {
+                                                    if (i.ToString() == Model.cardtype)
+                                                    {
+                                                        <option value="@i" selected>@cardtype[i-1]</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@i">@cardtype[i - 1]</option>
+                                                    }
+                                                }                                      
                                             }
                                         </select>
                                     </div>

@@ -1115,7 +1115,7 @@ namespace BLL
             }
         }
 
-        public int AddExtra(string type, string teamid, string info1, string info2, string info3)
+        public int AddExtra(string type, string teamid, string info1, string info2, string info3, string info4, string info5, string info6)
         {
             using (var db = new BFdbContext())
             {
@@ -1131,7 +1131,7 @@ namespace BLL
                     if (m.Length > 4)
                     {
                         int y = int.Parse(m.Substring(0, m.Length - 4));
-                        if (y < 7 || y > 16)
+                        if (y < 6 || y > 13)
                             return -80;
                     }
                     else
@@ -1150,6 +1150,10 @@ namespace BLL
                     ex.info2 = info2;
                     ex.info3 = info3;
 
+                    ex.cardtype = info4;
+                    ex.sexy = info5;
+                    ex.birthday = info6;
+
                     return db.Insert<tblmatchextra>(ex);
                 }
                 else
@@ -1159,6 +1163,10 @@ namespace BLL
                     ex.info1 = info1;
                     ex.info2 = info2;
                     ex.info3 = info3;
+
+                    ex.cardtype = info4;
+                    ex.sexy = info5;
+                    ex.birthday = info6;
 
                     return db.Update<tblmatchextra>(ex);
                 }
