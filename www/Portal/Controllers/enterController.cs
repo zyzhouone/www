@@ -354,7 +354,7 @@ namespace Portal.Controllers
         {
             TeamRegBll bll = new TeamRegBll();
 
-            int res = bll.AddExtra(extra.extype, extra.teamid, extra.info1, extra.info2, extra.info3, extra.info4, extra.info5, extra.info6);
+            int res = bll.AddExtra(extra.extype, extra.teamid, extra.info1, extra.info2, extra.info3, extra.cardtype, extra.sexy, extra.birthday);
 
             if (res > 0)
                 return RepReurnOK();

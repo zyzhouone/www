@@ -146,15 +146,6 @@ E:\pang\GitPang\www\www\Web\bin\System.Web.Razor.dll
 E:\pang\GitPang\www\www\Web\bin\System.Web.WebPages.Deployment.dll
 E:\pang\GitPang\www\www\Web\bin\System.Web.WebPages.dll
 E:\pang\GitPang\www\www\Web\bin\System.Web.WebPages.Razor.dll
-E:\pang\GitPang\www\www\Web\bin\DAL.dll
-E:\pang\GitPang\www\www\Web\bin\NPOI.OOXML.dll
-E:\pang\GitPang\www\www\Web\bin\ICSharpCode.SharpZipLib.dll
-E:\pang\GitPang\www\www\Web\bin\NPOI.OpenXmlFormats.dll
-E:\pang\GitPang\www\www\Web\bin\NPOI.OpenXml4Net.dll
-E:\pang\GitPang\www\www\Web\bin\BLL.pdb
-E:\pang\GitPang\www\www\Web\bin\Model.pdb
-E:\pang\GitPang\www\www\Web\bin\Utls.pdb
-E:\pang\GitPang\www\www\Web\bin\EntityFramework.xml
 E:\pang\GitPang\www\www\Web\bin\Microsoft.Web.Infrastructure.xml
 E:\pang\GitPang\www\www\Web\bin\System.Net.Http.xml
 E:\pang\GitPang\www\www\Web\bin\System.Net.Http.Formatting.xml
@@ -166,7 +157,6 @@ E:\pang\GitPang\www\www\Web\bin\System.Web.Razor.xml
 E:\pang\GitPang\www\www\Web\bin\System.Web.WebPages.xml
 E:\pang\GitPang\www\www\Web\bin\System.Web.WebPages.Deployment.xml
 E:\pang\GitPang\www\www\Web\bin\System.Web.WebPages.Razor.xml
-E:\pang\GitPang\www\www\Web\bin\DAL.pdb
 E:\pang\GitPang\www\www\Web\bin\zh-Hans\System.Net.Http.resources.dll
 E:\pang\GitPang\www\www\Web\bin\zh-Hans\System.Net.Http.Formatting.resources.dll
 E:\pang\GitPang\www\www\Web\bin\zh-Hans\System.Net.Http.WebRequest.resources.dll
