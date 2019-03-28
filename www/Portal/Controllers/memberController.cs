@@ -167,7 +167,7 @@ namespace Portal.Controllers
         {
             string sessionKey= Guid.NewGuid().ToString();
             ViewBag.sessionKey = sessionKey;
-            ViewBag.codeUrl=ConfigurationManager.AppSettings.Get("api_url")+"/vcode/img?sessionKey ="+sessionKey;
+            ViewBag.codeUrl=ConfigurationManager.AppSettings.Get("api_url")+"/vcode/img?sessionKey="+sessionKey;
             return View();
         }
 
