@@ -223,16 +223,7 @@ E:\pang\GitPang\www\www\Portal\bin\System.Web.WebPages.Deployment.dll
 E:\pang\GitPang\www\www\Portal\bin\System.Web.WebPages.dll
 E:\pang\GitPang\www\www\Portal\bin\System.Web.WebPages.Razor.dll
 E:\pang\GitPang\www\www\Portal\bin\Utls.dll
-E:\pang\GitPang\www\www\Portal\bin\DAL.dll
 E:\pang\GitPang\www\www\Portal\bin\NPOI.dll
-E:\pang\GitPang\www\www\Portal\bin\NPOI.OOXML.dll
-E:\pang\GitPang\www\www\Portal\bin\ICSharpCode.SharpZipLib.dll
-E:\pang\GitPang\www\www\Portal\bin\NPOI.OpenXmlFormats.dll
-E:\pang\GitPang\www\www\Portal\bin\NPOI.OpenXml4Net.dll
-E:\pang\GitPang\www\www\Portal\bin\BLL.pdb
-E:\pang\GitPang\www\www\Portal\bin\Model.pdb
-E:\pang\GitPang\www\www\Portal\bin\Utls.pdb
-E:\pang\GitPang\www\www\Portal\bin\EntityFramework.xml
 E:\pang\GitPang\www\www\Portal\bin\EntityFramework.SqlServer.xml
 E:\pang\GitPang\www\www\Portal\bin\Microsoft.Web.Infrastructure.xml
 E:\pang\GitPang\www\www\Portal\bin\System.Net.Http.xml
@@ -245,7 +236,6 @@ E:\pang\GitPang\www\www\Portal\bin\System.Web.Razor.xml
 E:\pang\GitPang\www\www\Portal\bin\System.Web.WebPages.xml
 E:\pang\GitPang\www\www\Portal\bin\System.Web.WebPages.Deployment.xml
 E:\pang\GitPang\www\www\Portal\bin\System.Web.WebPages.Razor.xml
-E:\pang\GitPang\www\www\Portal\bin\DAL.pdb
 E:\pang\GitPang\www\www\Portal\bin\zh-Hans\System.Net.Http.resources.dll
 E:\pang\GitPang\www\www\Portal\bin\zh-Hans\System.Net.Http.Formatting.resources.dll
 E:\pang\GitPang\www\www\Portal\bin\zh-Hans\System.Net.Http.WebRequest.resources.dll
@@ -259,3 +249,127 @@ E:\pang\GitPang\www\www\Portal\bin\zh-Hans\System.Web.WebPages.Razor.resources.d
 E:\pang\GitPang\www\www\Portal\obj\Debug\Portal.csprojResolveAssemblyReference.cache
 E:\pang\GitPang\www\www\Portal\obj\Debug\Portal.dll
 E:\pang\GitPang\www\www\Portal\obj\Debug\Portal.pdb
+E:\ZGZB\www_zhou\Portal\bin\Portal.dll.config
+E:\ZGZB\www_zhou\Portal\bin\Portal.dll
+E:\ZGZB\www_zhou\Portal\bin\Portal.pdb
+E:\ZGZB\www_zhou\Portal\bin\BLL.dll
+E:\ZGZB\www_zhou\Portal\bin\EntityFramework.dll
+E:\ZGZB\www_zhou\Portal\bin\EntityFramework.SqlServer.dll
+E:\ZGZB\www_zhou\Portal\bin\log4net.dll
+E:\ZGZB\www_zhou\Portal\bin\Microsoft.Web.Infrastructure.dll
+E:\ZGZB\www_zhou\Portal\bin\Model.dll
+E:\ZGZB\www_zhou\Portal\bin\Newtonsoft.Json.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Net.Http.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Net.Http.Formatting.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Net.Http.WebRequest.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Helpers.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Http.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Http.WebHost.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Razor.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Web.WebPages.Deployment.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Web.WebPages.dll
+E:\ZGZB\www_zhou\Portal\bin\System.Web.WebPages.Razor.dll
+E:\ZGZB\www_zhou\Portal\bin\Utls.dll
+E:\ZGZB\www_zhou\Portal\bin\DAL.dll
+E:\ZGZB\www_zhou\Portal\bin\NPOI.dll
+E:\ZGZB\www_zhou\Portal\bin\NPOI.OOXML.dll
+E:\ZGZB\www_zhou\Portal\bin\ICSharpCode.SharpZipLib.dll
+E:\ZGZB\www_zhou\Portal\bin\NPOI.OpenXmlFormats.dll
+E:\ZGZB\www_zhou\Portal\bin\NPOI.OpenXml4Net.dll
+E:\ZGZB\www_zhou\Portal\bin\BLL.pdb
+E:\ZGZB\www_zhou\Portal\bin\Model.pdb
+E:\ZGZB\www_zhou\Portal\bin\Utls.pdb
+E:\ZGZB\www_zhou\Portal\bin\EntityFramework.xml
+E:\ZGZB\www_zhou\Portal\bin\EntityFramework.SqlServer.xml
+E:\ZGZB\www_zhou\Portal\bin\Microsoft.Web.Infrastructure.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Net.Http.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Net.Http.Formatting.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Net.Http.WebRequest.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Helpers.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Http.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Http.WebHost.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Web.Razor.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Web.WebPages.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Web.WebPages.Deployment.xml
+E:\ZGZB\www_zhou\Portal\bin\System.Web.WebPages.Razor.xml
+E:\ZGZB\www_zhou\Portal\bin\DAL.pdb
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Net.Http.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Net.Http.Formatting.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Net.Http.WebRequest.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Web.Helpers.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Web.Http.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Web.Http.WebHost.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Web.Razor.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Web.WebPages.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+E:\ZGZB\www_zhou\Portal\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+E:\ZGZB\www_zhou\Portal\obj\Debug\Portal.csprojResolveAssemblyReference.cache
+E:\ZGZB\www_zhou\Portal\obj\Debug\Portal.dll
+E:\ZGZB\www_zhou\Portal\obj\Debug\Portal.pdb
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Portal.dll.config
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Portal.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Portal.pdb
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\BLL.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\EntityFramework.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\EntityFramework.SqlServer.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\log4net.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Model.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Newtonsoft.Json.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Net.Http.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Net.Http.Formatting.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Net.Http.WebRequest.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Helpers.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Http.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Http.WebHost.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Razor.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.WebPages.Deployment.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.WebPages.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.WebPages.Razor.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Utls.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\DAL.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\NPOI.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\NPOI.OOXML.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\NPOI.OpenXmlFormats.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\NPOI.OpenXml4Net.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\BLL.pdb
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Model.pdb
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Utls.pdb
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\EntityFramework.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\EntityFramework.SqlServer.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\Microsoft.Web.Infrastructure.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Net.Http.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Net.Http.Formatting.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Net.Http.WebRequest.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Helpers.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Http.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Http.WebHost.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.Razor.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.WebPages.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.WebPages.Deployment.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\System.Web.WebPages.Razor.xml
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\DAL.pdb
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Net.Http.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Net.Http.Formatting.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Net.Http.WebRequest.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Web.Helpers.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Web.Http.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Web.Http.WebHost.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Web.Razor.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Web.WebPages.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\obj\Debug\Portal.csprojResolveAssemblyReference.cache
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\obj\Debug\Portal.dll
+C:\Users\T420\Documents\Tencent Files\947645165\FileRecv\www_zhou\www_zhou\Portal\obj\Debug\Portal.pdb
+E:\pang\GitPang\www\www\Portal\bin\DAL.dll
+E:\pang\GitPang\www\www\Portal\bin\NPOI.OOXML.dll
+E:\pang\GitPang\www\www\Portal\bin\ICSharpCode.SharpZipLib.dll
+E:\pang\GitPang\www\www\Portal\bin\NPOI.OpenXmlFormats.dll
+E:\pang\GitPang\www\www\Portal\bin\NPOI.OpenXml4Net.dll
+E:\pang\GitPang\www\www\Portal\bin\BLL.pdb
+E:\pang\GitPang\www\www\Portal\bin\Model.pdb
+E:\pang\GitPang\www\www\Portal\bin\Utls.pdb
+E:\pang\GitPang\www\www\Portal\bin\EntityFramework.xml
+E:\pang\GitPang\www\www\Portal\bin\DAL.pdb

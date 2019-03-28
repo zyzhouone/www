@@ -317,8 +317,9 @@
                                 $("#vbtn").val("立即付款完成报名");
                             }
                         }, 1000);
+                        
+                         newWindow.location.href = '@Url.Action("create", "pay", new { id = ViewBag.tid })';
 
-                        newWindow.location.href = '@Url.Action("create", "pay", new { id = ViewBag.tid })';
                     }
                 }
             });
@@ -513,11 +514,12 @@
                                         </tr>
                                     }}
 
-                                @if (ViewBag.mstatus == "9")
+                                @if (ViewBag.mstatus == "9" && ViewBag.leader == "1" && ViewBag.tstatus == "1")
                                 {
                                     <tr>
                                         <td colspan="6" align="center" valign="middle">
-                                            <input type="button" id="vbtn" class="btn btn-success" value="报名已经结束" />
+                                            <!--<input type="button" id="vbtn" class="btn btn-success" value="报名已经结束" />-->
+                                            <input type="button" id="vbtn" class="btn btn-success" onclick="pay2()" value="立即付款完成报名" />
                                         </td>
                                     </tr>
                                 }
@@ -531,7 +533,8 @@
                                 }
                                 else
                                 {
-                                    if (ViewBag.tstatus != "0")
+                                    <!--if (ViewBag.tstatus != "0" ) edit by pang 20190322 最正常的情况 预报名成功 正式报名中-->
+                                    if (ViewBag.tstatus == "1" && ViewBag.leader == "1" && ViewBag.mstatus == "3")
                                     {
                                         if (Model != null && Model.Count > 0 && Model[0].mstatus == "3" && ViewBag.leader == "1" && ViewBag.begin == "1")
                                         {

@@ -201,6 +201,7 @@
     <Content Include="Content\img\m1.jpg" />
     <Content Include="Content\img\m2.jpg" />
     <Content Include="Content\img\m3.jpg" />
+    <Content Include="Content\img\miniapp.jpg" />
     <Content Include="Content\img\pic01.jpg" />
     <Content Include="Content\img\ss01.jpg" />
     <Content Include="Content\img\ss02.jpg" />
@@ -391,6 +392,7 @@
     <Content Include="Views\dx\d3335b70.cshtml" />
     <Content Include="Views\enter\StepFM.cshtml" />
     <Content Include="Views\pay\payskip.cshtml" />
+    <Content Include="Views\dx\d3335b71.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

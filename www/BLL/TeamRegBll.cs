@@ -423,11 +423,16 @@ namespace BLL
                 if (lines == null)
                     return -2;
 
-                if (team.Linesid == lid)
-                    return -6;
+                //edit by pang 20190322 为了换线路中断时 能再次操作
+                //if (team.Linesid == lid)
+                //    return -6;
 
                 if (string.IsNullOrEmpty(lines.CanChange) || lines.CanChange == "0")
                     return -5;
+
+                var oldlines = db.tbllines.FirstOrDefault(p => p.Linesid == team.Linesid);
+                if (lines.Playercount != oldlines.Playercount)
+                    return -7;
 
                 team.Linesid = lid;
                 team.Lineid = lines.Lineid;
@@ -440,15 +445,21 @@ namespace BLL
                     //order.Match_Id = team.match_id;
                     //order.Ordertotal = lines.Price;
                     //order.Status = 0;
-                    if (order != null)
-                        db.Delete<tblorders>(order);
+
+                    //edit by pang 20190322 不要修改状态
+                    //if (order != null)
+                    //    db.Delete<tblorders>(order);
 
                     tblmatchextra extra = db.tblmatchextra.FirstOrDefault(p => p.teamid == teamid);
                     if (extra != null)
                         db.Delete<tblmatchextra>(extra);
                 }
 
-                team.Status = 6;
+                //edit by pang 20190322
+                // team.Status = 6;
+                if (team.Status.Value != 1)
+                    team.Status = 6;
+
                 team.ChgLines = "1";
                 return db.Update<tblteams>(team);
             }
@@ -630,7 +641,7 @@ namespace BLL
                 var tblmusers = db.tblmatchusers.Where(p => p.Teamid == team.teamid && p.Status == "1");
 
                 var line = db.tbllines.FirstOrDefault(p => p.Linesid == team.Linesid);
-                if (!tblmusers.Any(p => p.Sexy == 2 && p.Teamid == team.teamid) && line.Playercount>1)
+                if (!tblmusers.Any(p => p.Sexy == 2 && p.Teamid == team.teamid) && line.Playercount>2)
                     return "-2";
 
                 if (tblmusers.Any(p => p.Age < 16 && p.Teamid == team.teamid))
@@ -696,10 +707,14 @@ namespace BLL
                 var team = db.tblteams.FirstOrDefault(p => p.teamid == tid);
                 if (team == null)
                     return "-1";
+                var line = db.tbllines.FirstOrDefault(p => p.Linesid == team.Linesid);
+                if (line == null)
+                    return "-1";
+                
 
                 var tblmusers = db.tblmatchusers.Where(p => p.Teamid == team.teamid && p.Status == "1");
-
-                if (!tblmusers.Any(p => p.Sexy == 2 && p.Teamid == team.teamid))
+               //edit by pang 20190304
+                if (!tblmusers.Any(p => p.Sexy == 2 && p.Teamid == team.teamid) && line.Playercount > 2)
                     return "-2";
 
                 if (tblmusers.Any(p => p.Age < 16 && p.Teamid == team.teamid))
@@ -722,7 +737,7 @@ namespace BLL
                 if (match.Status != "8")
                     return "-99";
 
-                var line = db.tbllines.FirstOrDefault(p => p.Linesid == team.Linesid);
+                //var line = db.tbllines.FirstOrDefault(p => p.Linesid == team.Linesid);
 
                 if (tblmusers.Count() != line.Playercount.Value)
                     return "-8";

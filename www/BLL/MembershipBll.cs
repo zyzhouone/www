@@ -229,8 +229,7 @@ namespace BLL
                     tusr.Modtime = DateTime.Now;
 
                     // or match_id='6a61b95b-2d5d-4373-abaf-bf4e4c438800')
-                    string sql = string.Format(@"update tbl_match_users set birthday='{0}',age={1},cardno='{2}',cardtype='{3}',sexy={4},mobile='{5}',nickname='{6}'
-                            where userid='{7}' and  (match_id in (select match_id from tbl_match where status in (0,1))  or match_id='c83aa363-873e-489e-ac07-373489c94320')",
+                    string sql = string.Format(@"update tbl_match_users set birthday='{0}',age={1},cardno='{2}',cardtype='{3}',sexy={4},mobile='{5}',nickname='{6}' where userid='{7}' and  (match_id in (select match_id from tbl_match where status in (0,1))  or match_id='c83aa363-873e-489e-ac07-373489c94320')",
                         tusr.birthday.Value.ToString("yyyy-MM-dd"), SetYearOld(tusr.birthday.Value), tusr.cardno, tusr.cardtype, tusr.sexy, tusr.Mobile, tusr.Name, tusr.userid);
                     db.ExecuteSqlCommand(sql);
 
@@ -270,7 +269,10 @@ namespace BLL
         {
             using (var db = new BFdbContext())
             {
-                string sql = string.Format(@"select a.*,b.leader,b.pay,b.teamname,b.teamid,CAST(c.status as char) as mstatus,c.teamtype from tbl_match a,tbl_match_users b,tbl_teams c where a.match_id=b.match_id and b.teamid=c.teamid and (b.status in ('0','1') or b.leader=1) and b.userid='{0}' order by c.createtime desc", userid);
+                string sql = string.Format(@"select a.*,b.leader,b.pay,concat(b.teamname,'【',d.linename,'】') as teamname,b.teamid,CAST(c.status as char) as mstatus,c.teamtype 
+                                                from tbl_match a,tbl_match_users b,tbl_teams c ,tbl_lines d where a.match_id=b.match_id and 
+                                                        b.teamid=c.teamid  and c.linesid=d.lines_id  
+                                                and (b.status in ('0','1') or b.leader=1) and b.userid='{0}' order by c.createtime desc", userid);
                 return db.SqlQuery<tblmatchentity>(sql).ToList();
             }
         }

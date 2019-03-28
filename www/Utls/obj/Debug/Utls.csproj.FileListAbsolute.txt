@@ -20,3 +20,8 @@ E:\pang\GitPang\www\www\Web\bin\Utls.dll
 E:\pang\GitPang\www\www\Web\bin\Utls.pdb
 E:\pang\GitPang\www\www\Utls\obj\Debug\Utls.dll
 E:\pang\GitPang\www\www\Utls\obj\Debug\Utls.pdb
+E:\ZGZB\www_zhou\Web\bin\Utls.dll
+E:\ZGZB\www_zhou\Web\bin\Utls.pdb
+E:\ZGZB\www_zhou\Utls\obj\Debug\Utls.dll
+E:\ZGZB\www_zhou\Utls\obj\Debug\Utls.pdb
+E:\ZGZB\www_zhou\Utls\obj\Debug\Utls.csprojResolveAssemblyReference.cache

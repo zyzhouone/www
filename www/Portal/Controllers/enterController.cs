@@ -218,6 +218,8 @@ namespace Portal.Controllers
                     return RepReurnError("这个路线不能修改");
                 else if (res == -6)
                     return RepReurnError("你目前路线是此路线，不能再次选择");
+                else if (res == -7)
+                    return RepReurnError("这个路线和您目前队伍人数不匹配，请重新选择");
                 else if (res < 0)
                     return RepReurnError("操作中出现错误");
                 else

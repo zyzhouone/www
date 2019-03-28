@@ -23,3 +23,8 @@ E:\pang\GitPang\www\www\Web\bin\DAL.pdb
 E:\pang\GitPang\www\www\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 E:\pang\GitPang\www\www\DAL\obj\Debug\DAL.dll
 E:\pang\GitPang\www\www\DAL\obj\Debug\DAL.pdb
+E:\ZGZB\www_zhou\Web\bin\DAL.dll
+E:\ZGZB\www_zhou\Web\bin\DAL.pdb
+E:\ZGZB\www_zhou\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+E:\ZGZB\www_zhou\DAL\obj\Debug\DAL.dll
+E:\ZGZB\www_zhou\DAL\obj\Debug\DAL.pdb

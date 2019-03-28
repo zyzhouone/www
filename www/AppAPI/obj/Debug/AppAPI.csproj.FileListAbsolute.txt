@@ -141,3 +141,4 @@ E:\pang\GitPang\www\www\AppAPI\bin\zh-Hans\System.Web.WebPages.Razor.resources.d
 E:\pang\GitPang\www\www\AppAPI\obj\Debug\AppAPI.csprojResolveAssemblyReference.cache
 E:\pang\GitPang\www\www\AppAPI\obj\Debug\AppAPI.dll
 E:\pang\GitPang\www\www\AppAPI\obj\Debug\AppAPI.pdb
+E:\pang\GitPang\www\www\AppAPI\bin\log4net.dll

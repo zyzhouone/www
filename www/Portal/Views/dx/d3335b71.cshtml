@@ -1,0 +1,491 @@
+﻿@using Model;
+
+@model List<tblmatch>
+
+@{
+    ViewBag.Title = "城市定向赛";
+    Layout = "~/Views/Shared/_pLayout.cshtml";
+}
+
+@section PageSpecificStyleSheetIncludes{
+    <style type="text/css">
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+                font-family: "微软雅黑";
+            }
+
+                body ul {
+                    list-style-type: none;
+                }
+
+            /*middle-bar*/
+            .banner {
+                height: 100px;
+                background-color: #229fe6;
+                text-align: center;
+            }
+
+            .nav {
+                height: 48px;
+                background-color: #229FE6;
+                text-align: center;
+            }
+
+                .nav ul {
+                    list-style-type: none;
+                    text-align: center;
+                    width: 700px;
+                    margin: 0 auto;
+                }
+
+                    .nav ul li {
+                        float: left;
+                        font-size: 1.2em;
+                        line-height: 48px;
+                        color: #ffffff;
+                        margin: 0 15px;
+                    }
+
+                        .nav ul li a {
+                            padding: 0 15px;
+                            color: #ffffff;
+                            text-decoration: none;
+                        }
+
+                        .nav ul li:hover {
+                            background-color: #48b4ff;
+                        }
+
+                    .nav ul .active {
+                        background-color: #48b4ff;
+                    }
+
+
+
+            /*about*/
+            .about-grids {
+                margin-bottom: 1em;
+            }
+
+            .about-left h3 {
+                font-size: 23px;
+                margin: 0 0 1em 0;
+                font-weight: 700;
+                padding-bottom: .5em;
+                border-bottom: 1px solid #868686;
+                color: #1CD5B5;
+                font-family: 'PoiretOne-Regular';
+            }
+
+            .about-left p {
+                font-size: 14px;
+                margin: 0.5em 0;
+                color: #B3B3B3;
+                line-height: 1.8em;
+            }
+
+            .about-middle h3 {
+                font-size: 23px;
+                margin: 0 0 1em 0;
+                font-weight: 700;
+                padding-bottom: .5em;
+                border-bottom: 1px solid #868686;
+                color: #1CD5B5;
+                font-family: 'PoiretOne-Regular';
+            }
+
+            .about-right h3 {
+                font-size: 23px;
+                margin: 0 0 1em 0;
+                font-weight: 700;
+                padding-bottom: .5em;
+                border-bottom: 1px solid #868686;
+                color: #1CD5B5;
+                font-family: 'PoiretOne-Regular';
+            }
+
+            .about-right-info p {
+                font-size: 14px;
+                margin: 0.5em 0;
+                color: #B3B3B3;
+                line-height: 1.8em;
+            }
+
+            /*foot*/
+            .footer {
+                padding: 1em 0;
+                background: #CBCBCB;
+            }
+
+            .footer-bottom {
+                padding-top: 2em;
+            }
+
+            .copyright {
+                text-align: center;
+            }
+
+                .copyright p {
+                    display: block;
+                    color: #FFFFFF;
+                    font-size: 14px;
+                    margin: .5em 0 0 0;
+                }
+
+                    .copyright p a {
+                        color: #FFF;
+                    }
+
+            .rule {
+                width: 900px;
+                border-radius: 15px;
+                margin: 50px auto;
+                background-color: #ffffff;
+                padding: 30px 0;
+            }
+
+            .tittle {
+                width: 900px;
+                height: 90px;
+                line-height: 90px;
+                font-family: "微软雅黑";
+                font-size: 25px;
+                font-weight: normal;
+                background-color: #48b4ff;
+                color: #ffffff;
+                padding-left: 20px;
+            }
+
+            .action {
+                margin: 20px 30px;
+                line-height: 25px;
+            }
+
+                .action span {
+                    float: left;
+                    width: 25px;
+                    height: 25px;
+                    background: url("img/icon-rule-orang.png");
+                    background-size: cover;
+                    margin-right: 10px;
+                }
+
+                .action .part1 {
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+
+                .action hr {
+                    margin-top: 15px;
+                    margin-bottom: 10px;
+                }
+
+                .action .part2 {
+                    padding: 0px 80px 15px 50px;
+                    font-weight: 100;
+                    color: #666;
+                    margin-bottom: 35px;
+                    font-size: 10px;
+                }
+
+            .table blockquote {
+                margin: 0;
+                padding: 0 10px;
+                font-size: 10px;
+            }
+            /*.table tbody td{padding: 10px 0;}*/
+
+            /*foot*/
+            /*.footer {  padding: 1em 0;  background: #CBCBCB;  }
+        .footer-bottom {  padding-top: 2em;  }
+        .copyright {  text-align: center;  }
+        .copyright p {  display: block;  color: #FFFFFF;  font-size: 14px;  margin: .5em 0 0 0;  }
+        .copyright p a {  color: #FFF;  }*/
+
+            /*比赛时间列表*/
+
+            .tittle {
+                height: 90px;
+                line-height: 90px;
+                font-family: "微软雅黑";
+                font-size: 25px;
+                font-weight: normal;
+                background-color: #48b4ff;
+                color: #ffffff;
+                padding-left: 20px;
+            }
+
+            h6 {
+                color: #fff;
+                font-weight: bold;
+            }
+
+                h6 .yu {
+                    background-color: green;
+                }
+
+                h6 .day {
+                    background-color: red;
+                }
+    </style>
+}
+
+@section PageSpecificJavascriptIncludes{
+
+}
+
+<div class="header nav">
+    <ul>
+        <li><a href="@Url.Action("Index", "dx")">首页</a></li>
+        <li class="active"><a href="bulletin">赛事列表</a></li>
+        @*<li><a href="@Url.Action("board", "dx")">竞赛公告</a></li>*@
+        <li><a href="@Url.Action("about", "dx")">关于我们</a></li>
+        @if (ViewBag.uuid == null)
+        {
+            <li><a href="@Url.Action("login", "member")">登录注册</a></li>
+        }
+        else
+        {
+            <li><a href="@Url.Action("center", "member")">我的信息</a></li>
+            <li><a href="@Url.Action("f880067","coupon")">F码通道</a></li>
+        }
+    </ul>
+</div>
+
+<!--bulletin-->
+
+
+
+
+<div class="about">
+    <div class="container">
+        <div class="rule">
+            <div class="tittle">2019中国坐标·上海城市定向户外挑战赛</div>
+            <div class="action">
+                <span></span><div class="part1">
+                       2019中国坐标•上海城市定向户外挑战赛报名公告
+                 @*<a href="@Url.Action("Protocol", "enter", new { matchid = "c83aa363-873e-489e-ac07-373489c94320" })" class="btn btn-danger" style="margin-left:140px;">立即报名</a>*@
+                                 <a href="#" class="btn btn-danger" style="margin-left:140px;">请前往小程序“竞报名”报名</a>
+                </div>
+                <hr>
+                <div class="part2">
+                    <p>2019中国坐标·上海城市定向户外挑战赛将于5月25日开赛，该项赛事由中国登山协会、上海市体育总会、共青团上海市委员会、上海久事（集团）有限公司主办，上海市登山户外运动协会负责赛事运营，中国坐标城市定向挑战赛以其“全民参与、全城热动、全能体验”的特性而成为城市体育名片全新选择。历经八年的积淀和成长，今年中国坐标•上海站以“历9弥新、燃动全城”为主题。 为确保赛事报名及线路安排等各项工作顺利有序进行，相关事项告知如下：</p>
+              
+                    <p>2019年中国坐标上海站设置主题线路不超过40条，参赛名额控制在20000人以内。比赛线路按照标准线路和特殊线路进行区分，标准线路参赛队伍随机编组，特殊线路（含分赛场专线）在报名阶段即可进行选择，参赛队伍可在报名时根据自身需求选择。</p>
+                  
+                    赛事报名咨询热线：021-34196846（工作日9:00—17:00）
+                    <br />
+                    官方公众号：坐标（微信号：zuobiao2014）
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">报名时间</div>
+                <hr>
+                <div class="part2">
+                    个人报名时间：3月18日10:00—3月18日18:00<br/>
+                    团体预报名时间：3月19日10:00—3月24日18:00<br />
+                    团体正式报名时间：2019年3月25日10:00起<br /><br />
+
+                    -个人报名没有预报名过程，以付款完成的先后顺序分配名额，满额后报名即停止；<br />
+                    -团队预报名期间，参赛队仅需选择参赛线路，填写并保存队员信息；<br />
+                    -正式报名阶段，可直接递交报名表并缴付报名费。<br />
+                    <p style="color:yellowgreen;">* 正式报名开始后3小时将开启“修改线路”报名，如所报线路已满，则可以更改选择符合自己要求的未招满线路参加。</p>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">注意事项</div>
+                <hr>
+                <div class="part2">
+                    个人报名<br />
+                    <table class="table">
+                        1、个人报名是指以个人名义报名，接受系统随机分配五人组队参加比赛，竞赛规则与五人组队报名参赛一致(如比赛当天队伍中有人缺席，即根据赛事规则，比赛队伍有成绩无名次，可正常比赛但成绩不计入最终名次)；
+                        <br />
+                        2、个人报名没有预报名过程，以付款完成的先后顺序分配名额，满额后报名即停止；
+                        <br />
+                        3、随机组队分配仍以每队有一名异性为原则，系统默认随机组队中年龄最大的为该队队长，作为该队的召集人，队名默认为队长报名时的队名；
+                        <br />
+                        4、系统分配组队时如出现不足五名成员情况，多出人员默认为候补；
+                        <br />
+                        5、系统完成匹配5人组队后，如队伍有人弃赛，组委会不再另作人员增加。报名成功分配组队后不接受退款，不接受调换；
+                        <br />
+                        6、以下约定视为报名参赛即表示同意：组队成功的五名队员可以相互看到队友的手机号码，用以联络；
+                        <br />
+                        7、个人参赛报名成功后将无法参加团队报名；
+                        <br />
+                    </table>
+
+                    团队报名<br />
+                    <table class="table">
+                        1、报名开启后，组委会有权根据实际情况对时间作出相应调整；
+                        <br />
+                        2、预报名时可根据相关线路要求选择想要参加的特殊线路；
+                        <br />
+                        3、选择标准条件线路，即默认组委会随机安排参赛线路；
+                        <br />
+                        4、预报名递交表格成功不代表报名成功，报名成功以正式报名开始后，缴付报名费成功为准；
+                        <br />
+                        5、参加过预报名的队伍在正式报名环节直接进行付款，即可完成报名。
+                        <br />
+                        6、正式报名成功的参赛队会收到组委会短信通知，请妥善保管报名手机号等信息，等待公布编组信息，编组信息公布后可登录小程序或赛事官方APP进行查看。
+                        <br />
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">报名方式</div>
+                <hr>
+                <div class="part2">
+                   <!-- <table class="table">
+                        1、“中国坐标”官方网站：<a href="http://www.chengshidingxiang.com/">http://www.chengshidingxiang.com/</a><br />
+                        2、下载“中国坐标”移动客户端（仅限iOS或Android）<br />
+
+                        iOS
+                        <img src="@Url.Content("~/Content/img/ios.png")" style="text-align:center; margin-right:60px;" alt="" />
+                        Android
+                        <img src="@Url.Content("~/Content/img/anroid.png")" style="text-align:center;" alt="" />
+                    </table>
+                   -->
+                    <table class="table">
+                        1、微信“竞报名”小程序：
+                        <br />
+                        <img src="@Url.Content("~/Content/img/miniapp.jpg")" style="text-align:center; margin-right:60px;" alt="" />
+                        <br />
+                        2、下载“中国坐标”移动客户端（仅限IOS或Android）
+                        <br />
+
+                        iOS
+                        <img src="@Url.Content("~/Content/img/ios.png")" style="text-align:center; margin-right:60px;" alt="" />
+                        Android
+                        <img src="@Url.Content("~/Content/img/anroid.png")" style="text-align:center;" alt="" />
+                    </table>
+                </div>
+            </div>
+
+            <div class="action">
+                <span></span><div class="part1">报名资格</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        1、任何符合竞赛规程要求的人士，不分国籍，具有合法身份证明、经身体检查适宜者均可报名。<br />
+                        2、参赛者年龄限定：16至60周岁（特殊线路参赛年龄参照具体线路报名要求）。
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">报名费用</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        参赛人员须缴纳80元/每人的报名费，标准线路每队5人共计缴纳400元，特殊条件线路按照参赛人数缴纳报名费。支付方式为支付宝和微信，按成功支付的时间顺序，先到先得。报名费用于购买参赛队比赛装备，包括保险、服装、背包、队旗、号码布、秩序册、地铁卡、比赛用具等。
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">报名流程</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        1、通过小程序或手机移动客户端注册账号<br />      
+                        2、完整填写个人资料<br />
+                        3、选择比赛，阅读参赛须知并确认<br />
+                        4、设定队伍名称（长度在六个中文字符以内）<br />
+                        5、选择预报比赛线路<br />
+                        所有报名参赛的队伍，将遵照《2019中国坐标•上海城市定向户外挑战赛竞赛规程》总则，由赛事组委会按比赛线路将参赛队伍随机编组，参赛队应服从编组安排。
+                        特殊线路及分赛场专线由于参赛条件特殊，特此提前公布，报名参赛者可根据自身需求自愿选择。特殊线路名额有限，额满即止。<br />
+                        6、队长通过手机号邀请队员参赛，待队员接受完成组队（队员须注册账号完善个人资料）。<br />
+                        7、完成预报名。<br />
+                        <img src="@Url.Content("~/Content/img/forwad.png")" style="text-align:center;margin-left:200px;" alt="" />
+                    </table>
+                </div>
+            </div>
+            <div class="action">
+                <span></span><div class="part1">标准线路报名条件及要求</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        <h5 style="font-weight:bold;color:black;">（一）个人报名</h5>
+                        <p style="font-weight:bold;color:#666;font-size:12px;">个人报名(本线路参赛队伍人数为5人)</p>
+                        报名条件及要求：
+                        <br />
+                        本线路采用1人报名形式，个人报名没有预报名过程，以付款完成的先后顺序分配名额，满额后报名即停止；报名成功后系统随机分配五人组队参加比赛。随机组队分配仍以每队有一名异性为原则，系统默认随机组队中年龄最大的为该队队长，作为该队的召集人，队名默认为队长报名时的队名；系统完成匹配5人组队后，如队伍有人弃赛，组委会不再另作人员增加。
+                        <br />
+                        <h5 style="font-weight:bold;color:black;">（二）团队报名</h5>
+                        <p style="font-weight:bold;color:#666;font-size:12px;">标准线路参赛队伍以集体形式向赛事组委会报名，每队5名队员，至少有一名异性</p>
+                        报名条件及要求：
+                        <br />
+                        报名参赛的队伍，将遵照《2019中国坐标·上海城市定向户外挑战赛竞赛规程》总则，赛事组委会按比赛线路将报名标准线路的队伍随机编组，参赛队应服从编组安排。
+                        <br />
+                        <br />
+                    </table>
+                </div>
+
+
+
+
+
+
+                <span></span>
+                <div class="part1">特殊线路报名条件及要求</div>
+                <hr>
+                <div class="part2">
+                    <table class="table">
+                        <h5 style="font-weight:bold;color:black;">（一）特殊线路</h5>
+                        <p style="font-weight:bold;color:#666;font-size:12px;">我爱我家（亲子线）（本线路参赛队伍人数为3人）</p>
+                        报名条件及要求：
+                        <br />
+                        本线路采用2+1报名形式，即两名成年人带一名少年儿童组队参赛(本线路组队不限性别)，其中一名少年儿童的足岁年龄为6周岁以上且13周岁以下(以身份证号码为准)；三人之间如系非亲属关系，则少年儿童必须在征得监护人同意的情况下参赛；队长必须为成人。
+                        <br />
+                        <br />
+                        <p style="font-weight: bold; color: #666; font-size: 12px;">爱SHOW</p>
+                        报名条件及要求：
+                        <br />
+                        本线路每支参赛队伍由五名成年人(至少一名为异性)构成。参赛队员在以不违反法律及不违背社会公序良德的前提下，设计并自行准备参赛过程中队员的装束配饰，充分彰显你们的个性，亮出你们的风采。 
+                        <br />
+                        比赛中队员可以不穿着组委会发放的参赛服装，但是号码布须按要求正常佩戴。
+                        <br />
+                        <br />
+                        <p style="font-weight: bold; color: #666; font-size: 12px;">四海宾朋</p>
+                        报名条件及要求：
+                        <br />
+                        本线路需由外籍人士或港、澳、台同胞和大陆居民共同组队参赛，每支参赛队伍由五名成年人(至少一名为异性)构成，报名时同队成员中至少一人以上持有外国护照或《港澳居民来往内地通行证》及《台湾居民来往大陆通行证》。
+                        <br />
+                        <br />
+                        <p style="font-weight: bold; color: #666; font-size: 12px;">超级任务</p>
+                        报名条件及要求：
+                        <br />
+                        这条线是今年最富有挑战性的线，不同于常规线路的任务设置，对参赛者的体能、耐力有一定的要求，跑步路程预计在15~20公里左右，可以选择快走或跑步的方式，选手们一定要量力而行选择参赛。欢迎热爱跑步和喜欢挑战的人加入。 
+                        <br />
+                        <br />
+                        <h5 style="font-weight:bold;color:black;">（二）分会场专线</h5>
+                        <p style="font-weight: bold; color: #666; font-size: 12px;">静安</p>
+                        起终点：具体地点在队长培训时公布
+                        <br />
+                        线路简介：这条线路通过寻访新静安区的著名的城市点标，深度感受这个魅力无限的城中城的内涵与风韵。
+                        <br />
+                        <br />
+                        <p style="font-weight: bold; color: #666; font-size: 12px;">松江</p>
+                        起终点：具体地点在队长培训时公布
+                        <br />
+                        线路简介：通过寻访松江区内独具特色的个性点标，完成有趣的特色任务，感受绿色生态的松江城区。
+                        <br />
+                        <br />
+                        <p style="font-weight: bold; color: #666; font-size: 12px;">杨浦</p>
+                        起终点：具体地点在队长培训时公布
+                        <br />
+                        线路简介：本线路通过寻访杨浦区内新兴地标，体会曾经公租界正在发生的深刻转型，感受孕育中的“大上海”雏形。
+                        <br />
+                        <br />
+                        <h5 style="font-weight:bold;color:black;">（三）青年交友线“转角遇到爱”</h5>
+                        今年的赛事特别引入青年男女交友元素，携手沪上优质青年交友平台“交大红娘”共同策划线路，通过把交友元素和城市定向相结合，让参赛者在感受城市风景、历史文化和人文风俗的同时，也能够遇见那个心动的TA。
+                        <br />
+                        备注：该条线路报名将在“中国坐标”授权平台“交大红娘”官方微信号进行，具体报名方式和说明请扫描下方二维码获取。
+                        <br />
+                        <img src="@Url.Content("~/Content/img/zja.png")" style="text-align:center;" alt="" />
+                    </table>
+                </div>
+            </div>
+            </div>
+    </div>
+</div>

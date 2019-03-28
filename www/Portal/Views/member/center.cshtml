@@ -691,16 +691,19 @@
                                     <td>@item.Match_name</td>
                                     <td>@item.Date4.Value.ToString("yyyy-MM-dd")</td>
                                     <td>@item.Teamname</td>
+                                    <!--mstatus是队伍的状态，status是赛事的状态-->>
                                     @switch (item.mstatus)
                                     {
                                         case "0":
 
-                                            <td><a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">报名成功</a></td>
+                                            <td><a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">正式报名成功</a></td>
                                             <td></td>
                                             <td></td>
                                             break;
                                         case "1":
-                                        <td><a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">预报名完成</a></td>
+                                        <td>
+                                            <a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">预报名完成</a>
+                                        </td>
                                         <td>
                                             @if (item.Leader == 1)
                                             {
@@ -708,14 +711,13 @@
                                             }
                                         </td>                                    
                                         <td>
-                                            @if (item.Leader == 1 && (item.Status == "1" || item.Status == "2"))
+                                            @if (item.Leader == 1 && (item.Status == "9" || item.Status == "2"))
                                             {
                                                 <a href="@Url.Action("Step3", "enter", new { tid = item.Teamid ,tp="1"})">更改路线</a>
                                                 @*<a href="#" onclick="showchange('@item.Teamid')">|&nbsp;队名</a>*@
                                             }
                                         </td>
-                                    
-                                            break;
+                                        break;
                                        case "2":
                                         <td>
 
@@ -739,19 +741,20 @@
                                             break;
                                         case "6":
                                         <td>
-
-                                            @if (item.Status == "1" || item.Status == "2" || item.Status == "3")
+                                            <!--edit by pang  当 可以更换线路再抢 去掉原来的 3  正式报名中 不能再完成 "3"  -->
+                                            @if (item.Status == "1" || item.Status == "2" ||  item.Status == "9")
                                             {
                                                 <a href="@Url.Action("Step4", "enter", new { tid = item.Teamid })">预报名中</a>
                                             }
                                             else
                                             {
-                                                <a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">预报名中</a>
+                                                <a href="@Url.Action("Step5", "enter", new { tid = item.Teamid })">预报名结束</a>
 
                                             }
                                         </td>
                                         <td>
-                                            @if (item.Leader == 1)
+                                            <!--只有赛事状态=预报名开始才能删-->
+                                            @if (item.Leader == 1 && item.Status == "1" )
                                             {
                                                 <a onclick="del('@item.Teamid')" href="#">取消队伍</a>
                                             }
